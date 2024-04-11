@@ -1,0 +1,178 @@
+<h2>Artwork Categories</h2>
+
+<div class="card card1" style="margin-bottom: 10px;">
+    <div class="card-title fw-medium">
+        <p>Total Categories</p>
+        <hr>
+    </div>
+    <div class="card-body" style="align-items: flex-start; text-align: left;">
+        <h1 class="card-title">{{ categoryData.length }}</h1>
+    </div>
+</div>
+
+<div class="details">
+    <h4 style="margin-top: 30px;">Edit / Add Category</h4>
+    <form class="d-flex">
+        <input class="form-control me-sm-2 rounded-pill border border-primary" type="search"
+            placeholder="Search Category">
+        <button class="btn btn-primary my-2 my-sm-0 rounded-pill" style="width: 150px;"
+            (click)="modalService.open('modal-addCategory')">
+            New Category
+        </button>
+    </form>
+
+    <div class="cards mt-2 border border-secondary-subtle rounded p-3">
+        <div class="card m-2" style="width: 19.2rem; height: 550px;" *ngFor="let card of categoryData">
+            <img src="{{card.banner}}" class="card-img-top" alt="Banner"
+                style="min-height: 200px; max-height: 200px; width: 100%; object-fit: cover;">
+
+            <div class="card-body" style="height: 10rem;">
+                <div class="text-center m-2">
+                    <h5 class="card-title" style="min-height: 3rem;">{{card.name}}</h5>
+                    <p class="card-text" style="font-size: x-small; min-height: 3rem;">{{card.description}}</p>
+                </div>
+                <div class="fw-normal">
+                    <div class="mb-2">
+                        Total Creations: {{card.totalArtworks}}
+                    </div>
+                    <div class="mb-2">
+                        Margin: {{card.margin}}
+                    </div>
+                    <div class="mb-2">
+                        File Types:
+                        <span *ngFor="let format of card.formats; let last = last">
+                            {{ format.format_name }}{{ !last ? ', ' : '' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <button class="btn btn-danger" (click)="deleteCategory(card.category_id)">
+                        <i class="bi bi-trash3-fill"></i>Delete
+                    </button>
+                    <button class="btn btn-primary"  (click)="openEditModal(card)">
+                        <i class="bi bi-pencil-fill"></i>Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal id="modal-addCategory">
+    <div class="new-modal">
+        <div class="new-modal-body">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        (click)="modalService.close()"></button>
+                </div>
+                <div class="modal-body">
+                    <form #categoryForm="ngForm" (ngSubmit)="addCategory(categoryForm)">
+                        <div class="mb-3">
+                            <label for="categoryName" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="categoryName" placeholder="Category Name"
+                                [(ngModel)]="newCategory.name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryDescription" class="form-label">Category Description</label>
+                            <textarea class="form-control" id="categoryDescription" rows="3"
+                                placeholder="Category Description" [(ngModel)]="newCategory.description"
+                                name="description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryMargin" class="form-label">Margin</label>
+                            <input type="text" class="form-control" id="categoryMargin" placeholder="Margin"
+                                [(ngModel)]="newCategory.margin" name="margin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryFileTypes" class="form-label">File Types</label>
+                            <div class="d-flex flex-wrap">
+                                <span *ngFor="let format of newCategory.formats; let i = index"
+                                    class="badge bg-primary mr-2 mb-2">
+                                    {{ format.format_name }}
+                                    <button type="button" class="btn-close" aria-label="Close"
+                                        (click)="removeFormat(i)"></button>
+                                </span>
+                            </div>
+                            <div class="input-group mt-2">
+                                <input type="text" class="form-control" placeholder="Add Format" [(ngModel)]="newFormat"
+                                    name="newFormat">
+                                <button class="btn btn-primary" type="button" (click)="addNewFormat()">Add</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="categoryImage" class="form-label">Category Image</label>
+                            <input type="file" class="form-control" id="categoryImage" placeholder="Category Image"
+                                name="image" (change)="handleImageUpload($event)" />
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                (click)="modalService.close()">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-modal>
+
+<app-modal id="modal-editCategory">
+    <div class="new-modal">
+        <div class="new-modal-body">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        (click)="modalService.close()"></button>
+                </div>
+                <div class="modal-body">
+                    <form #editCategoryForm="ngForm" (ngSubmit)="updateCategory(editCategoryForm)">
+                        <div class="mb-3">
+                            <label for="editCategoryName" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="editCategoryName" placeholder="Category Name"
+                                [(ngModel)]="selectedCategory.name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCategoryDescription" class="form-label">Category Description</label>
+                            <textarea class="form-control" id="editCategoryDescription" rows="3"
+                                placeholder="Category Description" [(ngModel)]="selectedCategory.description"
+                                name="description" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCategoryMargin" class="form-label">Margin</label>
+                            <input type="text" class="form-control" id="editCategoryMargin" placeholder="Margin"
+                                [(ngModel)]="selectedCategory.margin" name="margin" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCategoryFileTypes" class="form-label">File Types</label>
+                            <div class="d-flex flex-wrap">
+                                <span *ngFor="let format of selectedCategory.formats; let i = index"
+                                    class="badge bg-primary mr-2 mb-2">
+                                    {{ format.format_name }}
+                                    <button type="button" class="btn-close" aria-label="Close"
+                                        (click)="removeOldFormat(i)"></button>
+                                </span>
+                            </div>
+                            <div class="input-group mt-2">
+                                <input type="text" class="form-control" placeholder="Add Format" [(ngModel)]="newFormat"
+                                    name="newFormat">
+                                <button class="btn btn-primary" type="button" (click)="updateNewFormat()">Add</button>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                (click)="modalService.close()">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</app-modal>

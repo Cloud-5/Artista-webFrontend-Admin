@@ -1,0 +1,63 @@
+.card1{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    background-color: #8cd4f0;
+    color: #000;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    height: 200px;
+    width: 200px;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid #000;   
+}
+
+.nav-item{
+    width: 25%;
+    text-align: center; 
+    font-weight: 500;
+    font-size: larger;
+}
+
+.tab-content{
+    background: #fff;
+    padding: 20px;
+}
+
+.request-card{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    color: #000;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    height: 100px;
+    width: 100%;
+    text-decoration: none;
+    color: #000;
+       
+}
+
+.buttons{
+    
+    .btn{
+        margin: 5px;
+        height: 40px;
+    }
+}
+
