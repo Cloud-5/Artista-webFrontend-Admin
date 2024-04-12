@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../../../shared/services/modal.service';
 import { ArtCategoriesService } from './art-categories.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { uploadFileToS3 } from '../../../../handlers/s3handler';
-
-
-import { NgForm } from '@angular/forms';
-
 
 @Component({
   selector: 'app-art-categories',
@@ -24,7 +18,8 @@ export class ArtCategoriesComponent implements OnInit {
     description: '',
     margin: '',
     formats: [],
-    image: File
+    //image: File
+    image: ''
   };
 
   selectedCategory: any = {};
@@ -33,9 +28,11 @@ export class ArtCategoriesComponent implements OnInit {
 
   editingCategoryIndex: number | null = null;
 
+  searchedCategory: any[] = this.categoryData;
+
   constructor(
     public modalService: ModalService,
-    private artCategoriesService: ArtCategoriesService
+    private artCategoriesService: ArtCategoriesService,
   ) { }
 
   ngOnInit() {
@@ -63,6 +60,8 @@ export class ArtCategoriesComponent implements OnInit {
     this.artCategoriesService.getAllCategories().subscribe(
       (data: any) => {
         this.categoryData = data;
+        this.searchedCategory = this.categoryData;
+
       },
       (error) => {
         console.error('Error loading categories:', error);
@@ -70,49 +69,23 @@ export class ArtCategoriesComponent implements OnInit {
     );
   }
 
-  handleImageUpload(event: any) {
-    console.log("ok")
-    if (event.target.files && event.target.files[0]) {
-      const img = event.target.files[0];
-      console.log(img);
-      this.newCategory.image = img;
+  async onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (!file) {
+      return;
     }
-    console.log(this.newCategory.image);
-
   }
-
-  // async handleImageUpload(event: any) {
-  //   const file = event.target.files[0];
-
-  //   // Generate a unique key for the image file
-  //   const key = `images/${Date.now()}_${file.name}`;
-
-  //   try {
-  //     // Upload the image file to S3
-  //     await Storage.put(key, file);
-
-  //     // Get the URL of the uploaded image
-  //     const url = await Storage.get(key);
-  //     this.imageUrl = url;
-
-  //     console.log('Image uploaded successfully:', this.imageUrl);
-  //   } catch (error) {
-  //     console.error('Error uploading image:', error);
-  //   }
-  // }
   
   async addCategory(categoryForm: any): Promise<void> {
     if (categoryForm.valid) {
       try {
 
-        //const imageUrl = uploadFileToS3(this.newCategory.image); // Get the URL of the uploaded file
-        //Set the URL to the newCategory object
-        //this.newCategory.image = imageUrl;  
-
         const response = await this.artCategoriesService.createCategory(this.newCategory).toPromise();
+        console.log('newCategory = ', this.newCategory);
 
         console.log('Category Added successfully', response);
         this.categoryData.push(response);
+        console.log('newCategory = ', response);
         this.loadCategories();
         categoryForm.reset();
         this.newCategory = {};
@@ -176,10 +149,10 @@ export class ArtCategoriesComponent implements OnInit {
     }
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    this.newCategory.image = file;
-  }
+  // onFileChange(event: any) {
+  //   const file = event.target.files[0];
+  //   this.newCategory.image = file;
+  // }
 
   // async uploadFileToS3(): Promise<string> {
   //   const formData = new FormData();
@@ -198,5 +171,19 @@ export class ArtCategoriesComponent implements OnInit {
   //     throw error;
   //   }
   // }
+
+  searchCategoryByName(searchKeyword: string): void {
+    searchKeyword = searchKeyword.toLowerCase().trim();
+
+    if (searchKeyword === '') {
+      this.searchedCategory = this.categoryData;
+      //return;
+    } else {
+      this.searchedCategory = this.categoryData.filter(category =>
+        category.name.toLowerCase().includes(searchKeyword)
+      );
+    }
+    console.log('Searched category:', this.searchedCategory);
+  }
 
 }

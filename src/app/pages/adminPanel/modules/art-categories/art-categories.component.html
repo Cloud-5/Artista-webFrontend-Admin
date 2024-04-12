@@ -13,7 +13,7 @@
 <div class="details">
     <h4 style="margin-top: 30px;">Edit / Add Category</h4>
     <form class="d-flex">
-        <input class="form-control me-sm-2 rounded-pill border border-primary" type="search"
+        <input #searchKeyword (keyup)="searchCategoryByName(searchKeyword.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
             placeholder="Search Category">
         <button class="btn btn-primary my-2 my-sm-0 rounded-pill" style="width: 150px;"
             (click)="modalService.open('modal-addCategory')">
@@ -22,7 +22,7 @@
     </form>
 
     <div class="cards mt-2 border border-secondary-subtle rounded p-3">
-        <div class="card m-2" style="width: 19.2rem; height: 550px;" *ngFor="let card of categoryData">
+        <div class="card m-2" style="width: 19.2rem; height: 550px;" *ngFor="let card of searchedCategory">
             <img src="{{card.banner}}" class="card-img-top" alt="Banner"
                 style="min-height: 200px; max-height: 200px; width: 100%; object-fit: cover;">
 
@@ -107,7 +107,7 @@
                         <div class="mb-3">
                             <label for="categoryImage" class="form-label">Category Image</label>
                             <input type="file" class="form-control" id="categoryImage" placeholder="Category Image"
-                                name="image" (change)="handleImageUpload($event)" />
+                                name="image" (change)="onFileSelected($event)" />
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
