@@ -42,4 +42,8 @@ export class ArtCategoriesService {
   deleteCategory(categoryId: String): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${categoryId}`);
   }
+
+  deleteFormats(categoryId: String): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/formats/${categoryId}`);
+  }
 }
