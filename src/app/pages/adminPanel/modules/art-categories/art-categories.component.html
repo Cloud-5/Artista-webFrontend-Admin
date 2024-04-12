@@ -13,8 +13,8 @@
 <div class="details">
     <h4 style="margin-top: 30px;">Edit / Add Category</h4>
     <form class="d-flex">
-        <input #searchKeyword (keyup)="searchCategoryByName(searchKeyword.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
-            placeholder="Search Category">
+        <input #searchKeyword (keyup)="searchCategoryByName(searchKeyword.value)"
+            class="form-control me-sm-2 rounded-pill border border-primary" type="search" placeholder="Search Category">
         <button class="btn btn-primary my-2 my-sm-0 rounded-pill" style="width: 150px;"
             (click)="modalService.open('modal-addCategory')">
             New Category
@@ -51,7 +51,7 @@
                     <button class="btn btn-danger" (click)="deleteCategory(card.category_id)">
                         <i class="bi bi-trash3-fill"></i>Delete
                     </button>
-                    <button class="btn btn-primary"  (click)="openEditModal(card)">
+                    <button class="btn btn-primary" (click)="openEditModal(card)">
                         <i class="bi bi-pencil-fill"></i>Edit
                     </button>
                 </div>
@@ -67,10 +67,19 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Add Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        (click)="modalService.close()"></button>
+                        (click)="closeModalAndResetForm()"></button>
                 </div>
                 <div class="modal-body">
                     <form #categoryForm="ngForm" (ngSubmit)="addCategory(categoryForm)">
+                        <div class="mb-3">
+                            <label for="categoryImage" class="form-label">Category Image</label>
+                            <input type="file" class="form-control" id="categoryImage" placeholder="Category Image"
+                                name="image" (change)="onFileSelected($event)" />
+                            <button (click)="onImageUpload()" class="btn btn-primary"
+                                style="margin-top: 10px; margin-right: 10px;">Upload Image</button>
+                            <button *ngIf="imageUrl" (click)="removeImage()" class="btn btn-danger"
+                                style="margin-top: 10px; margin-right: 10px;">Remove</button>
+                        </div>
                         <div class="mb-3">
                             <label for="categoryName" class="form-label">Category Name</label>
                             <input type="text" class="form-control" id="categoryName" placeholder="Category Name"
@@ -90,8 +99,8 @@
                         <div class="mb-3">
                             <label for="categoryFileTypes" class="form-label">File Types</label>
                             <div class="d-flex flex-wrap">
-                                <span *ngFor="let format of newCategory.formats; let i = index"
-                                    class="badge bg-primary mr-2 mb-2">
+                                <span *ngFor="let format of newCategory.formats; let i = index" class="badge bg-primary"
+                                    style="margin-bottom: 5px; margin-right: 5px;">
                                     {{ format.format_name }}
                                     <button type="button" class="btn-close" aria-label="Close"
                                         (click)="removeFormat(i)"></button>
@@ -104,14 +113,10 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="categoryImage" class="form-label">Category Image</label>
-                            <input type="file" class="form-control" id="categoryImage" placeholder="Category Image"
-                                name="image" (change)="onFileSelected($event)" />
-                        </div>
+
                         <div class="modal-footer d-flex justify-content-between">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                (click)="modalService.close()">Close</button>
+                                (click)="closeModalAndResetForm()">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
                     </form>
@@ -132,6 +137,7 @@
                 </div>
                 <div class="modal-body">
                     <form #editCategoryForm="ngForm" (ngSubmit)="updateCategory(editCategoryForm)">
+                        
                         <div class="mb-3">
                             <label for="editCategoryName" class="form-label">Category Name</label>
                             <input type="text" class="form-control" id="editCategoryName" placeholder="Category Name"

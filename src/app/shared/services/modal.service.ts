@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { ModalComponent } from '../components/modal/modal.component';
 
 
@@ -38,5 +36,6 @@ export class ModalService {
     // close the modal that is currently open
     const modal = this.modals.find(x => x.isOpen);
     modal?.close();
+    
   }
 }

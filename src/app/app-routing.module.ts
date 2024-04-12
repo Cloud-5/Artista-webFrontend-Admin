@@ -18,8 +18,8 @@ const routes: Routes = [
       { path: 'artist-requests', component: ArtistRequestsComponent },
     ],
   },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // Redirect to artwork-preview by default
-  { path: '**', redirectTo: '/dashboard' }, // Redirect to artwork-preview for any other unknown routes
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // Redirect by default
+  { path: '**', redirectTo: '/dashboard' }, // Redirect for any other unknown routes
 ];
 
 @NgModule({
