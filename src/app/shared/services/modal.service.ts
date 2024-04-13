@@ -32,10 +32,14 @@ export class ModalService {
     modal.open();
   }
 
-  close() {
+  close(id: String) {
     // close the modal that is currently open
-    const modal = this.modals.find(x => x.isOpen);
-    modal?.close();
+    const modal = this.modals.find(x => x.id === id);
+    if (modal) {
+        modal.close();
+    } else {
+        console.error(`Modal with id '${id}' not found`);
+    }
     
   }
 }

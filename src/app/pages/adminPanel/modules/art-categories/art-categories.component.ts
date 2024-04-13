@@ -14,6 +14,7 @@ export class ArtCategoriesComponent implements OnInit {
 
   imageObj: File | undefined;
   imageUrl: string = '';
+  uploadProgress: number | undefined;
 
   newCategory: any = {
     name: '',
@@ -48,12 +49,6 @@ export class ArtCategoriesComponent implements OnInit {
     this.loadCategories();
   }
 
-  closeModalAndResetForm(){
-    this.modalService.close();
-    this.newCategory = {};
-  }
-
-
   //adding new category
 
   addNewFormat() {
@@ -86,22 +81,25 @@ export class ArtCategoriesComponent implements OnInit {
     this.imageObj = FILE;
   }
 
-  onImageUpload(){
+  onImageUpload() {
     const imageForm = new FormData();
     imageForm.append('image', this.imageObj as Blob);
-    this.imageUploadService.imageUpload(imageForm).subscribe((res: any) => {
-      this.imageUrl = res.image.location;
-      this.newCategory.banner = this.imageUrl;
-      
-    });
+    this.imageUploadService.imageUpload(imageForm).subscribe(
+      (res: any) => {
+        this.imageUrl = res.image.location;
+        this.newCategory.banner = this.imageUrl;
+        console.log('Image uploaded successfully:', this.imageUrl);
+
+      });
   }
+
 
   removeImage() {
     if (this.imageUrl) {
       const key = this.imageUrl.split('/').pop();
       this.imageUploadService.removeImage(key as any).subscribe(
         () => {
-          this.imageUrl = ''; 
+          this.imageUrl = '';
           this.newCategory.banner = '';
         },
         (error) => {
@@ -111,45 +109,55 @@ export class ArtCategoriesComponent implements OnInit {
     }
   }
 
-  
-
-  async addCategory(categoryForm: any): Promise<void> {
-    if (categoryForm.valid) {
-      try {
-        const response = await this.artCategoriesService.createCategory(this.newCategory).toPromise();
-        this.categoryData.push(response);
-        this.loadCategories();
-        categoryForm.reset();
-        this.newCategory = {};
-        this.modalService.close();
-      } catch (error) {
-        console.error('Error adding category:', error);
-      }
+  async addCategory(): Promise<void> {
+    try {
+      const response = await this.artCategoriesService.createCategory(this.newCategory).toPromise();
+      this.categoryData.push(response);
+      this.loadCategories();
+      this.newCategory = {
+        name: '',
+        description: '',
+        margin: '',
+        formats: [],
+        banner: ''
+      };
+      this.modalService.close('modal-addCategory');
+    } catch (error) {
+      console.error('Error adding category:', error);
     }
   }
 
+
   //deleting a category
+
+  openDeleteConfirm(category: any){
+    this.selectedCategory = { ...category };
+    this.modalService.open('modal-deleteConfirm');
+  }
+
+
+
   deleteCategory(categoryId: string): void {
     // Find the category with the given ID
     const categoryToDelete = this.categoryData.find(category => category.category_id === categoryId);
-    
+
     if (!categoryToDelete) {
       console.error('Category not found');
       return;
     }
-    
-    if(categoryToDelete.banner){
+
+    if (categoryToDelete.banner) {
       const key = categoryToDelete.banner.split('/').pop();
 
       //deleting image
       this.imageUploadService.removeImage(key).subscribe(
         () => {
           console.log('Banner image deleted successfully');
-          
+
           //deleting record of the sql table
           this.artCategoriesService.deleteCategory(categoryId).subscribe(
             () => {
-              
+
               this.categoryData = this.categoryData.filter(category => category.category_id !== categoryId);
               console.log('Category deleted successfully');
               this.loadCategories();
@@ -158,6 +166,7 @@ export class ArtCategoriesComponent implements OnInit {
               console.error('Error deleting category:', error);
             }
           );
+          this.modalService.close('modal-deleteConfirm');
         },
         (error) => {
           console.error('Error deleting banner image:', error);
@@ -169,6 +178,7 @@ export class ArtCategoriesComponent implements OnInit {
         () => {
           this.categoryData = this.categoryData.filter(category => category.category_id !== categoryId);
           console.log('Category deleted successfully');
+          this.modalService.close('modal-deleteConfirm');
           this.loadCategories();
         },
         (error) => {
@@ -176,9 +186,9 @@ export class ArtCategoriesComponent implements OnInit {
         }
       );
     }
-    
+
   }
-  
+
 
 
   //updating existing category
@@ -191,9 +201,9 @@ export class ArtCategoriesComponent implements OnInit {
   }
 
   removeOldFormat(index: number): void {
-    console.log('before splice',this.selectedCategory.formats)
+    console.log('before splice', this.selectedCategory.formats)
     this.selectedCategory.formats.splice(index, 1);
-    console.log('after splice',this.selectedCategory.formats)
+    console.log('after splice', this.selectedCategory.formats)
   }
 
   updateNewFormat(): void {
@@ -203,43 +213,38 @@ export class ArtCategoriesComponent implements OnInit {
     }
   }
 
-  updateCategory(editCategoryForm: any): void {
-    if (editCategoryForm.valid) {
+  updateCategory(): void {
 
-      console.log('selected ones formats 1',this.selectedCategory.formats)
+    // Remove formats first
+    this.artCategoriesService.deleteFormats(this.selectedCategory.category_id).subscribe(
+      () => {
+        console.log('Formats deleted successfully');
+      },
+      (error) => {
+        console.error('Error deleting formats:', error);
+      }
+    );
 
-      //remove formats first
-      this.artCategoriesService.deleteFormats(this.selectedCategory.category_id).subscribe(
-        () => {
-          console.log('Formats deleted successfully');
-        },
-        (error) => {
-          console.error('Error deleting formats:', error);
+    this.artCategoriesService.updateCategory(this.selectedCategory.category_id, this.selectedCategory).subscribe(
+      (response: any) => {
+        console.log('Category updated successfully', response);
+
+        const index = this.categoryData.findIndex(cat => cat.category_id === response.category_id);
+        if (index != -1) {
+          this.categoryData[index] = response;
         }
-      )
-
-      console.log('selected ones formats 2',this.selectedCategory.formats)
-
-      this.artCategoriesService.updateCategory(this.selectedCategory.category_id, this.selectedCategory).subscribe(
-        (response: any) => {
-          console.log('Category updated successfully', response);
-
-          const index = this.categoryData.findIndex(cat => cat.category_id === response.category_id);
-          if (index != -1) {
-            this.categoryData[index] = response;
-          }
-          this.modalService.close();
-          this.loadCategories();
-        },
-        (error) => {
-          console.error('Error updating...', error);
-        }
-      );
-    }
+        this.modalService.close('modal-editCategory');
+        this.loadCategories();
+      },
+      (error) => {
+        console.error('Error updating...', error);
+      }
+    );
   }
 
 
-  removeExistingImage(){
+
+  removeExistingImage() {
     if (this.selectedCategory.banner) {
       const key = this.selectedCategory.banner.split('/').pop();
       this.imageUploadService.removeImage(key as any).subscribe(
@@ -253,13 +258,13 @@ export class ArtCategoriesComponent implements OnInit {
     }
   }
 
-  newImageUpload(){
+  newImageUpload() {
     const imageForm = new FormData();
     imageForm.append('image', this.imageObj as Blob);
     this.imageUploadService.imageUpload(imageForm).subscribe((res: any) => {
       this.imageUrl = res.image.location;
       this.selectedCategory.banner = this.imageUrl;
-      
+
     });
   }
 

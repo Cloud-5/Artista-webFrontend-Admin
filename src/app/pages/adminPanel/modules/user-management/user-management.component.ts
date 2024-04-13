@@ -81,7 +81,7 @@ export class UserManagementComponent implements OnInit {
           
           alert('User banned successfully');
           
-          this.modalService.close();
+          this.modalService.close('modal-banUser');
           
           this.fetchUserData();
         },

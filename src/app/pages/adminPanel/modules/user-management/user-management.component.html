@@ -207,7 +207,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Ban User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        (click)="modalService.close()"></button>
+                        (click)="modalService.close('modal-banUser')"></button>
                 </div>
                 <div class="modal-body">
                     <form #banUserForm="ngForm" (ngSubmit)="banUser(banUserForm)" ngModelOptions="{standalone: true}">
@@ -238,7 +238,7 @@
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                (click)="modalService.close()">Discard</button>
+                                (click)="modalService.close('modal-banUser')">Discard</button>
                             <button type="submit" class="btn btn-danger">Ban</button>
                         </div>
                     </form>
@@ -254,7 +254,7 @@
         <div class="modal-content">
           <div class="modal-header mb-4">
             <h5 class="modal-title text-info">User Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalService.close()"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalService.close('modal-userDetails')"></button>
           </div>
           <div class="modal-body">
             <div class="row">

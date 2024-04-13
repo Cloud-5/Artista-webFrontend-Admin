@@ -1,7 +1,5 @@
 import { Component, ViewEncapsulation, ElementRef, Input, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
-
 import { ModalService } from '../../services/modal.service';
-
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -28,24 +26,17 @@ export class ModalComponent implements OnInit, OnDestroy {
 
         if (isPlatformBrowser(this.platformId)) {
             this.modalService.add(this);
-
-
             document.body.appendChild(this.element);
-
-
             this.element.addEventListener('click', (el: any) => {
                 if (el.target.className === 'app-modal') {
                     this.close();
                 }
             });
         }
-
     }
 
     ngOnDestroy() {
-
         this.modalService.remove(this);
-
         this.element.remove();
     }
 
