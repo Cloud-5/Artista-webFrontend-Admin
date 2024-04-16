@@ -75,7 +75,7 @@ export class ArtCategoriesComponent implements OnInit {
 
       },
       (error) => {
-        console.error('Error loading categories:', error);
+        this.alertService.showMessage('Error loading categories', false, error.message);
       }
     );
   }
@@ -128,7 +128,6 @@ export class ArtCategoriesComponent implements OnInit {
       this.modalService.close('modal-addCategory');
       this.alertService.showMessage('Category created successfully', true);
     } catch (error: any) {
-      console.error('Error adding category:', error);
       this.modalService.close('modal-addCategory');
       this.alertService.showMessage('Error adding category', false, error.message);
     }
@@ -164,19 +163,18 @@ export class ArtCategoriesComponent implements OnInit {
           //deleting record of the sql table
           this.artCategoriesService.deleteCategory(categoryId).subscribe(
             () => {
-
-              this.categoryData = this.categoryData.filter(category => category.category_id !== categoryId);
-              console.log('Category deleted successfully');
+              this.categoryData = this.categoryData.filter(category => category.category_id !== categoryId);   
               this.loadCategories();
+              this.alertService.showMessage('Category deleted successfully', true);
             },
             (error) => {
-              console.error('Error deleting category:', error);
+              this.alertService.showMessage('Error deleting category', false, error.message);
             }
           );
           this.modalService.close('modal-deleteConfirm');
         },
         (error) => {
-          console.error('Error deleting banner image:', error);
+          this.alertService.showMessage('Error deleting banner image', false, error.message);
         }
       );
     } else {
@@ -184,12 +182,12 @@ export class ArtCategoriesComponent implements OnInit {
       this.artCategoriesService.deleteCategory(categoryId).subscribe(
         () => {
           this.categoryData = this.categoryData.filter(category => category.category_id !== categoryId);
-          console.log('Category deleted successfully');
           this.modalService.close('modal-deleteConfirm');
           this.loadCategories();
+          this.alertService.showMessage('Category deleted successfully', true);
         },
         (error) => {
-          console.error('Error deleting category:', error);
+          this.alertService.showMessage('Error deleting category', false, error.message);
         }
       );
     }
@@ -203,14 +201,11 @@ export class ArtCategoriesComponent implements OnInit {
   openEditModal(category: any): void {
     //copying category data to selected category
     this.selectedCategory = { ...category };
-    console.log('Selected category: ', category)
     this.modalService.open('modal-editCategory');
   }
 
   removeOldFormat(index: number): void {
-    console.log('before splice', this.selectedCategory.formats)
     this.selectedCategory.formats.splice(index, 1);
-    console.log('after splice', this.selectedCategory.formats)
   }
 
   updateNewFormat(): void {
@@ -228,14 +223,12 @@ export class ArtCategoriesComponent implements OnInit {
         console.log('Formats deleted successfully');
       },
       (error) => {
-        console.error('Error deleting formats:', error);
+        this.alertService.showMessage('Error deleting formats', false, error.message);
       }
     );
 
     this.artCategoriesService.updateCategory(this.selectedCategory.category_id, this.selectedCategory).subscribe(
       (response: any) => {
-        console.log('Category updated successfully', response);
-
         const index = this.categoryData.findIndex(cat => cat.category_id === response.category_id);
         if (index != -1) {
           this.categoryData[index] = response;
@@ -245,7 +238,8 @@ export class ArtCategoriesComponent implements OnInit {
         this.alertService.showMessage('Category updated successfully', true);
       },
       (error) => {
-        console.error('Error updating...', error);
+        this.modalService.close('modal-editCategory');
+        this.alertService.showMessage('Error updating category', false, error.message);
       }
     );
   }
@@ -260,7 +254,7 @@ export class ArtCategoriesComponent implements OnInit {
           this.selectedCategory.banner = '';
         },
         (error) => {
-          console.error('Error removing image:', error);
+          this.alertService.showMessage('Error removing image', false, error.message);
         }
       );
     }
@@ -272,7 +266,7 @@ export class ArtCategoriesComponent implements OnInit {
     this.imageUploadService.imageUpload(imageForm).subscribe((res: any) => {
       this.imageUrl = res.image.location;
       this.selectedCategory.banner = this.imageUrl;
-
+      this.alertService.showMessage('Image uploaded successfully', true);
     });
   }
 
@@ -288,7 +282,5 @@ export class ArtCategoriesComponent implements OnInit {
         category.name.toLowerCase().includes(searchKeyword)
       );
     }
-    console.log('Searched category:', this.searchedCategory);
   }
-
 }

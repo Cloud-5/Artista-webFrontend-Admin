@@ -77,23 +77,17 @@ export class UserManagementComponent implements OnInit {
   
       this.userManagementService.banAccount(this.selectedUser.user_id, banDetails).subscribe(
         () => {
-          console.log('User banned successfully');
-          
-          alert('User banned successfully');
-          
+          console.log('User banned successfully');   
           this.modalService.close('modal-banUser');
-          
           this.fetchUserData();
         },
         (error) => {
-          console.error('Error banning user:', error);
-          
-          alert('Error banning user. Please try again.');
-          
+          console.error('Error banning user:', error); 
         }
       );
     }
   }
+    
   openUserDetailsModal(artist: any): void {
     this.selectedUser = artist;
     console.log('Selected Artist:', this.selectedUser);

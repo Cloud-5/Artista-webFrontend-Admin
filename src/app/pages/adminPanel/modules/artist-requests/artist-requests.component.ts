@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ArtistRequestsService } from './artist-requests.service';
 import { ModalService } from '../../../../shared/services/modal.service';
+import { AlertService } from '../../../../shared/services/alert.service';
 
 @Component({
   selector: 'app-artist-requests',
@@ -13,54 +14,68 @@ export class ArtistRequestsComponent implements OnInit {
   approvedArtists: number = 0;
   requestedArtists: any[] = [];
   rejectedArtists: any[] = [];
-  
-  selectedArtist: any ={};
 
-  constructor(private artistRequestsService: ArtistRequestsService, public modalService: ModalService) {}
+  selectedArtist: any = {};
+
+  constructor(
+    private artistRequestsService: ArtistRequestsService,
+    public modalService: ModalService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit(): void {
     this.fetchArtistData();
   }
 
   fetchArtistData(): void {
-    this.artistRequestsService.getAllArtistData().subscribe((data: any) => {
-
-      this.pendingRequests = data.totalPendingRequests;
-      this.rejectedRequests = data.totalRejectedArtists;
-      this.approvedArtists = data.totalApprovedArtists;
-      this.requestedArtists = data.requestedArtists;
-      this.rejectedArtists = data.rejectedArtists;
-
-    });
+    this.artistRequestsService.getAllArtistData().subscribe(
+      (data: any) => {
+        this.pendingRequests = data.totalPendingRequests;
+        this.rejectedRequests = data.totalRejectedArtists;
+        this.approvedArtists = data.totalApprovedArtists;
+        this.requestedArtists = data.requestedArtists;
+        this.rejectedArtists = data.rejectedArtists;
+      },
+      (error) => {
+        this.alertService.showMessage('Error fetching artist data', false, error.message);
+      });
   }
 
   approveArtist(userId: string): void {
-    console.log('USer Id:', userId);
-    this.artistRequestsService.approveArtist(userId).subscribe(response => {
-      console.log('Artist approved successfully:', response);
-      // Refresh artist data after approval
-      this.fetchArtistData();
-    });
+    this.artistRequestsService.approveArtist(userId).subscribe(
+      (response: any) => {
+        console.log('Artist approved successfully:', response);
+        this.fetchArtistData();
+      },
+      (error) => {
+        this.alertService.showMessage('Error approving artist', false, error.message);
+      });
   }
 
-  
+
 
   rejectArtist(userId: string): void {
     console.log(userId);
-    this.artistRequestsService.rejectArtist(userId).subscribe(() => {
-      this.requestedArtists = this.requestedArtists.filter(artist => artist.user_Id !== userId);
-      console.log('Artist rejected successfully:');
-      // Refresh artist data after rejection
-      this.fetchArtistData();
-    });
+    this.artistRequestsService.rejectArtist(userId).subscribe(
+      () => {
+        this.requestedArtists = this.requestedArtists.filter(artist => artist.user_Id !== userId);
+        this.fetchArtistData();
+        this.alertService.showMessage('Artist rejected successfully', true);
+      },
+      (error) => {
+        this.alertService.showMessage('Error rejecting artist', false, error.message);
+      });
   }
-  
+
   deleteArtist(userId: string): void {
-    this.artistRequestsService.deleteArtist(userId).subscribe(response => {
-      console.log('Artist account deleted successfully:', response);
-      // Refresh artist data after deletion
-      this.fetchArtistData();
-    });
+    this.artistRequestsService.deleteArtist(userId).subscribe(
+      () => {
+        this.fetchArtistData();
+        this.alertService.showMessage('Artist account deleted successfully', true);
+      }, (error) => {
+        this.alertService.showMessage('Error deleting artist account', false, error.message);
+      
+      });
   }
 
   openUserDetailsModal(artist: any): void {
@@ -75,8 +90,8 @@ export class ArtistRequestsComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
   }
 
-  openDeleteConfirm(artist: any){
-    this.selectedArtist = {...artist};
+  openDeleteConfirm(artist: any) {
+    this.selectedArtist = { ...artist };
     this.modalService.open('modal-deleteConfirm');
   }
 
