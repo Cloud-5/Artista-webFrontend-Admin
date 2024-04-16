@@ -3,17 +3,24 @@
     border-radius: 4px;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.3);
     transition: 0.3s;
-    background-color: #8cd4f0;
-    color: #000;
+    background-color: #17a2b8;
     text-align: center;
     font-size: 20px;
     font-weight: bold;
     display: flex;
-    height: 150px;
+    height: 140px;
     width: 200px;
+    min-height: 140px;
+    min-width: 250px;
     text-decoration: none;
-    color: #000;
+    color: #ffffff;
+    margin-bottom: 10px;
     /* border: 1px solid #000;    */
+
+    h3{
+        font-size: 2.2rem;
+        font-weight: 700;
+    }
 }
 
 .cards{
@@ -41,4 +48,8 @@
 
 .border-danger {
     border-color: red;
+}
+
+.title {
+    font-size: 28.8px;
 }

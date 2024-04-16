@@ -1,14 +1,17 @@
-<h2>Artwork Categories</h2>
+<app-alert></app-alert>
 
-<div class="card card1" style="margin-bottom: 10px;">
+<p class="title"> Artwork Categories</p>
+
+<div class="card card1">
+    <div class="card-body" style="align-items: flex-start; text-align: left;">
+        <h3>{{ categoryData.length }}</h3>
+    </div>
     <div class="card-title fw-medium">
         <p class="border-bottom border-black m-0">Total Categories</p>
     </div>
-    <div class="card-body" style="align-items: flex-start; text-align: left;">
-        <h1 class="card-title" style="font-size: 70px;">{{ categoryData.length }}</h1>
-    </div>
+    
 </div>
-
+    
 <div class="details ">
     <h4 style="margin: 30px 0 10px 0">Edit / Add Category</h4>
     <form class="d-flex">
@@ -28,18 +31,18 @@
     </form>
 
     <div class="cards mt-2 border-0 rounded p-3 bg-body-secondary">
-        <div class="card m-2 shadow" style="width: 19.2rem; height: 500px;" *ngFor="let card of searchedCategory">
+        <div class="card m-2 shadow" style="width: 19.2rem; height: 470px;" *ngFor="let card of searchedCategory">
             <img src="{{card.banner}}" class="card-img-top rounded-bottom " alt="Banner"
                 style="min-height: 200px; max-height: 200px; width: 100%; object-fit: cover;">
 
             <div class="card-body" style="height: 8rem;">
-                <div class="text-center m-2" style="height: auto;">
-                    <h5 class="card-title" style="min-height: 2rem;">{{card.name}}</h5>
-                    <p class="card-text" style="font-size: x-small; max-height: 5rem; overflow-y: auto;">
+                <div class="m-2" style="height: auto;">
+                    <h6 class="card-title text-center border-bottom border-dark" style="min-height: 1rem;">{{card.name}}</h6>
+                    <p class="card-text" style="max-height: 5rem; overflow-y: auto; font-size: smaller;">   
                         {{card.description}}</p>
                 </div>
             </div>
-            <div class="fw-normal bg-primary" style="margin: 0;--bs-bg-opacity: .1; padding: 0 20px 0 20px;">
+            <div class="bg-primary" style="margin: 0;--bs-bg-opacity: .1; padding: 0 20px 0 20px; font-weight: 500; font-size: smaller;">
                 <div class="mb-2 mt-2">
                     
                 </div>

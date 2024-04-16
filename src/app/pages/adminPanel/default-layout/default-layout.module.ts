@@ -9,6 +9,7 @@ import { ArtCategoriesComponent } from '../modules/art-categories/art-categories
 import { UserManagementComponent } from '../modules/user-management/user-management.component';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { ArtistRequestsComponent } from '../modules/artist-requests/artist-requests.component';
+import { AlertComponent } from '../../../shared/components/alert/alert.component';
 
 import {FormsModule} from "@angular/forms";
 
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ArtCategoriesComponent,
     UserManagementComponent,
     ModalComponent,
-    ArtistRequestsComponent
+    ArtistRequestsComponent,
+    AlertComponent
   ],
   imports: [
     CommonModule,

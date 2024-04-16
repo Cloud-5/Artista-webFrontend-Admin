@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../../../shared/services/modal.service';
 import { ArtCategoriesService } from './art-categories.service';
 import { ImageUploadService } from '../../../../shared/services/image-upload.service';
+import { AlertService } from '../../../../shared/services/alert.service';
 
 @Component({
   selector: 'app-art-categories',
@@ -42,8 +43,11 @@ export class ArtCategoriesComponent implements OnInit {
   constructor(
     public modalService: ModalService,
     private artCategoriesService: ArtCategoriesService,
-    private imageUploadService: ImageUploadService
+    private imageUploadService: ImageUploadService,
+    private alertService: AlertService
   ) { }
+
+  
 
   ngOnInit() {
     this.loadCategories();
@@ -122,8 +126,11 @@ export class ArtCategoriesComponent implements OnInit {
         banner: ''
       };
       this.modalService.close('modal-addCategory');
-    } catch (error) {
+      this.alertService.showMessage('Category created successfully', true);
+    } catch (error: any) {
       console.error('Error adding category:', error);
+      this.modalService.close('modal-addCategory');
+      this.alertService.showMessage('Error adding category', false, error.message);
     }
   }
 
@@ -235,6 +242,7 @@ export class ArtCategoriesComponent implements OnInit {
         }
         this.modalService.close('modal-editCategory');
         this.loadCategories();
+        this.alertService.showMessage('Category updated successfully', true);
       },
       (error) => {
         console.error('Error updating...', error);

@@ -1,31 +1,28 @@
 <h2>Artist Requests</h2>
 
-<div class="d-flex">
+<div class="d-flex flex-wrap gap-4">
     <div class="card card1" style="margin-bottom: 10px;" style="background-color: #f08c8c;">
         <div class="card-title fw-medium">
-            <p>Pending Requests</p>
-            <hr>
+            <p class="border-bottom border-black m-0">Pending Requests</p>
         </div>
-        <div class="card-body" style="align-items: flex-start; text-align: left;">
-            <h1 class="card-title">{{ pendingRequests }}</h1>
+        <div class="card-body cb1" style="align-items: flex-start; text-align: left;">
+            <h1 class="card-title" style="font-size: 70px;">{{ pendingRequests }}</h1>
         </div>
     </div>
     <div class="card card1" style="margin-bottom: 10px;" style="background-color: #b4f08c;">
         <div class="card-title fw-medium">
-            <p>Rejected Requests</p>
-            <hr>
+            <p class="border-bottom border-black m-0">Rejected Requests</p>
         </div>
-        <div class="card-body" style="align-items: flex-start; text-align: left;">
-            <h1 class="card-title">{{ rejectedRequests }}</h1>
+        <div class="card-body cb1" style="align-items: flex-start; text-align: left;">
+            <h1 class="card-title" style="font-size: 70px;">{{ rejectedRequests }}</h1>
         </div>
     </div>
     <div class="card card1" style="margin-bottom: 10px;" style="background-color: #8cd4f0;">
         <div class="card-title fw-medium">
-            <p>Approved Artists</p>
-            <hr>
+            <p class="border-bottom border-black m-0">Approved Artists</p>  
         </div>
-        <div class="card-body" style="align-items: flex-start; text-align: left;">
-            <h1 class="card-title">{{ approvedArtists }}</h1>
+        <div class="card-body cb1" style="align-items: flex-start; text-align: left;">
+            <h1 class="card-title" style="font-size: 70px;">{{ approvedArtists }}</h1>
         </div>
     </div>
 </div>
@@ -71,6 +68,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel">
             <div class="card request-card" *ngFor="let artist of rejectedArtists">
@@ -97,7 +95,7 @@
                     </div>
                     <div class="buttons d-flex" style="margin: auto;">
                         <button class="btn btn-success" (click)="approveArtist(artist.user_id)">Approve</button>
-                        <button class="btn btn-danger" (click)="deleteArtist(artist.user_id)">Delete</button>
+                        <button class="btn btn-danger" (click)="openDeleteConfirm(artist)">Delete</button>
                     </div>
                 </div>
             </div>
@@ -109,21 +107,21 @@
 <app-modal id="modal-userDetails">
     <div class="new-modal">
       <div class="new-modal-body">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 50rem;">
           <div class="modal-header mb-4">
-            <h5 class="modal-title text-info">User Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalService.close('modal-userDetails')"></button>
+            <h5 class="modal-title border-bottom border-primary border-2">User Details</h5>
+            <button type="button" class="btn-close" aria-label="Close" (click)="this.modalService.close('modal-userDetails')"></button>
           </div>
           <div class="modal-body">
             <div class="row">
               <div class="col-md-6">
-                <div class="border border-primary p-3">
+                <div class="border border-dark-subtle p-3">
                   <h5 class="text-body-secondary">Profile Photo</h5>
                   <img [src]="selectedArtist.profile_photo_url" alt="Profile Photo" class="img-fluid mb-3 rounded" style="width: 200px; height: 200px;">
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="border border-primary p-3">
+                <div class="border border-dark-subtle p-3">
                   <h5 class="text-body-secondary">Basic Information</h5>
                   <ul class="list-group">
                     <li class="list-group-item"><strong>First Name:</strong> {{ selectedArtist.fName }}</li>
@@ -135,7 +133,7 @@
                 </div>
               </div>
             </div>
-            <div class="border border-primary p-3 mt-4">
+            <div class="border border-dark-subtle p-3 mt-4">
               <h5 class="text-body-secondary">On the Web</h5>
               <div class="row">
                 <div class="col-md-6">
@@ -148,13 +146,13 @@
                 </div>
               </div>
             </div>
-            <div class="border border-primary p-3 mt-4">
+            <div class="border border-dark-subtle p-3 mt-4">
               <h5 class="text-body-secondary">Description</h5>
-              <p>{{ selectedArtist.description }}</p>
+              <p style="max-height: 7rem; overflow-y: auto;">{{ selectedArtist.description }}</p>
             </div>
-            <div class="border border-primary p-3 mt-4">
+            <div class="border border-dark-subtle p-3 mt-4">
               <h5 class="text-body-secondary">Work Experience</h5>
-              <p>{{ selectedArtist.workExperience }}</p>
+              <p style="max-height: 10rem; overflow-y: auto;">{{ selectedArtist.workExperience }}</p>
             </div>
           </div>
         </div>
@@ -163,3 +161,35 @@
   </app-modal>
   
   
+  <div class="container1 mt-3">
+    <h2>Simple Collapsible</h2>
+    <p>Click on the button to toggle between showing and hiding content.</p>
+    <button type="button" class="btn1" (click)="toggleCollapse()">Toggle Collapse</button>
+    <div class="collapsible" [style.height.px]="isCollapsed ? 0 : 100">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </div>
+  </div>
+  
+  <app-modal id="modal-deleteConfirm">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 25rem;height:13rem;">
+            <div class="modal-header d-flex justify-content-center">
+                <h5 class="modal-title text-danger" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+            </div>
+            <div class="d-flex justify-content-center">
+                <img src="../../../../../assets/icons/warning-error-svgrepo-com.svg" alt="warning" style="width: 100px;">
+            </div>
+            <div class="modal-body m-2">
+                Are you sure you want to delete this Artist Request?
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="this.modalService.close('modal-deleteConfirm')">Cancel</button>
+                <button type="button" class="btn btn-danger"
+                    (click)="deleteArtist(selectedArtist.user_id)">Delete</button>
+            </div>
+        </div>
+    </div>
+</app-modal>
