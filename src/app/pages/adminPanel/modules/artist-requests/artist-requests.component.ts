@@ -84,11 +84,11 @@ export class ArtistRequestsComponent implements OnInit {
     this.modalService.open('modal-userDetails');
   }
 
-  isCollapsed: boolean = true;
+  // isCollapsed: boolean = true;
 
-  toggleCollapse() {
-    this.isCollapsed = !this.isCollapsed;
-  }
+  // toggleCollapse() {
+  //   this.isCollapsed = !this.isCollapsed;
+  // }
 
   openDeleteConfirm(artist: any) {
     this.selectedArtist = { ...artist };

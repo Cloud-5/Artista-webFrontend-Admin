@@ -12,27 +12,22 @@ export class ArtistRequestsService {
 
   constructor(private http: HttpClient) { }
 
-  // Get artist requests
   getAllArtistData(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/`);
   }
   
-  // Approve an artist
   approveArtist(userId: string): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${userId}/approve`, {});
   }
 
-  // Reject an artist
   rejectArtist(userId: string): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${userId}/reject`, {});
   }
 
-  // Get artist details by user ID
   getArtistDetails(userId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${userId}`);
   }
 
-  // Delete an artist account
   deleteArtist(userId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${userId}`);
   }

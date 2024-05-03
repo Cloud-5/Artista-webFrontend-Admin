@@ -64,10 +64,10 @@
     <div id="myTabContent" class="tab-content" style="width: 100%;">
         <div class="tab-pane fade show active" id="artist" role="tabpanel">
             <form class="d-flex">
-                <input class="form-control me-sm-2 rounded-pill border border-primary" type="search"
+                <input #searchTerm1 (keyup)="searchApprovedArtists(searchTerm1.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search Artist">
             </form>
-            <div class="card request-card" *ngFor="let user of approvedArtists">
+            <div class="card request-card" *ngFor="let user of searchedAppArtists">
                 <div class="d-flex" style="height: 100%;">
                     <div class="profile-pic">
                         <img [src]="user.profile_photo_url" alt="Profile Picture" class="rounded-pill"
@@ -77,7 +77,7 @@
                         <div class="d-flex" style="justify-content: space-between;">
                             <div class="d-flex">
                                 <span style="font-size: large;">{{user.fName}} {{ user.LName }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
+                                <span class="fs-6 fw-medium mr-2 text-secondary" *ngIf="user.role === 'artist'" >{{ user.profession }} |</span>&nbsp;
                                 <span class="fs-6 fw-medium text-info">{{ user.location }}</span>
                             </div>
                             <div>
@@ -98,10 +98,10 @@
         </div>
         <div class="tab-pane fade" id="customer" role="tabpanel">
             <form class="d-flex">
-                <input class="form-control me-sm-2 rounded-pill border border-primary" type="search"
+                <input #searchTerm2 (keyup)="searchRegisteredCustomers(searchTerm2.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search Customer">
             </form>
-            <div class="card request-card" *ngFor="let user of registeredCustomers">
+            <div class="card request-card" *ngFor="let user of searchedRegcustomers">
                 <div class="d-flex" style="height: 100%;">
                     <div class="profile-pic">
                         <img [src]="user.profile_photo_url" alt="Profile Picture" class="rounded-pill"
@@ -111,7 +111,7 @@
                         <div class="d-flex" style="justify-content: space-between;">
                             <div class="d-flex">
                                 <span style="font-size: large;">{{user.fName}} {{ user.LName }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
+                                <span *ngIf="user.role === 'artist'" class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
                                 <span class="fs-6 fw-medium text-info">{{ user.location }}</span>
                             </div>
                             <div>
@@ -132,10 +132,10 @@
         </div>
         <div class="tab-pane fade" id="deleted" role="tabpanel">
             <form class="d-flex">
-                <input class="form-control me-sm-2 rounded-pill border border-primary" type="search"
+                <input #searchTerm3 (keyup)="searchDeletedAccounts(searchTerm3.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search User">
             </form>
-            <div class="card request-card" *ngFor="let user of deletedAccounts">
+            <div class="card request-card" *ngFor="let user of searchedDelAccounts">
                 <div class="d-flex" style="height: 100%;">
                     <div class="profile-pic">
                         <img [src]="user.profile_photo_url" alt="Profile Picture" class="rounded-pill"
@@ -145,7 +145,7 @@
                         <div class="d-flex" style="justify-content: space-between;">
                             <div class="d-flex">
                                 <span style="font-size: large;">{{user.fName}} {{ user.LName }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
+                                <span *ngIf="user.role === 'artist'"  class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
                                 <span class="fs-6 fw-medium text-info">{{ user.location }}</span>
                             </div>
                             <div>
@@ -161,10 +161,10 @@
         </div>
         <div class="tab-pane fade" id="banned" role="tabpanel">
             <form class="d-flex">
-                <input class="form-control me-sm-2 rounded-pill border border-primary" type="search"
+                <input #searchTerm4 (keyup)="searchBannedAccounts(searchTerm4.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search User">
             </form>
-            <div class="card request-card" *ngFor="let user of bannedAccounts">
+            <div class="card request-card" *ngFor="let user of searchedBanAccounts">
                 <div class="d-flex" style="height: 100%;">
                     <div class="profile-pic">
                         <img [src]="user.profile_photo_url" alt="Profile Picture" class="rounded-pill"
@@ -174,7 +174,7 @@
                         <div class="d-flex" style="justify-content: space-between;">
                             <div class="d-flex">
                                 <span style="font-size: large;">{{user.fName}} {{ user.LName }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
+                                <span *ngIf="user.role === 'artist'"  class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
                                 <span class="fs-6 fw-medium text-info">{{ user.location }}</span>
                             </div>
                             <div>

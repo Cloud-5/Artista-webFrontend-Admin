@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { DashboardService } from './dashboard.service';
+import { revenueDistribution } from './chartData';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class DashboardComponent implements OnInit{
   chartData: any[] = [];
   categoryDistribution: any[] = [];
   categoryPreferences: any[] = [];
-  // revenueDistribution = revenueDistribution;
+  revenueDistribution = revenueDistribution;
 
   constructor(private dashboardService: DashboardService) { }
 
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit{
     this.getDashboardData();
     this.getCategorydist();
     this.getCategoryPref();
+    this.initLineChart();
   }
 
   getDashboardData() {
@@ -159,8 +161,6 @@ export class DashboardComponent implements OnInit{
     ];
   }
 
-  
-
   initCharts(){
       this.chartData.forEach(chart => {
           Highcharts.chart(
@@ -198,13 +198,13 @@ export class DashboardComponent implements OnInit{
     return topCategories;
   }
 
-  // initLineChart(){
-  //   this.revenueDistribution.forEach(chart => {
-  //     Highcharts.chart(
-  //       chart.chartId,
-  //       chart.chartData as Highcharts.Options
-  //     );
-  //   })
-  // }
+  initLineChart(){
+    this.revenueDistribution.forEach(chart => {
+      Highcharts.chart(
+        chart.chartId,
+        chart.chartData as Highcharts.Options
+      );
+    })
+  }
 
 }

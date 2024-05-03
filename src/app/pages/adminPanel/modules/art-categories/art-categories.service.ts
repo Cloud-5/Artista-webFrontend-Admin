@@ -18,7 +18,7 @@ export class ArtCategoriesService {
   getAllCategories(): Observable<any[]> {
     this.loadCategories().subscribe((data: any[]) => {
       this.categoryDataSubject.next(data);
-    }); // Add closing parenthesis here
+    });
     if (this.categoryDataSubject.value.length === 0) {
       this.loadCategories().subscribe((data: any[]) => {
         this.categoryDataSubject.next(data);
