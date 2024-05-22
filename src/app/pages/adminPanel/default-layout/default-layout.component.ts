@@ -2,6 +2,7 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
 import { navbarData } from './nav-data';
 import { SideNavToggle } from '../../../shared/interfaces/SideNavToggle';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-default-layout',
@@ -40,7 +41,7 @@ export class DefaultLayoutComponent implements OnInit{
     }
   }
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
@@ -67,5 +68,10 @@ export class DefaultLayoutComponent implements OnInit{
       styleClass = 'body-md-screen';
     }
     return styleClass;
+  }
+
+  logout(): void{
+    localStorage.removeItem('accessToken');
+    this.router.navigate(['/']);
   }
 }

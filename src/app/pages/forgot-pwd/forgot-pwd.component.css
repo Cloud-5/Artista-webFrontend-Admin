@@ -1,4 +1,4 @@
-.auth-page{
+.auth-page {
     background-color: #4B9FE1;
     background-size: cover;
     background-position: center;
@@ -6,14 +6,14 @@
     height: 100%;
     overflow-x: hidden;
     font-size: 14px;
-}
-
-.bg-pattern{
+  }
+  
+  .bg-pattern {
     background-size: cover;
     background-image: url('../../../assets/bg-pattern-2.png');
-}
-
-.footer {
+  }
+  
+  .footer {
     position: relative;
     right: 0;
     bottom: 0;
@@ -31,17 +31,18 @@
     border-top: var(--ct-theme-border-width) solid var(--ct-border-color);
     -webkit-transition: var(--ct-menu-transition);
     transition: var(--ct-menu-transition);
-}
-
-.footer-alt {
+  }
+  
+  .footer-alt {
     border: none;
     text-align: center;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-}
+  }
 
-.btn{
+  .btn{
     background-color: #28559A;
     color: white;
   }
+  

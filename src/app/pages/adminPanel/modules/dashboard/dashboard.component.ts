@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit,ChangeDetectionStrategy } from '@angul
 import * as Highcharts from 'highcharts';
 import { DashboardService } from './dashboard.service';
 import { revenueDistribution } from './chartData';
-import { title } from 'process';
 
 @Component({
   selector: 'app-dashboard',
@@ -61,34 +60,21 @@ export class DashboardComponent implements AfterViewInit {
 
   private createChartLine(data: any) {
     const chart1 = Highcharts.chart('userRegistrations', {
-      chart: {
-        type: 'area',
-        spacingBottom: 2,
-        spacingTop: 0,
-        spacingLeft: 2,
-        spacingRight: 2,
-        margin: [0, 4, 0, 4],
-      },
-      xAxis: {
-        type: 'category',
-        title:{
-          text:'Month'
-        },
-        categories: ['03','04','05','06','07','08','09','10']
-      },
-      yAxis: {
-        title: {
-          text: 'Total'
-        }
-      },
-      title: { text: '' },
+      chart: { type: 'area'},
+      title:{ text: 'User Registrations'},
+      xAxis: { type: 'category', title:{ text:'Month'}, categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']},
+      yAxis: { title: { text: 'Total' },  },
+      tooltip: {
+        pointFormat: '<b>{point.y:,.0f}</b> {series.name} have registered <br/>' +
+        'in {point.x}'},
       series: [
-        { name: '', data: data.monthlyUserRegistrations },
+        { name: 'Artists', data: data.monthlyApprovals },
+        { name: 'Customers', data: data.monthlyRegistrations }
       ],
-      legend: { enabled: false },
+      legend: { enabled: true },
       credits: { enabled: false },
       plotOptions: {
-        pointStart: 3,
+        pointStart: 1,
         marker: {
           enabled:false,
           symbol: 'circle',
@@ -104,49 +90,14 @@ export class DashboardComponent implements AfterViewInit {
     const chart2 = Highcharts.chart('uploadedCreations',{
       chart: {
         type: 'line',
-        backgroundColor: 'transparent',
-        spacingBottom: 2,
-        spacingTop: 0,
-        spacingLeft: 2,
-        spacingRight: 2,
-        margin: [0, 4, 0, 4],
+        backgroundColor: 'white',
       },
-      title: { text: '' },
-      series: [{ type: 'line', name: '', data: data.monthlyCreations }],
+      title: { text: 'Uploaded Artworks' },
+      series: [{ type: 'line', name: 'Month', data: data.monthlyCreations }],
       legend: { enabled: false },
       credits: { enabled: false },
-      plotOptions: { series: { color: '', showInLegend: false } },
-    } as any);
-    const chart3 = Highcharts.chart('approvedArtists',{
-      chart: {
-        type: 'line',
-        backgroundColor: 'transparent',
-        spacingBottom: 2,
-        spacingTop: 0,
-        spacingLeft: 2,
-        spacingRight: 2,
-        margin: [0, 4, 0, 4],
-      },
-      title: { text: '' },
-      series: [{ type: 'line', name: '', data: data.monthlyApprovals }],
-      legend: { enabled: false },
-      credits: { enabled: false },
-      plotOptions: { series: { color: '', showInLegend: false } },
-    } as any);
-    const chart4 = Highcharts.chart('registeredCustomers',{
-      chart: {
-        type: 'line',
-        backgroundColor: 'transparent',
-        spacingBottom: 2,
-        spacingTop: 0,
-        spacingLeft: 2,
-        spacingRight: 2,
-        margin: [0, 4, 0, 4],
-      },
-      title: { text: '' },
-      series: [{ type: 'line', name: '', data: data.monthlyRegistrations }],
-      legend: { enabled: false },
-      credits: { enabled: false },
+      xAxis: { type: 'category', title:{ text:'Month'}, categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']},
+      yAxis: { title: { text: 'Total' },  },
       plotOptions: { series: { color: '', showInLegend: false } },
     } as any);
   }

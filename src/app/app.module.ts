@@ -14,12 +14,16 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { DefaultLayoutModule } from './pages/adminPanel/default-layout/default-layout.module';
 import { FormsModule } from '@angular/forms';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
+import { ForgotPwdComponent } from './pages/forgot-pwd/forgot-pwd.component';
+import { ResetPwdComponent } from './pages/reset-pwd/reset-pwd.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SignInComponent,
+    ForgotPwdComponent,
+    ResetPwdComponent,
   ],
   imports: [
     BrowserModule,

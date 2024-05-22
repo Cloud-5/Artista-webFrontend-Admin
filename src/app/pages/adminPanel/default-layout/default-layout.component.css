@@ -1,12 +1,11 @@
 .sidenav{
-    background: #0f2557;
+    background: #38414a;
     transition: all .2s ease;
     position: fixed;
     z-index: 1;
     top: 0;
     width:5rem;
     height: 100%;
-    box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
 
     .logo-container{
         display: flex;
@@ -118,9 +117,9 @@
     margin-left: 5rem;
     z-index: 0;
     position: relative;
-    top: 0;
+    top: 10%;
     transition: all .2s ease;
-    background: #f4f7fa;
+    background: #f0f0f0;
     padding: 20px;
 }
 
@@ -136,3 +135,30 @@
     padding: 20px;
 }
 
+
+.top-nav {
+    background: #0f2557;
+    color: #fff;
+    padding: 0.938rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    width: calc(100%);
+  }
+  
+  .admin-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .admin-details img {
+    border-radius: 50%;
+    margin-right: 0.625rem;
+  }
+  
+  .admin-name {
+    font-size: 1rem;
+    margin-right: 0.625rem;
+  }

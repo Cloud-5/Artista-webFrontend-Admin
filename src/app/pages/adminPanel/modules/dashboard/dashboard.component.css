@@ -45,3 +45,18 @@
         background-color: #0056b3;
     }
 }
+
+.top-logo{
+    width: 45px;
+    height: 45px;
+}
+.avatar-lg{
+    height: 4.5rem;
+    width: 4.5rem;
+    background-color: rgb(195, 228, 255);
+}
+
+.chart-border{
+    border: 1px solid #bebebe;
+    border-radius: 5px;
+}

@@ -1,0 +1,141 @@
+<div class="auth-page d-flex flex-column min-vh-100">
+  <div class="account-pages my-auto">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-4">
+          <div class="card bg-pattern">
+            <div class="card-body p-5">
+              <div class="text-center w-75 m-auto">
+                <div class="auth-brand">
+                  <div class="logo logo-light text-center">
+                    <span class="logo-lg">
+                      <img
+                        src="../../../assets/logo.jpeg"
+                        alt=""
+                        style="width: 100px"
+                        class="rounded"
+                      />
+                    </span>
+                  </div>
+                </div>
+                <p class="text-muted mb-4 mt-3">
+                  Please enter your new password and confirm it to reset your
+                  password.
+                </p>
+              </div>
+
+              <form [formGroup]="newPasswordForm" (ngSubmit)="submitForm()">
+                <div class="mb-4">
+                  <label for="newPassword" class="form-label"
+                    >New Password</label
+                  >
+                  <input
+                    type="password"
+                    id="password"
+                    formControlName="password"
+                    class="form-control"
+                    placeholder="Enter your new password"
+                  />
+                  <div
+                    *ngIf="newPasswordForm.get('password')?.errors?.['required'] && newPasswordForm.get('password')?.touched"
+                    class="text-danger"
+                  >
+                    Password is required
+                  </div>
+                  <div
+                    *ngIf="newPasswordForm.get('password')?.errors?.['minlength'] && newPasswordForm.get('password')?.touched"
+                    class="text-danger"
+                  >
+                    Password must be at least 8 characters long
+                  </div>
+                  <div
+                    *ngIf="newPasswordForm.get('password')?.errors?.['uppercase'] && newPasswordForm.get('password')?.touched"
+                    class="text-danger"
+                  >
+                    Password must contain at least one uppercase letter
+                  </div>
+                  <div
+                    *ngIf="newPasswordForm.get('password')?.errors?.['lowercase'] && newPasswordForm.get('password')?.touched"
+                    class="text-danger"
+                  >
+                    Password must contain at least one lowercase letter
+                  </div>
+                  <div
+                    *ngIf="newPasswordForm.get('password')?.errors?.['number'] && newPasswordForm.get('password')?.touched"
+                    class="text-danger"
+                  >
+                    Password must contain at least one number
+                  </div>
+                  <div
+                    *ngIf="newPasswordForm.get('password')?.errors?.['special'] && newPasswordForm.get('password')?.touched"
+                    class="text-danger"
+                  >
+                    Password must contain at least one special character
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="confirmPassword" class="form-label"
+                    >Confirm Password</label
+                  >
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    formControlName="confirmPassword"
+                    class="form-control"
+                    placeholder="Confirm your new password"
+                  />
+                  <div
+                    *ngIf="
+                      newPasswordForm.get('confirmPassword')?.invalid &&
+                      newPasswordForm.get('confirmPassword')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please confirm your new password
+                  </div>
+                  <div
+                    *ngIf="
+                      newPasswordForm.get('confirmPassword')?.errors
+                        ?.['passwordMismatch']
+                    "
+                    class="text-danger"
+                  >
+                    Passwords do not match
+                  </div>
+                </div>
+
+                <div class="text-center d-grid">
+                  <button
+                    class="btn btn-primary"
+                    type="submit"
+                    [disabled]="newPasswordForm.invalid"
+                    (click)="submitForm()"
+                  >
+                    Reset Password
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <p>
+                <a
+                  routerLink="/login"
+                  class="text-white-50 ms-1"
+                  style="text-decoration: none"
+                  >Back to Login</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer footer-alt text-muted">
+    2023 - 2024 © Admin Panel by
+    <a href="" style="text-decoration: none; color: white">Cloud 5</a>
+  </footer>
+</div>

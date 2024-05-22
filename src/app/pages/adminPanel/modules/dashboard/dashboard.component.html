@@ -1,79 +1,120 @@
-<h2>Dashboard</h2>
-<!-- <div class="cards">
-    <div class="card" style="max-width: 20rem; max-height: 16rem; ">
-        <div class="card-header text-center fs-5 fw-medium">Total Users</div>
-        <div class="card-body">
-          <h1 class="card-title">{{chartData.numRegisteredUsers}}</h1>
-            <div class="card-wrapper">
-                <div id="userRegistrations" style="min-width: 15rem; height: 8rem; margin: 0 auto"></div>
-            </div>
-        </div>
-      </div>
-</div> -->
-<div class="cards">
-    <div class="card" style="max-width: 20rem; max-height: 16rem; ">
-        <div class="card-header text-center fs-5 fw-medium">Total Users</div>
-        <div class="card-body">
-          <h1 class="card-title">{{totalUsers}}</h1>
-            <div class="card-wrapper">
-                <div id="userRegistrations" style="min-width: 15rem; height: 8rem; margin: 0 auto"></div>
-            </div>
-        </div>
-      </div>
-      <div class="card" style="max-width: 20rem; max-height: 16rem; ">
-        <div class="card-header text-center fs-5 fw-medium">Total Creations</div>
-        <div class="card-body">
-          <h1 class="card-title">{{totalcreations}}</h1>
-            <div class="card-wrapper">
-                <div id="uploadedCreations" style="min-width: 15rem; height: 8rem; margin: 0 auto"></div>
-            </div>
-        </div>
-      </div>
-      <div class="card" style="max-width: 20rem; max-height: 16rem; ">
-        <div class="card-header text-center fs-5 fw-medium">Total Customers</div>
-        <div class="card-body">
-          <h1 class="card-title">{{regCustomers}}</h1>
-            <div class="card-wrapper">
-                <div id="registeredCustomers" style="min-width: 15rem; height: 8rem; margin: 0 auto"></div>
-            </div>
-        </div>
-      </div>
-      <div class="card" style="max-width: 20rem; max-height: 16rem; ">
-        <div class="card-header text-center fs-5 fw-medium">Total Artists</div>
-        <div class="card-body">
-          <h1 class="card-title">{{appArtist}}</h1>
-            <div class="card-wrapper">
-                <div id="approvedArtists" style="min-width: 15rem; height: 8rem; margin: 0 auto"></div>
-            </div>
-        </div>
-      </div>
-</div>
+<h4>Dashboard</h4>
 
-<div class="d-flex" style="justify-content: space-around;">
-    <div class="cat-dist-chart card" style="width: 47%; height: 450px;">
-        <div class="chart-title">
-            <div id="artCategoryDistribution" style="width: 100%; height: 400px;">
+<div class="row">
+    <div class="col-md-6 col-xl-3 mb-3">
+        <div class="widget-rounded-circle card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+                            <img src="../../../../../assets/icons/user-svgrepo-com.svg" alt="User" class="top-logo">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totalUsers}}</span></h3>
+                            <p class="text-muted mb-1 text-truncate">Total Users</p>
+                        </div>
+                    </div>
+                </div> 
             </div>
         </div>
-    </div> 
-    <div class="cat-pre card" style="width: 47%; height: 450px;">
-        <div class="chart-title">
-            <div id="categoryPreferences" style="width: 100%; height: 315px;">
+    </div>
+    <div class="col-md-6 col-xl-3 mb-3">
+        <div class="widget-rounded-circle card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+                            <img src="../../../../../assets/icons/artist-palette-svgrepo-com.svg" alt="" class="top-logo">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totalcreations}}</span></h3>
+                            <p class="text-muted mb-1 text-truncate">Total Creations</p>
+                        </div>
+                    </div>
+                </div> 
             </div>
-            <div class="card" style="padding: 10px; background-color: rgb(205, 230, 236);">
-                <p class="fw-medium">Trending Categories</p>
-                <ul class="trending">
-                    <li *ngFor="let category of topCategories">{{ category }}</li>
-                </ul>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3 mb-3">
+        <div class="widget-rounded-circle card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+                            <img src="../../../../../assets/icons/buyer-group-svgrepo-com.svg" alt="" class="top-logo">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{regCustomers}}</span></h3>
+                            <p class="text-muted mb-1 text-truncate">Total Customers</p>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3 mb-3">
+        <div class="widget-rounded-circle card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+                            <img src="../../../../../assets/icons/artist-palette-art-artistic-svgrepo-com.svg" alt="" class="top-logo">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{appArtist}}</span></h3>
+                            <p class="text-muted mb-1 text-truncate">Total Artists</p>
+                        </div>
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-xl-6 col-md-12 mb-3">
+        <div id="userRegistrations" class="chart-border"></div>
+    </div>
+    <div class="col-xl-6 col-md-12 mb-3">
+        <div id="uploadedCreations" class="chart-border"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-6 col-md-12 mb-3">
+        <div id="artCategoryDistribution" class="chart-border"></div>
+    </div>
+    <div class="col-xl-6 col-md-12 mb-3">
+        <div>
+            <div id="categoryPreferences" class="chart-border"></div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div>
+        <div class="card" style="padding: 10px; background-color: rgb(205, 230, 236);">
+            <p class="fw-medium">Trending Categories</p>
+            <ul class="trending">
+                <li *ngFor="let category of topCategories">{{ category }}</li>
+            </ul>
+        </div>
+    </div> 
+</div> -->
+
+<!-- 
 <div class="revenue-chart card p-3" style="width: 100%;" *ngFor="let lineChart of revenueDistribution">
     <div class="chart-title">
         <h5>{{lineChart.title}}</h5>
         <div id={{lineChart.chartId}} style="width: 100%;">
         </div>
     </div>
-</div>
+</div> -->

@@ -1,3 +1,13 @@
+<div class="top-nav">
+  <div class="admin-details">
+    <img src="https://th.bing.com/th/id/OIP.zfVsQsfiJSDjbJ1Q_5DP9QAAAA?w=460&h=460&rs=1&pid=ImgDetMain" class="rounded" style="height: 50px; width: 50px;">
+    <span class="admin-name">John Doe</span>
+    <i class="bi bi-bell"></i> 
+    <i class="bi bi-gear"></i> 
+    <i class="bi bi-box-arrow-right text-danger" (click)="logout()"></i>
+  </div>
+</div>
+
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed':''">
   <div class="logo-container">
     <button class="logo" (click)="toggleCollapse()"><i class="bi bi-list"></i></button>
@@ -17,7 +27,7 @@
         <span class="badge bg-danger rounded-pill" style="font-size: 10px;" *ngIf="data.label=='Artist Requests'"></span>
       </a>
     </li>
-    <div class="admin-details">
+    <!-- <div class="admin-details">
       <li class="sidenav-nav-item">
         <hr style="border: 2px solid white;">
         <a class="sidenav-nav-link">
@@ -29,17 +39,16 @@
           <a class="sidenav-nav-link">
             <i class="sidenav-link-icon bi bi-bell"></i>
             <span class="sidenav-link-text" *ngIf="collapsed">Notifications</span>
-            <!-- <span class="badge bg-danger rounded-pill">3</span> -->
           </a>
       </li>
       <li class="sidenav-nav-item">
-        <a class="sidenav-nav-link">
+        <a class="sidenav-nav-link" (click)="logout()">
           <i class="sidenav-link-icon bi bi-box-arrow-right text-danger"></i>
           <span class="sidenav-link-text text-danger" *ngIf="collapsed">Logout</span>
         </a>
         <hr style="border: 2px solid white;">
       </li>
-    </div>
+    </div> -->
   </div>
 </div>
 
