@@ -19,5 +19,4 @@ export const navbarData = [
         icon: 'bi bi-person-fill-gear',
         label: 'User Management'
     },
-
 ];

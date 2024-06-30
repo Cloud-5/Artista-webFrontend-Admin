@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignInService } from '../sign-in/sign-in.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -13,14 +14,17 @@ export class SignInComponent{
   loginForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private signInService: SignInService, private router: Router) {
+  constructor(private fb: FormBuilder, private signInService: SignInService, private router: Router, private alertService: AlertService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
 
-
+  expired:any = localStorage.getItem('expired');
+  if(expired = 'true'){
+    this.alertService.showMessage('Your session has expired. Please log in again.',false);
+  }
 
   signIn() {
     if (this.loginForm?.valid) {
@@ -29,14 +33,17 @@ export class SignInComponent{
       if (email && password) {
         this.signInService.login(email, password).subscribe(
           (response: any) => {
-            localStorage.setItem('accessToken', response.accessToken);
+            if(typeof window !== undefined){
+              localStorage.setItem('accessToken', response.accessToken);
+              localStorage.setItem('admin_id', response.admin_id);
+              localStorage.removeItem('expired');
+            }
             this.router.navigate(['/dashboard'])
           },
           (error: any) => {
             if (error.status === 401) {
               this.errorMessage = 'Email or password is incorrect';
             } else {
-              console.error('Login failed', error);
               this.errorMessage = 'An error occurred during login';
             }
           }

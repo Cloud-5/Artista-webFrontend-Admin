@@ -1,32 +1,65 @@
 <app-alert></app-alert>
 
-<h2>Artist Requests</h2>
+<h4>Artist Requests</h4>
 
-<div class="d-flex flex-wrap gap-4">
-    <div class="card card1" style="margin-bottom: 10px;" style="background-color: #f08c8c;">
-        <div class="card-title fw-medium">
-            <p class="border-bottom border-black m-0">Pending Requests</p>
-        </div>
-        <div class="card-body cb1" style="align-items: flex-start; text-align: left;">
-            <h1 class="card-title" style="font-size: 70px;">{{ pendingRequests }}</h1>
+<div class="row">
+  <div class="col-md-6 col-xl-3 mb-3">
+      <div class="widget-rounded-circle card">
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-6">
+                      <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+                          <img src="../../../../../assets/icons/system-pending-line-svgrepo-com.svg" alt="pending" class="top-logo">
+                      </div>
+                  </div>
+                  <div class="col-6">
+                      <div class="text-end">
+                          <h3 class="text-dark mt-1"><span data-plugin="counterup">{{pendingRequests}}</span></h3>
+                          <p class="text-muted mb-1 text-truncate">Pending Requests</p>
+                      </div>
+                  </div>
+              </div> 
+          </div>
+      </div>
+  </div>
+  <div class="col-md-6 col-xl-3 mb-3">
+    <div class="widget-rounded-circle card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+                        <img src="../../../../../assets/icons/reject-cross-delete-svgrepo-com.svg" alt="rejected" class="top-logo">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-end">
+                        <h3 class="text-dark mt-1"><span data-plugin="counterup">{{rejectedRequests}}</span></h3>
+                        <p class="text-muted mb-1 text-truncate">Rejected Requests</p>
+                    </div>
+                </div>
+            </div> 
         </div>
     </div>
-    <div class="card card1" style="margin-bottom: 10px;" style="background-color: #b4f08c;">
-        <div class="card-title fw-medium">
-            <p class="border-bottom border-black m-0">Rejected Requests</p>
-        </div>
-        <div class="card-body cb1" style="align-items: flex-start; text-align: left;">
-            <h1 class="card-title" style="font-size: 70px;">{{ rejectedRequests }}</h1>
-        </div>
-    </div>
-    <div class="card card1" style="margin-bottom: 10px;" style="background-color: #8cd4f0;">
-        <div class="card-title fw-medium">
-            <p class="border-bottom border-black m-0">Approved Artists</p>  
-        </div>
-        <div class="card-body cb1" style="align-items: flex-start; text-align: left;">
-            <h1 class="card-title" style="font-size: 70px;">{{ approvedArtists }}</h1>
-        </div>
-    </div>
+</div>
+<div class="col-md-6 col-xl-3 mb-3">
+  <div class="widget-rounded-circle card">
+      <div class="card-body">
+          <div class="row">
+              <div class="col-6">
+                  <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+                      <img src="../../../../../assets/icons/approved-check-mark-svgrepo-com.svg" alt="approved" class="top-logo">
+                  </div>
+              </div>
+              <div class="col-6">
+                  <div class="text-end">
+                      <h3 class="text-dark mt-1"><span data-plugin="counterup">{{approvedArtists}}</span></h3>
+                      <p class="text-muted mb-1 text-truncate">Approved Artists</p>
+                  </div>
+              </div>
+          </div> 
+      </div>
+  </div>
+</div>
 </div>
 
 <ul class="nav nav-tabs mt-4" role="tablist" style="width: 100%;">

@@ -1,15 +1,27 @@
 <app-alert></app-alert>
 
-<p class="title"> Artwork Categories</p>
+<h4> Artwork Categories</h4>
 
-<div class="card card1">
-    <div class="card-body" style="align-items: flex-start; text-align: left;">
-        <h3>{{ categoryData.length }}</h3>
+<div class="row">
+    <div class="col-md-6 col-xl-3 mb-3">
+        <div class="widget-rounded-circle card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+                            <img src="../../../../../assets/icons/category-2-svgrepo-com.svg" alt="Category" class="top-logo">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{categoryData.length}}</span></h3>
+                            <p class="text-muted mb-1 text-truncate">Total Categories</p>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
     </div>
-    <div class="card-title fw-medium">
-        <p class="border-bottom border-black m-0">Total Categories</p>
-    </div>
-    
 </div>
     
 <div class="details ">

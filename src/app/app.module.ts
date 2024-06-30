@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
-import { HttpClientModule,provideHttpClient, withFetch } from '@angular/common/http';
-
+import { HTTP_INTERCEPTORS, HttpClientModule,provideHttpClient, withFetch } from '@angular/common/http';
+import { AuthInterceptor } from './shared/services/auth.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,8 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { ForgotPwdComponent } from './pages/forgot-pwd/forgot-pwd.component';
 import { ResetPwdComponent } from './pages/reset-pwd/reset-pwd.component';
 
+//import { AlertComponent } from './shared/components/alert/alert.component';
+import { AlertModule } from './shared/components/alert/alert.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { ResetPwdComponent } from './pages/reset-pwd/reset-pwd.component';
     SignInComponent,
     ForgotPwdComponent,
     ResetPwdComponent,
+    //AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -33,11 +36,13 @@ import { ResetPwdComponent } from './pages/reset-pwd/reset-pwd.component';
     ReactiveFormsModule,
     DefaultLayoutModule,
     HighchartsChartModule,
-    FormsModule
+    FormsModule,
+    AlertModule
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

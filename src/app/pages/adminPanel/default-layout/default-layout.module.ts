@@ -9,11 +9,13 @@ import { ArtCategoriesComponent } from '../modules/art-categories/art-categories
 import { UserManagementComponent } from '../modules/user-management/user-management.component';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { ArtistRequestsComponent } from '../modules/artist-requests/artist-requests.component';
-import { AlertComponent } from '../../../shared/components/alert/alert.component';
+//import { AlertComponent } from '../../../shared/components/alert/alert.component';
+import { AlertModule } from '../../../shared/components/alert/alert.module';
 
 import {FormsModule} from "@angular/forms";
 
 import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -23,19 +25,19 @@ import { ReactiveFormsModule } from '@angular/forms';
     UserManagementComponent,
     ModalComponent,
     ArtistRequestsComponent,
-    AlertComponent
+    // AlertComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AlertModule
   ],
   exports: [
     DefaultLayoutComponent
   ],
   providers: [
-
   ]
 })
 export class DefaultLayoutModule { }

@@ -1,18 +1,11 @@
-.card1 {
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3);
-    transition: 0.3s;
-    background-color: #8cd4f0;
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    min-height: 150px;
-    min-width: 250px;
-    text-decoration: none;
-    color: #000;
-    /* border: 1px solid #000;    */
+.top-logo{
+    width: 45px;
+    height: 45px;
+}
+.avatar-lg{
+    height: 4.5rem;
+    width: 4.5rem;
+    background-color: rgb(195, 228, 255);
 }
 
 .cb1 {
