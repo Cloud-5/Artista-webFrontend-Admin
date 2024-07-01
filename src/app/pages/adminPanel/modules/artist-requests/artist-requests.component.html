@@ -75,62 +75,55 @@
 
     <div id="myTabContent" class="tab-content" style="width: 100%;">
         <div class="tab-pane fade show active" id="home" role="tabpanel">
-            <div class="card request-card" *ngFor="let artist of requestedArtists">
-                <div class="d-flex" style="height: 100%;">
-                    <div class="profile-pic">
-                        <img [src]="artist.profile_photo_url" alt="Profile Picture" class="rounded-pill"
-                            style="width: 78px; height: 78px;">
-                    </div>
-                    <div class="card-body" style="margin: auto;">
-                        <div class="d-flex" style="justify-content: space-between;">
-                            <div class="d-flex">
-                                <span style="font-size: large;">{{ artist.fName }} {{ artist.LName }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium mr-2 text-secondary">{{ artist.profession }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium text-info">{{ artist.location }}</span>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-12 mb-4" *ngFor="let artist of requestedArtists">
+                        <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
+                            <div class="profile-pic">
+                                <img [src]="artist.profile_photo_url" alt="Profile Picture" class="avatar-lg">
                             </div>
-                            <div>
-                                <span class="fs-6 fw-medium">{{artist.registered_at | date: 'yyyy-MM-dd' }}</span>
+                            <div class="card-body d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="artist-info">
+                                        <h5 class="card-title mb-0">{{ artist.fName }} {{ artist.LName }}</h5>
+                                        <p class="card-text mb-0 text-muted">{{ artist.profession }} | {{ artist.location }}</p>
+                                        <p class="card-text fw-medium mb-0">{{ artist.registered_at | date: 'yyyy-MM-dd' }}</p>
+                                        <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(artist.user_id)" style="cursor:pointer;">More Details</p>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <button class="btn btn-success btn-sm mb-2" (click)="approveArtist(artist.user_id)">Approve</button>
+                                        <button class="btn btn-danger btn-sm" (click)="rejectArtist(artist.user_id)">Reject</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div style="margin: auto; text-align: left;">
-                            <p class="fs-6" (click)="openUserDetailsModal(artist)">More Details</p>
-                        </div>
-
-                    </div>
-                    <div class="buttons d-flex" style="margin: auto;">
-                        <button class="btn btn-success" (click)="approveArtist(artist.user_id)">Approve</button>
-                        <button class="btn btn-danger" (click)="rejectArtist(artist.user_id)">Reject</button>
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel">
-            <div class="card request-card" *ngFor="let artist of rejectedArtists">
-                <div class="d-flex" style="height: 100%;">
-                    <div class="profile-pic">
-                        <img [src]="artist.profile_photo_url" alt="Profile Picture" class="rounded-pill"
-                            style="width: 78px; height: 78px;">
-                    </div>
-                    <div class="card-body" style="margin: auto;">
-                        <div class="d-flex" style="justify-content: space-between;">
-                            <div class="d-flex">
-                                <span style="font-size: large;">{{ artist.fName }} {{ artist.LName }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium mr-2 text-secondary">{{ artist.profession }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium text-info">{{ artist.location }}</span>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-12 mb-4" *ngFor="let artist of rejectedArtists">
+                        <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
+                            <div class="profile-pic">
+                                <img [src]="artist.profile_photo_url" alt="Profile Picture" class="avatar-lg">
                             </div>
-                            <div>
-                                <span class="fs-6 fw-medium">{{ artist.registered_at | date: 'yyyy-MM-dd' }}</span>
+                            <div class="card-body d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="artist-info">
+                                        <h5 class="card-title mb-0">{{ artist.fName }} {{ artist.LName }}</h5>
+                                        <p class="card-text mb-0 text-muted">{{ artist.profession }} | {{ artist.location }}</p>
+                                        <p class="card-text fw-medium mb-0">{{ artist.registered_at | date: 'yyyy-MM-dd' }}</p>
+                                        <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(artist)" style="cursor:pointer;">More Details</p>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <button class="btn btn-success btn-sm mb-2" (click)="approveArtist(artist.user_id)">Approve</button>
+                                        <button class="btn btn-danger btn-sm" (click)="openDeleteConfirm(artist)">Delete</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div style="margin: auto; text-align: left;">
-                            <p class="fs-6" (click)="openUserDetailsModal(artist)">More Details</p>
-                        </div>
-
-                    </div>
-                    <div class="buttons d-flex" style="margin: auto;">
-                        <button class="btn btn-success" (click)="approveArtist(artist.user_id)">Approve</button>
-                        <button class="btn btn-danger" (click)="openDeleteConfirm(artist)">Delete</button>
                     </div>
                 </div>
             </div>
@@ -139,7 +132,7 @@
 </ul>
 
 
-<app-modal id="modal-userDetails">
+<!-- <app-modal id="modal-userDetails">
     <div class="new-modal">
       <div class="new-modal-body">
         <div class="modal-content" style="width: 50rem;">
@@ -183,11 +176,59 @@
             </div>
             <div class="border border-dark-subtle p-3 mt-4">
               <h5 class="text-body-secondary">Description</h5>
-              <p style="max-height: 7rem; overflow-y: auto;">{{ selectedArtist.description }}</p>
+              <p style="max-height: 8rem; overflow-y: auto;">{{ selectedArtist.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-modal> -->
+  
+  <app-modal id="modal-userDetails">
+    <div class="new-modal">
+      <div class="new-modal-body">
+        <div class="modal-content" style="width: 50rem;">
+          <div class="modal-header mb-4">
+            <h5 class="modal-title border-bottom border-primary border-2">User Details</h5>
+            <button type="button" class="btn-close" aria-label="Close" (click)="this.modalService.close('modal-userDetails')"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="border border-dark-subtle p-3">
+                  <h5 class="text-body-secondary">Profile Photo</h5>
+                  <img [src]="selectedArtist.profile_photo_url" alt="Profile Photo" class="img-fluid mb-3" style="width: 250px; height: 100%">
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="border border-dark-subtle p-3">
+                  <h5 class="text-body-secondary">Basic Information</h5>
+                  <ul class="list-group">
+                    <li class="list-group-item"><strong>First Name:</strong> {{ selectedArtist.fName }}</li>
+                    <li class="list-group-item"><strong>Last Name:</strong> {{ selectedArtist.LName }}</li>
+                    <li class="list-group-item"><strong>Profession:</strong> {{ selectedArtist.profession }}</li>
+                    <li class="list-group-item"><strong>Location:</strong> {{ selectedArtist.location }}</li>
+                    <li class="list-group-item"><strong>Applied Date:</strong> {{ selectedArtist.registered_at | date: 'short' }}</li>
+                  </ul>
+                </div>
+              </div>
             </div>
             <div class="border border-dark-subtle p-3 mt-4">
-              <h5 class="text-body-secondary">Work Experience</h5>
-              <p style="max-height: 10rem; overflow-y: auto;">{{ selectedArtist.workExperience }}</p>
+              <h5 class="text-body-secondary">On the Web</h5>
+              <div class="row">
+                <div class="col-md-12">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let socialLink of socialLinks">
+                      <img [src]="socialLink.logo_url" alt="{{ socialLink.platform_name }}" class="img-fluid me-2" style="width: 20px;">
+                      <a [href]="socialLink.account_url" target="_blank">{{ socialLink.account_url }}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="border border-dark-subtle p-3 mt-4">
+              <h5 class="text-body-secondary">Description</h5>
+              <p style="max-height: 8rem; overflow-y: auto;">{{ selectedArtist.description }}</p>
             </div>
           </div>
         </div>

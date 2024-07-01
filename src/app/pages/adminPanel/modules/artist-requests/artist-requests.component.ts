@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ArtistRequestsService } from './artist-requests.service';
 import { ModalService } from '../../../../shared/services/modal.service';
 import { AlertService } from '../../../../shared/services/alert.service';
+import { error } from 'node:console';
 
 @Component({
   selector: 'app-artist-requests',
@@ -16,6 +17,7 @@ export class ArtistRequestsComponent implements OnInit {
   rejectedArtists: any[] = [];
 
   selectedArtist: any = {};
+  socialLinks: any[] = [];
 
   constructor(
     private artistRequestsService: ArtistRequestsService,
@@ -78,17 +80,23 @@ export class ArtistRequestsComponent implements OnInit {
       });
   }
 
-  openUserDetailsModal(artist: any): void {
-    this.selectedArtist = artist;
-    console.log('Selected Artist:', this.selectedArtist);
+  openUserDetailsModal(userId: any): void {
+    this.artistRequestsService.getArtistDetails(userId).subscribe(
+      (response:any) => {
+        console.log('response',response);
+        this.selectedArtist = response.artistDetails;
+        this.socialLinks = response.socialAccounts;        ;
+        console.log('selected one',this.socialLinks)
+
+
+      },
+      (error) => {
+        this.alertService.showMessage('Error fetching artist details', false, error.message);
+      }
+    )
     this.modalService.open('modal-userDetails');
   }
 
-  // isCollapsed: boolean = true;
-
-  // toggleCollapse() {
-  //   this.isCollapsed = !this.isCollapsed;
-  // }
 
   openDeleteConfirm(artist: any) {
     this.selectedArtist = { ...artist };
