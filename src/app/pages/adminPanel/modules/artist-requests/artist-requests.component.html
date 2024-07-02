@@ -115,7 +115,7 @@
                                         <h5 class="card-title mb-0">{{ artist.fName }} {{ artist.LName }}</h5>
                                         <p class="card-text mb-0 text-muted">{{ artist.profession }} | {{ artist.location }}</p>
                                         <p class="card-text fw-medium mb-0">{{ artist.registered_at | date: 'yyyy-MM-dd' }}</p>
-                                        <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(artist)" style="cursor:pointer;">More Details</p>
+                                        <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(artist.user_id)" style="cursor:pointer;">More Details</p>
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <button class="btn btn-success btn-sm mb-2" (click)="approveArtist(artist.user_id)">Approve</button>
@@ -130,59 +130,6 @@
         </div>
     </div>
 </ul>
-
-
-<!-- <app-modal id="modal-userDetails">
-    <div class="new-modal">
-      <div class="new-modal-body">
-        <div class="modal-content" style="width: 50rem;">
-          <div class="modal-header mb-4">
-            <h5 class="modal-title border-bottom border-primary border-2">User Details</h5>
-            <button type="button" class="btn-close" aria-label="Close" (click)="this.modalService.close('modal-userDetails')"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="border border-dark-subtle p-3">
-                  <h5 class="text-body-secondary">Profile Photo</h5>
-                  <img [src]="selectedArtist.profile_photo_url" alt="Profile Photo" class="img-fluid mb-3 rounded" style="width: 200px; height: 200px;">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="border border-dark-subtle p-3">
-                  <h5 class="text-body-secondary">Basic Information</h5>
-                  <ul class="list-group">
-                    <li class="list-group-item"><strong>First Name:</strong> {{ selectedArtist.fName }}</li>
-                    <li class="list-group-item"><strong>Last Name:</strong> {{ selectedArtist.LName }}</li>
-                    <li class="list-group-item"><strong>Profession:</strong> {{ selectedArtist.profession }}</li>
-                    <li class="list-group-item"><strong>Location:</strong> {{ selectedArtist.location }}</li>
-                    <li class="list-group-item"><strong>Applied Date:</strong> {{ selectedArtist.registered_at | date: 'short' }}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="border border-dark-subtle p-3 mt-4">
-              <h5 class="text-body-secondary">On the Web</h5>
-              <div class="row">
-                <div class="col-md-6">
-                  <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let socialLink of selectedArtist.socialLinks">
-                      <img [src]="socialLink.logoUrl" alt="{{ socialLink.name }}" class="img-fluid me-2" style="width: 20px;">
-                      <a [href]="socialLink.link" target="_blank">{{ socialLink.name }}</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="border border-dark-subtle p-3 mt-4">
-              <h5 class="text-body-secondary">Description</h5>
-              <p style="max-height: 8rem; overflow-y: auto;">{{ selectedArtist.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </app-modal> -->
   
   <app-modal id="modal-userDetails">
     <div class="new-modal">
@@ -235,18 +182,6 @@
       </div>
     </div>
   </app-modal>
-  
-  
-  <!-- <div class="container1 mt-3">
-    <h2>Simple Collapsible</h2>
-    <p>Click on the button to toggle between showing and hiding content.</p>
-    <button type="button" class="btn1" (click)="toggleCollapse()">Toggle Collapse</button>
-    <div class="collapsible" [style.height.px]="isCollapsed ? 0 : 100">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </div>
-  </div> -->
   
   <app-modal id="modal-deleteConfirm">
     <div class="modal-dialog">

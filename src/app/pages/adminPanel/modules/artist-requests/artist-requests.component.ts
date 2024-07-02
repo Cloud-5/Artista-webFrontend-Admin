@@ -81,14 +81,11 @@ export class ArtistRequestsComponent implements OnInit {
   }
 
   openUserDetailsModal(userId: any): void {
+    console.log('user',userId);
     this.artistRequestsService.getArtistDetails(userId).subscribe(
       (response:any) => {
-        console.log('response',response);
         this.selectedArtist = response.artistDetails;
-        this.socialLinks = response.socialAccounts;        ;
-        console.log('selected one',this.socialLinks)
-
-
+        this.socialLinks = response.socialAccounts[0];
       },
       (error) => {
         this.alertService.showMessage('Error fetching artist details', false, error.message);

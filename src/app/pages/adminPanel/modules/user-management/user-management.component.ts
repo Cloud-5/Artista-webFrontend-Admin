@@ -26,6 +26,8 @@ export class UserManagementComponent implements OnInit {
   searchedDelAccounts: any[] = this.deletedAccounts;
   searchedBanAccounts: any[] =  this.bannedAccounts;
 
+  socialLinks: any[] = [];
+
   constructor(
     public modalService: ModalService,
     private userManagementService: UserManagementService
@@ -50,6 +52,10 @@ export class UserManagementComponent implements OnInit {
       this.searchedRegcustomers = this.registeredCustomers;
       this.searchedDelAccounts = this.deletedAccounts;
       this.searchedBanAccounts = this.bannedAccounts;
+      console.log('approved artist', this.approvedArtists);
+      console.log('registered customers', this.registeredCustomers);
+      console.log('deleted accounts', this.deletedAccounts);
+      console.log('banned accounts', this.bannedAccounts);
     });
   }
 
@@ -97,9 +103,22 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  openUserDetailsModal(artist: any): void {
-    this.selectedUser = artist;
-    console.log('Selected Artist:', this.selectedUser);
+  openUserDetailsModal(userId:string, role:string): void {
+    console.log('User ID:', userId, 'Role:', role);
+    this.userManagementService.getUserDetails(userId, role).subscribe(
+      (response: any) => {
+        console.log('response',response);
+        this.selectedUser = response.userDetails[0];
+        if(role === 'artist'){
+          this.socialLinks = response.socialAccounts[0];
+          console.log('Social links:', this.socialLinks);
+        }
+        console.log('Selected user:', this.selectedUser);
+      },
+      (error) => {
+        console.error('Error fetching user details:', error);
+      }
+    );
     this.modalService.open('modal-userDetails');
   }
 

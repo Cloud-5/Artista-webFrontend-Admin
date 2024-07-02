@@ -16,8 +16,8 @@ export class UserManagementService {
     return this.http.get<any>(`${this.apiUrl}/`);
   }
 
-  getArtistDetails(userId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${userId}`);
+  getUserDetails(userId: string, role:string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${userId}/${role}`);
   }
 
   deleteAccount(userId: string): Observable<any> {

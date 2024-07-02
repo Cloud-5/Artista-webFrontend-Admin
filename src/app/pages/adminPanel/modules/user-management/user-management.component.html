@@ -100,12 +100,11 @@
 
 <ul class="nav nav-tabs mt-4" role="tablist" style="width: 100%;">
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" data-bs-toggle="tab" href="#artist" aria-selected="true" role="tab">Approved
-            Artist</a>
+        <a class="nav-link active" data-bs-toggle="tab" href="#artist" aria-selected="true" role="tab">Artists</a>
     </li>
     <li class="nav-item" role="presentation">
         <a class="nav-link" data-bs-toggle="tab" href="#customer" aria-selected="false" tabindex="-1"
-            role="tab">Registered Customers</a>
+            role="tab">Customers</a>
     </li>
     <li class="nav-item" role="presentation">
         <a class="nav-link" data-bs-toggle="tab" href="#deleted" aria-selected="false" tabindex="-1" role="tab">Deleted
@@ -122,31 +121,28 @@
                 <input #searchTerm1 (keyup)="searchApprovedArtists(searchTerm1.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search Artist">
             </form>
-            <div class="card request-card" *ngFor="let user of searchedAppArtists">
-                <div class="d-flex" style="height: 100%;">
-                    <div class="profile-pic">
-                        <img [src]="user.profile_photo_url" alt="Profile Picture" class="rounded-pill"
-                            style="width: 78px; height: 78px;">
-                    </div>
-                    <div class="card-body" style="margin: auto;">
-                        <div class="d-flex" style="justify-content: space-between;">
-                            <div class="d-flex">
-                                <span style="font-size: large;">{{user.fName}} {{ user.LName }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium mr-2 text-secondary" *ngIf="user.role === 'artist'" >{{ user.profession }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium text-info">{{ user.location }}</span>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 mb-4" *ngFor="let user of searchedAppArtists">
+                        <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
+                            <div class="profile-pic">
+                                <img [src]="user.profile_photo_url" alt="Profile Picture" class="avatar-lg">
                             </div>
-                            <div>
-                                <span class="fs-6 fw-medium">{{user.registered_at | date: 'yyyy-MM-dd' }}</span>
+                            <div class="card-body d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="artist-info">
+                                        <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }}</h5>
+                                        <p class="card-text mb-0 text-muted">{{ user.profession }} | {{ user.location }}</p>
+                                        <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }}</p>
+                                        <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id,user.role)" style="cursor:pointer;">More Details</p>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <button class="btn btn-success" (click)="openBanModal(user)">Ban</button>
+                                        <button class="btn btn-danger" (click)="deleteUser(user.user_id)">Delete</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div style="margin: auto; text-align: left;">
-                            <a href="" class="fs-6">More Details</a>
-                        </div>
-
-                    </div>
-                    <div class="buttons d-flex" style="margin: auto;">
-                        <button class="btn btn-success" (click)="openBanModal(user)">Ban</button>
-                        <button class="btn btn-danger" (click)="deleteUser(user.user_id)">Delete</button>
                     </div>
                 </div>
             </div>
@@ -156,59 +152,54 @@
                 <input #searchTerm2 (keyup)="searchRegisteredCustomers(searchTerm2.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search Customer">
             </form>
-            <div class="card request-card" *ngFor="let user of searchedRegcustomers">
-                <div class="d-flex" style="height: 100%;">
-                    <div class="profile-pic">
-                        <img [src]="user.profile_photo_url" alt="Profile Picture" class="rounded-pill"
-                            style="width: 78px; height: 78px;">
-                    </div>
-                    <div class="card-body" style="margin: auto;">
-                        <div class="d-flex" style="justify-content: space-between;">
-                            <div class="d-flex">
-                                <span style="font-size: large;">{{user.fName}} {{ user.LName }} |</span>&nbsp;
-                                <span *ngIf="user.role === 'artist'" class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium text-info">{{ user.location }}</span>
-                            </div>
-                            <div>
-                                <span class="fs-6 fw-medium">{{user.registered_at | date: 'yyyy-MM-dd' }}</span>
+                <div class="container mt-4">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 mb-4" *ngFor="let user of searchedRegcustomers">
+                            <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
+                                <div class="profile-pic">
+                                    <img [src]="user.profile_photo_url" alt="Profile Picture" class="avatar-lg">
+                                </div>
+                                <div class="card-body d-flex flex-column flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="artist-info">
+                                            <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }}</h5>
+                                            <p class="card-text mb-0 text-muted">{{ user.profession }} | {{ user.location }}</p>
+                                            <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }}</p>
+                                            <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id,user.role)" style="cursor:pointer;">More Details</p>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <button class="btn btn-success" (click)="openBanModal(user)">Ban</button>
+                                            <button class="btn btn-danger" (click)="deleteUser(user.user_id)">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div style="margin: auto; text-align: left;">
-                            <a href="" class="fs-6">More Details</a>
-                        </div>
-
-                    </div>
-                    <div class="buttons d-flex" style="margin: auto;">
-                        <button class="btn btn-success" (click)="modalService.open('modal-banUser')">Ban</button>
-                        <button class="btn btn-danger" (click)="deleteUser(user.user_id)">Delete</button>
                     </div>
                 </div>
-            </div>
         </div>
         <div class="tab-pane fade" id="deleted" role="tabpanel">
             <form class="d-flex">
                 <input #searchTerm3 (keyup)="searchDeletedAccounts(searchTerm3.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search User">
             </form>
-            <div class="card request-card" *ngFor="let user of searchedDelAccounts">
-                <div class="d-flex" style="height: 100%;">
-                    <div class="profile-pic">
-                        <img [src]="user.profile_photo_url" alt="Profile Picture" class="rounded-pill"
-                            style="width: 78px; height: 78px;">
-                    </div>
-                    <div class="card-body" style="margin: auto;">
-                        <div class="d-flex" style="justify-content: space-between;">
-                            <div class="d-flex">
-                                <span style="font-size: large;">{{user.fName}} {{ user.LName }} |</span>&nbsp;
-                                <span *ngIf="user.role === 'artist'"  class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium text-info">{{ user.location }}</span>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 mb-4" *ngFor="let user of searchedDelAccounts">
+                        <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
+                            <div class="profile-pic">
+                                <img [src]="user.profile_photo_url" alt="Profile Picture" class="avatar-lg">
                             </div>
-                            <div>
-                                <span class="fs-6 fw-medium">{{user.registered_at | date: 'yyyy-MM-dd' }}</span>
+                            <div class="card-body d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="artist-info">
+                                        <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }}</h5>
+                                        <p class="card-text mb-0 text-muted">{{ user.profession }} | {{ user.location }}</p>
+                                        <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }}</p>
+                                        <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id,user.role)" style="cursor:pointer;">More Details</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div style="margin: auto; text-align: left;">
-                            <p class="fs-6" (click)="openUserDetailsModal(user)">More Details</p>
                         </div>
                     </div>
                 </div>
@@ -219,30 +210,27 @@
                 <input #searchTerm4 (keyup)="searchBannedAccounts(searchTerm4.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search User">
             </form>
-            <div class="card request-card" *ngFor="let user of searchedBanAccounts">
-                <div class="d-flex" style="height: 100%;">
-                    <div class="profile-pic">
-                        <img [src]="user.profile_photo_url" alt="Profile Picture" class="rounded-pill"
-                            style="width: 78px; height: 78px;">
-                    </div>
-                    <div class="card-body" style="margin: auto;">
-                        <div class="d-flex" style="justify-content: space-between;">
-                            <div class="d-flex">
-                                <span style="font-size: large;">{{user.fName}} {{ user.LName }} |</span>&nbsp;
-                                <span *ngIf="user.role === 'artist'"  class="fs-6 fw-medium mr-2 text-secondary">{{ user.profession }} |</span>&nbsp;
-                                <span class="fs-6 fw-medium text-info">{{ user.location }}</span>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 mb-4" *ngFor="let user of searchedBanAccounts">
+                        <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
+                            <div class="profile-pic">
+                                <img [src]="user.profile_photo_url" alt="Profile Picture" class="avatar-lg">
                             </div>
-                            <div>
-                                <span class="fs-6 fw-medium">{{user.registered_at | date: 'yyyy-MM-dd' }}</span>
+                            <div class="card-body d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="artist-info">
+                                        <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }}</h5>
+                                        <p class="card-text mb-0 text-muted">{{ user.profession }} | {{ user.location }}</p>
+                                        <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }}</p>
+                                        <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id,user.role)" style="cursor:pointer;">More Details</p>
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <button class="btn btn-success" (click)="removeBan(user.user_id)">Remove Ban</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div style="margin: auto; text-align: left;">
-                            <p class="fs-6" (click)="openUserDetailsModal(user)">More Details</p>
-                        </div>
-
-                    </div>
-                    <div class="buttons d-flex" style="margin: auto;">
-                        <button class="btn btn-success" (click)="removeBan(user.user_id)">Remove Ban</button>
                     </div>
                 </div>
             </div>
@@ -301,57 +289,98 @@
 <app-modal id="modal-userDetails">
     <div class="new-modal">
       <div class="new-modal-body">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 50rem;">
           <div class="modal-header mb-4">
-            <h5 class="modal-title text-info">User Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalService.close('modal-userDetails')"></button>
+            <h5 class="modal-title border-bottom border-primary border-2">User Details</h5>
+            <button type="button" class="btn-close" aria-label="Close" (click)="this.modalService.close('modal-userDetails')"></button>
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-md-6">
-                <div class="border border-primary p-3">
+              <div class="col-md-4">
+                <div class="border border-dark-subtle p-3">
                   <h5 class="text-body-secondary">Profile Photo</h5>
-                  <img [src]="selectedUser.profile_photo_url" alt="Profile Photo" class="img-fluid mb-3 rounded" style="width: 200px; height: 200px;">
+                  <img [src]="selectedUser.ProfilePhoto" alt="Profile Photo" class="img-fluid mb-3" style="width: 250px; height: 100%">
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="border border-primary p-3">
+              <div class="col-md-8">
+                <div class="border border-dark-subtle p-3">
                   <h5 class="text-body-secondary">Basic Information</h5>
                   <ul class="list-group">
-                    <li class="list-group-item"><strong>First Name:</strong> {{ selectedUser.fName }}</li>
+                    <li class="list-group-item"><strong>First Name:</strong> {{ selectedUser.FName }}</li>
                     <li class="list-group-item"><strong>Last Name:</strong> {{ selectedUser.LName }}</li>
-                    <li class="list-group-item"><strong>Profession:</strong> {{ selectedUser.profession }}</li>
+                    <li class="list-group-item"><strong>Email:</strong> {{ selectedUser.Email }}</li>
+                    <li class="list-group-item"><strong>User Name:</strong> {{ selectedUser.Username }}</li>
+                    <li class="list-group-item" *ngIf="selectedUser.role === 'artist'"><strong>Profession:</strong> {{ selectedUser.profession }}</li>
                     <li class="list-group-item"><strong>Location:</strong> {{ selectedUser.location }}</li>
-                    <li class="list-group-item"><strong>Applied Date:</strong> {{ selectedUser.registered_at | date: 'short' }}</li>
+                    <li class="list-group-item"><strong>Applied Date:</strong> {{ selectedUser.RegistrationDate | date: 'short' }}</li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div class="border border-primary p-3 mt-4">
-              <h5 class="text-body-secondary">On the Web</h5>
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.role === 'artist'">
+              <h5 class="text-body-secondary">User Metrics</h5>
               <div class="row">
                 <div class="col-md-6">
                   <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let socialLink of selectedUser.socialLinks">
-                      <img [src]="socialLink.logoUrl" alt="{{ socialLink.name }}" class="img-fluid me-2" style="width: 20px;">
-                      <a [href]="socialLink.link" target="_blank">{{ socialLink.name }}</a>
+                    <li class="list-group-item"><strong>Average Rating:</strong> {{ selectedUser.AverageRating | number:'1.1-1'}}</li>
+                    <li class="list-group-item"><strong>Number of Artworks:</strong> {{ selectedUser.NumberOfArtworks }}</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-group">
+                    <li class="list-group-item"><strong>Number of Followers:</strong> {{ selectedUser.NumberOfFollowers }}</li>
+                    <li class="list-group-item"><strong>Number of Sales:</strong> {{ selectedUser.NumberOfSales }}</li>
+                  </ul>
+                </div>
+                <div class="col-md-12 mt-3">
+                  <ul class="list-group">
+                    <li class="list-group-item"><strong>Status:</strong> {{ selectedUser.Status }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.role === 'customer' || 'Customer'">
+                <h5 class="text-body-secondary">User Metrics</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                      <ul class="list-group">
+                        <li class="list-group-item"><strong>Number Of Purchases:</strong> {{ selectedUser.NumberOfPurchases }}</li>
+                        <li class="list-group-item"><strong>Total Amount Spent:</strong> {{ selectedUser.TotalAmountSpent }}</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <ul class="list-group">
+                        <li class="list-group-item"><strong>Number Of Followings:</strong> {{ selectedUser.NumberOfFollowings }}</li>
+                        <li class="list-group-item"><strong>Number Of Feedbacks Written:</strong> {{ selectedUser.NumberOfFeedbacks }}</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                      <ul class="list-group">
+                        <li class="list-group-item"><strong>Status:</strong> {{ selectedUser.Status }}</li>
+                      </ul>
+                    </div>
+                  </div>
+            </div>
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.role === 'artist'">
+              <h5 class="text-body-secondary">On the Web</h5>
+              <div class="row">
+                <div class="col-md-12">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let socialLink of socialLinks">
+                      <img [src]="socialLink.logo_url" alt="{{ socialLink.platform_name }}" class="img-fluid me-2" style="width: 20px;">
+                      <a [href]="socialLink.account_url" target="_blank">{{ socialLink.account_url }}</a>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div class="border border-primary p-3 mt-4">
+            <div class="border border-dark-subtle p-3 mt-4">
               <h5 class="text-body-secondary">Description</h5>
-              <p>{{ selectedUser.description }}</p>
-            </div>
-            <div class="border border-primary p-3 mt-4">
-              <h5 class="text-body-secondary">Work Experience</h5>
-              <p>{{ selectedUser.workExperience }}</p>
+              <p style="max-height: 8rem; overflow-y: auto;">{{ selectedUser.Description }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-</app-modal>
+  </app-modal>
   
-
