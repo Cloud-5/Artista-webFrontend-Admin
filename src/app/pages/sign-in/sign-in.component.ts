@@ -21,11 +21,6 @@ export class SignInComponent{
     });
   }
 
-  expired:any = localStorage.getItem('expired');
-  if(expired = 'true'){
-    this.alertService.showMessage('Your session has expired. Please log in again.',false);
-  }
-
   signIn() {
     if (this.loginForm?.valid) {
       const email = this.loginForm.get('email')?.value;
@@ -36,7 +31,6 @@ export class SignInComponent{
             if(typeof window !== undefined){
               localStorage.setItem('accessToken', response.accessToken);
               localStorage.setItem('admin_id', response.admin_id);
-              localStorage.removeItem('expired');
             }
             this.router.navigate(['/dashboard'])
           },
