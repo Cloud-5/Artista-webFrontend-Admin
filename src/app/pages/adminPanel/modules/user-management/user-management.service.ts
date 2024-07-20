@@ -16,8 +16,16 @@ export class UserManagementService {
     return this.http.get<any>(`${this.apiUrl}/`);
   }
 
-  getUserDetails(userId: string, role:string): Observable<any> {
+  getUserDetails(userId: string, role:string): Observable<any> {  
     return this.http.get<any>(`${this.apiUrl}/${userId}/${role}`);
+  }
+
+  rankArtist(userId:string):Observable<any>{
+    return this.http.put<any>(`${this.apiUrl}/rank/${userId}`, {});
+  }
+
+  unrankArtist(userId:string):Observable<any>{
+    return this.http.put<any>(`${this.apiUrl}/unrank/${userId}`, {});
   }
 
   deleteAccount(userId: string): Observable<any> {

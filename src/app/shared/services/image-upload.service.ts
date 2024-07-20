@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders  } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +7,18 @@ import { HttpClient } from '@angular/common/http';
 export class ImageUploadService {
   constructor(private http: HttpClient) {}
 
-  imageUpload(imageForm: FormData) {
-    return this.http.post('http://localhost:3001/upload', imageForm);
+  imageUpload(imageForm: FormData,folder: string, uploadType: string) {
+    console.log('imageForm in service:', imageForm);
+    const formDataEntries = imageForm as any;
+    for (let pair of formDataEntries.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+    const headers = new HttpHeaders({
+      'uploadType': uploadType,
+      'folder': folder
+    });
+    console.log('header', headers);
+    return this.http.post('http://localhost:3001/upload', imageForm,{headers: headers});
   }
 
   removeImage(key: any) {

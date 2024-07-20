@@ -74,9 +74,10 @@ export class ArtistRequestsComponent implements OnInit {
       () => {
         this.fetchArtistData();
         this.alertService.showMessage('Artist account deleted successfully', true);
+        this.modalService.close('modal-deleteConfirm')
       }, (error) => {
         this.alertService.showMessage('Error deleting artist account', false, error.message);
-      
+        this.modalService.close('modal-deleteConfirm')
       });
   }
 

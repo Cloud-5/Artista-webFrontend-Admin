@@ -1,7 +1,10 @@
-import { Component, OnInit, AfterViewInit,ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit,ChangeDetectionStrategy, HostListener } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { DashboardService } from './dashboard.service';
 import { revenueDistribution } from './chartData';
+import { AlertService } from '../../../../shared/services/alert.service';
+import { ModalService } from '../../../../shared/services/modal.service';
+import { UserManagementService } from '../user-management/user-management.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +27,24 @@ export class DashboardComponent implements AfterViewInit {
   appArtist:number | undefined;
   regCustomers: number | undefined
 
-  constructor(private dashboardService: DashboardService) {}
+  trendingArtists: any[] = [];
+  trendingArtworks: any[] = [];
+  topCustomers:any[] = [];
+
+  isLoading: boolean = true;
+  currentIndex = 0;
+  itemWidth = 25;
+  gap = 10;
+
+  currentIndex1 = 0;
+  itemWidth1 = 20;
+  gap1 = 10;
+
+  selectedUser: any = {};
+  socialLinks: any[] = [];
+  rank:number = 0;
+
+  constructor(private dashboardService: DashboardService, private alertService: AlertService,public modalService: ModalService,private userManagementService: UserManagementService) {}
 
 
   ngAfterViewInit(): void {
@@ -35,26 +55,39 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   private getDashboardData(): void {
+    this.isLoading = true;
     this.dashboardService.getDashboardData().subscribe((data) => {
       this.chartData = data;
       this.totalUsers = data.numRegisteredUsers;
       this.totalcreations = this.chartData.numUploadedCreations;
       this.appArtist = this.chartData.numApprovedArtists;
       this.regCustomers = this.chartData.numRegisteredCustomers;
-      console.log(this.chartData);
+      this.trendingArtists = this.chartData.trendingArtists[0];
+      this.trendingArtworks = this.chartData.trendingArts[0];
+      this.topCustomers = this.chartData.topCustomers[0];
+      console.log('topCustomers',this.topCustomers);
       this.createChartLine(data);
-    });
+      this.isLoading = false;
+    }, (error) => {
+      this.alertService.showMessage('An error occurred while fetching dashboard data', false, error.message);
+      this.isLoading = false;
+    }
+  );
   }
 
   private getCategorydist(): void {
+    this.isLoading = true;
     this.dashboardService.getDashboardData().subscribe((data) => {
       this.createChartColumn(data);
+      this.isLoading = false;
     });
   }
 
   private getCategoryPref(): void {
+    this.isLoading = true;
     this.dashboardService.getDashboardData().subscribe((data) => {
       this.createChartStack(data);
+      this.isLoading = false;
     });
   }
 
@@ -228,4 +261,134 @@ export class DashboardComponent implements AfterViewInit {
       Highcharts.chart(chart.chartId, chart.chartData as Highcharts.Options);
     });
   }
+
+  next() {
+    if (this.currentIndex < this.trendingArtists.length - (100 / this.itemWidth)) {
+      this.currentIndex++;
+    } else {
+      this.currentIndex = 0;
+    }
+    this.updateCarousel();
+  }
+
+  prev() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+    } else {
+      this.currentIndex = this.trendingArtists.length - (100 / this.itemWidth);
+    }
+    this.updateCarousel();
+  }
+
+  updateCarousel() {
+    const carousel = document.querySelector('.carousel') as HTMLElement;
+    const gapAdjustment = (this.gap / window.innerWidth) * 100;
+    const translateValue = -(this.currentIndex * (this.itemWidth + gapAdjustment));
+    carousel.style.transform = `translateX(${translateValue}%)`;
+  }
+
+  updateItemWidth() {
+    const width = window.innerWidth;
+    if (width >= 1200) {
+      this.itemWidth = 25;
+    } else if (width >= 992 && width < 1200) {
+      this.itemWidth = 33.33;
+    } else if (width >= 768 && width < 992) {
+      this.itemWidth = 50;
+    } else {
+      this.itemWidth = 100;
+    }
+    this.updateCarousel();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.updateItemWidth();
+    this.updateItemWidth1();
+  }
+
+  openUserDetailsModal(userId:string, role:string): void {
+    console.log('id',userId,role)
+    this.userManagementService.getUserDetails(userId, role).subscribe(
+      (response: any) => {
+        console.log('response',response);
+        this.selectedUser = response.userDetails[0];
+        console.log('selected',this.selectedUser);
+        if(role === 'artist'){
+          this.socialLinks = response.socialAccounts[0];
+          this.rank = response.rank.featured;
+        }
+      },
+      (error) => {
+        console.error('Error fetching user details:', error);
+      }
+    );
+    this.modalService.open('modal-userDetails');
+  }
+
+  updateFeaturedStatus(user_id:string){
+    console.log('User ID:', user_id,'rank',this.rank);
+
+    if(this.rank === 0){
+      this.userManagementService.rankArtist(user_id).subscribe(
+        (response) => {
+          console.log('Artist ranked successfully:', response);
+        },
+        (error) => {
+          console.error('Error ranking artist:', error);
+        }
+      );
+      this.rank = 1;
+    } else {
+      this.userManagementService.unrankArtist(user_id).subscribe(
+        (response) => {
+          console.log('Artist unranked successfully:', response);
+        },
+        (error) => {
+          console.error('Error unranking artist:', error);
+        }
+      );
+      this.rank = 0;
+    }
+  }
+  updateItemWidth1() {
+    const windowWidth = window.innerWidth;
+
+    if (windowWidth >= 1200) {
+      this.itemWidth1 = 20;
+    } else if (windowWidth >= 992) {
+      this.itemWidth1 = 25; 
+    } else if (windowWidth >= 768) {
+      this.itemWidth1 = 33.33; 
+    } else if (windowWidth >= 576) {
+      this.itemWidth1 = 50; 
+    } else {
+      this.itemWidth1 = 100; 
+    }
+    this.updateCarousel1();
+  }
+
+  prev1(){
+    if(this.topCustomers.length > 0){
+      this.currentIndex1--;
+    } else {
+      this.currentIndex1 = this.topCustomers.length - (100 / this.itemWidth1)
+    }
+    this.updateCarousel1();
+  }
+  next1(){
+    if(this.currentIndex1 < this.topCustomers.length - (100 / this.itemWidth1)){
+      this.currentIndex1++;
+    } else {
+      this.currentIndex1 = 0;
+    }
+    this.updateCarousel1();
+  }
+  updateCarousel1(){
+    const carousel = document.querySelector('.carousel1') as HTMLElement;
+    const gapAdjustment = (this.gap1 / window.innerWidth) * 100;
+    const translateValue = -(this.currentIndex1 * (this.itemWidth1 + gapAdjustment));
+    carousel.style.transform = `translateX(${translateValue}%)`;
+  }
 }
+

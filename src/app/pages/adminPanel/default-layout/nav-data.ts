@@ -18,10 +18,5 @@ export const navbarData = [
         routeLink: '/admin/user-management',
         icon: 'bi bi-person-fill-gear',
         label: 'User Management'
-    },
-    {
-        routeLink: '/admin/artist-rank',
-        icon: 'bi bi-award-fill',
-        label: 'Artist Ranking'
     }
 ];

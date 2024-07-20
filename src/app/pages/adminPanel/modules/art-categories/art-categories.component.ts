@@ -22,7 +22,8 @@ export class ArtCategoriesComponent implements OnInit {
     description: '',
     margin: '',
     formats: [],
-    banner: ''
+    banner: '',
+    is3D: false
   };
 
   selectedCategory: any = {
@@ -31,14 +32,17 @@ export class ArtCategoriesComponent implements OnInit {
     description: '',
     margin: '',
     formats: [],
-    banner: ''
+    banner: '',
+    is3D: false
   };
+  is3DFilter: boolean = false;
 
   newFormat: string = '';
 
   editingCategoryIndex: number | null = null;
 
   searchedCategory: any[] = this.categoryData;
+  isLoading: boolean = true;
 
   constructor(
     public modalService: ModalService,
@@ -68,14 +72,18 @@ export class ArtCategoriesComponent implements OnInit {
 
 
   loadCategories(): void {
+    this.isLoading = true; 
     this.artCategoriesService.getAllCategories().subscribe(
       (data: any) => {
-        this.categoryData = data;
-        this.searchedCategory = this.categoryData;
-
+        setTimeout(() => {
+          this.categoryData = data;
+          this.searchedCategory = this.categoryData;
+          this.isLoading = false; 
+        }, 2000);
       },
       (error) => {
         this.alertService.showMessage('Error loading categories', false, error.message);
+        this.isLoading = false;
       }
     );
   }
@@ -85,10 +93,10 @@ export class ArtCategoriesComponent implements OnInit {
     this.imageObj = FILE;
   }
 
-  onImageUpload() {
+  onImageUpload(folder: string, uploadType: string) {
     const imageForm = new FormData();
     imageForm.append('image', this.imageObj as Blob);
-    this.imageUploadService.imageUpload(imageForm).subscribe(
+    this.imageUploadService.imageUpload(imageForm, folder, uploadType).subscribe(
       (res: any) => {
         this.imageUrl = res.image.location;
         this.newCategory.banner = this.imageUrl;
@@ -113,9 +121,14 @@ export class ArtCategoriesComponent implements OnInit {
     }
   }
 
+  on3DChange(event: any) {
+    this.newCategory.is3D = event.target.checked ? 1 : 0;
+  }
+
   async addCategory(): Promise<void> {
     try {
       const response = await this.artCategoriesService.createCategory(this.newCategory).toPromise();
+      console.log('new cat',this.newCategory);
       this.categoryData.push(response);
       this.loadCategories();
       this.newCategory = {
@@ -123,7 +136,8 @@ export class ArtCategoriesComponent implements OnInit {
         description: '',
         margin: '',
         formats: [],
-        banner: ''
+        banner: '',
+        is3D: false
       };
       this.modalService.close('modal-addCategory');
       this.alertService.showMessage('Category created successfully', true);
@@ -260,10 +274,10 @@ export class ArtCategoriesComponent implements OnInit {
     }
   }
 
-  newImageUpload() {
+  newImageUpload(folder: string, uploadType: string) {
     const imageForm = new FormData();
     imageForm.append('image', this.imageObj as Blob);
-    this.imageUploadService.imageUpload(imageForm).subscribe((res: any) => {
+    this.imageUploadService.imageUpload(imageForm,folder,uploadType).subscribe((res: any) => {
       this.imageUrl = res.image.location;
       this.selectedCategory.banner = this.imageUrl;
       this.alertService.showMessage('Image uploaded successfully', true);
@@ -276,11 +290,19 @@ export class ArtCategoriesComponent implements OnInit {
 
     if (searchKeyword === '') {
       this.searchedCategory = this.categoryData;
-      //return;
     } else {
       this.searchedCategory = this.categoryData.filter(category =>
         category.name.toLowerCase().includes(searchKeyword)
       );
     }
+
+    if (this.is3DFilter) {
+      this.searchedCategory = this.searchedCategory.filter(category => category.is3D);
+    }
+  }
+  toggle3DFilter(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.is3DFilter = checkbox.checked;
+    this.searchCategoryByName((document.querySelector('input[type="search"]') as HTMLInputElement).value);
   }
 }

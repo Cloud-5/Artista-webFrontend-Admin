@@ -27,6 +27,11 @@ export class UserManagementComponent implements OnInit {
   searchedBanAccounts: any[] =  this.bannedAccounts;
 
   socialLinks: any[] = [];
+  rank:number = 0;
+
+  currentPage = 0;
+  searchKeyword = '';
+  allDataLoaded: boolean = false;
 
   constructor(
     public modalService: ModalService,
@@ -52,10 +57,6 @@ export class UserManagementComponent implements OnInit {
       this.searchedRegcustomers = this.registeredCustomers;
       this.searchedDelAccounts = this.deletedAccounts;
       this.searchedBanAccounts = this.bannedAccounts;
-      console.log('approved artist', this.approvedArtists);
-      console.log('registered customers', this.registeredCustomers);
-      console.log('deleted accounts', this.deletedAccounts);
-      console.log('banned accounts', this.bannedAccounts);
     });
   }
 
@@ -75,7 +76,6 @@ export class UserManagementComponent implements OnInit {
 
   openBanModal(user: any): void {
     this.selectedUser = { ...user };
-    console.log('Selected user:', user);
     this.modalService.open('modal-banUser');
   }
 
@@ -104,16 +104,16 @@ export class UserManagementComponent implements OnInit {
   }
 
   openUserDetailsModal(userId:string, role:string): void {
-    console.log('User ID:', userId, 'Role:', role);
+    console.log('id',userId,role)
     this.userManagementService.getUserDetails(userId, role).subscribe(
       (response: any) => {
         console.log('response',response);
         this.selectedUser = response.userDetails[0];
+        console.log('selected',this.selectedUser);
         if(role === 'artist'){
           this.socialLinks = response.socialAccounts[0];
-          console.log('Social links:', this.socialLinks);
+          this.rank = response.rank.featured;
         }
-        console.log('Selected user:', this.selectedUser);
       },
       (error) => {
         console.error('Error fetching user details:', error);
@@ -122,20 +122,8 @@ export class UserManagementComponent implements OnInit {
     this.modalService.open('modal-userDetails');
   }
 
-  searchApprovedArtists(searchTerm: string): void {
-    searchTerm = searchTerm.toLowerCase().trim();
-    if (searchTerm === '') {
-      this.searchedAppArtists = this.approvedArtists;
-    } else {
-      this.searchedAppArtists = this.approvedArtists.filter(
-        artist =>
-          artist.fName.toLowerCase().includes(searchTerm)
-          || artist.LName.toLowerCase().includes(searchTerm)
-          || artist.profession.toLowerCase().includes(searchTerm)
-          || artist.location.toLowerCase().includes(searchTerm)
-        
-      );
-    }
+  searchApprovedArtists(): void {
+      
   }
 
   searchRegisteredCustomers(searchTerm: string): void {
@@ -177,6 +165,33 @@ export class UserManagementComponent implements OnInit {
           || account.LName.toLowerCase().includes(searchTerm)
           || account.location.toLowerCase().includes(searchTerm)
       );
+    }
+  }
+
+
+  updateFeaturedStatus(user_id:string){
+    console.log('User ID:', user_id,'rank',this.rank);
+
+    if(this.rank === 0){
+      this.userManagementService.rankArtist(user_id).subscribe(
+        (response) => {
+          console.log('Artist ranked successfully:', response);
+        },
+        (error) => {
+          console.error('Error ranking artist:', error);
+        }
+      );
+      this.rank = 1;
+    } else {
+      this.userManagementService.unrankArtist(user_id).subscribe(
+        (response) => {
+          console.log('Artist unranked successfully:', response);
+        },
+        (error) => {
+          console.error('Error unranking artist:', error);
+        }
+      );
+      this.rank = 0;
     }
   }
 }

@@ -114,12 +114,12 @@
         <a class="nav-link" data-bs-toggle="tab" href="#banned" aria-selected="false" tabindex="-1" role="tab">Banned
             Accounts</a>
     </li>
-
+ 
     <div id="myTabContent" class="tab-content" style="width: 100%;">
         <div class="tab-pane fade show active" id="artist" role="tabpanel">
             <form class="d-flex">
-                <input #searchTerm1 (keyup)="searchApprovedArtists(searchTerm1.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
-                    placeholder="Search Artist">
+                <input id="search-input" (keyup.enter)="searchApprovedArtists()" class="form-control me-sm-2 border border-primary" type="search"
+                    placeholder="Search Artist" aria-label="Search Artists" aria-describedby="search-button" [(ngModel)]="searchKeyword">
             </form>
             <div class="container mt-4">
                 <div class="row">
@@ -131,7 +131,7 @@
                             <div class="card-body d-flex flex-column flex-grow-1">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="artist-info">
-                                        <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }}</h5>
+                                        <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }} <span *ngIf="user.featured===1" class="badge bg-primary fw-light ms-2 mb-2" style="border-radius: 2px; font-size: 10px;">Featured</span> </h5>
                                         <p class="card-text mb-0 text-muted">{{ user.profession }}</p>
                                         <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }} | {{ user.location }}</p>
                                         <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id,user.role)" style="cursor:pointer;">More Details</p>
@@ -315,9 +315,19 @@
                     <li class="list-group-item"><strong>Applied Date:</strong> {{ selectedUser.RegistrationDate | date: 'short' }}</li>
                   </ul>
                 </div>
+                <div *ngIf="selectedUser.Role === 'artist'">
+                    <p *ngIf="rank===0" class="fw-light mb-0 mt-2">This artist is currently not featured in Artista</p>
+                    <p *ngIf="rank===1" class="fw-light mb-0 mt-2">This artist is currently featured in Artista</p>
+                </div>
+                <button *ngIf="selectedUser.Role === 'artist'"
+                    class="btn mt-3" 
+                    [ngClass]="{'btn-primary': rank===0, 'btn-success': rank===1}" 
+                    (click)="updateFeaturedStatus(selectedUser.UserID)">
+                    {{ rank===1 ? 'Featured' : 'Feature' }}
+                </button>
               </div>
             </div>
-            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.role === 'artist'">
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role === 'artist'">
               <h5 class="text-body-secondary">User Metrics</h5>
               <div class="row">
                 <div class="col-md-6">
@@ -339,7 +349,7 @@
                 </div>
               </div>
             </div>
-            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.role === 'customer' || 'Customer'">
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role != 'artist' ">
                 <h5 class="text-body-secondary">User Metrics</h5>
                 <div class="row">
                     <div class="col-md-6">
@@ -361,7 +371,7 @@
                     </div>
                   </div>
             </div>
-            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.role === 'artist'">
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role === 'artist'">
               <h5 class="text-body-secondary">On the Web</h5>
               <div class="row">
                 <div class="col-md-12">

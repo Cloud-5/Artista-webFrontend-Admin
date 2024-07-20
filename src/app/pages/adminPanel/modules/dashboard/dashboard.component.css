@@ -34,15 +34,14 @@
         margin-right: 10px;
         margin-bottom: 10px;
         padding: 8px 12px;
-        background-color: #007BFF;
+        background-color: #0b0950;
         color: #fff;
-        border-radius: 50px;
-        cursor: pointer;
+        border-radius: 5px;
         transition: background-color 0.3s;
     }
 
     li:hover{
-        background-color: #0056b3;
+        background-color: #080636;
     }
 }
 
@@ -60,3 +59,241 @@
     border: 1px solid #bebebe;
     border-radius: 5px;
 }
+
+.custom-spinner {
+    width: 1.5rem; 
+    height: 1.5rem;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-top: 2px solid #888888;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block; 
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .banner {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .banner-img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+  }
+  
+  .profile-photo {
+    margin-top: -150px;
+  }
+  
+  .profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    object-fit: cover;
+  }
+
+  .badge1 {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ff5722;
+  color: black;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  border: 1px solid #fff;
+}
+
+.editor-choice {
+  background-color: gold;
+}
+  
+  .artist-info {
+    padding: 10px;
+  }
+  
+  .artist-info h3 {
+    margin: 10px 0;
+    font-size: 1.5em;
+  }
+  
+
+  .profession, .location {
+    margin: 5px 0;
+    color: #777;
+  }
+  
+  .artist-stats {
+    display: flex;
+    justify-content: space-around;
+    background: #f9f9f9;
+  }
+  
+  .stat-block {
+    flex: 1;
+    padding:0 10px;
+  }
+  
+  .stat-block p:first-child {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  /* dfd */
+  .carousel-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+  }
+  
+  .carousel {
+    display: flex;
+    gap: 16px;
+    transition: transform 0.5s ease-in-out;
+  }
+  .carousel-container1 {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin:0;
+  }
+  
+  .carousel1 {
+    display: flex;
+    gap: 16px;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .card3 {
+    min-width: 12%;
+    box-sizing: border-box;
+    background-color: white;
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+  }
+  .profile-photo1 {
+    margin-top: 10px;
+  }
+  .profile-img1{
+    width: 100%;
+    height: 160px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  
+  .card2 {
+    min-width: 25%;
+    box-sizing: border-box;
+    background-color: white;
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  .banner {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .title, .details {
+    padding: 10px;
+  }
+  
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .prev {
+    left: 15px;
+  }
+  
+  .next {
+    right: 15px;
+  }
+  .prev:hover{
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  .next:hover{
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .no-data {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: gray;
+  }
+
+  @media (min-width: 1200px) {
+    .card2 {
+      min-width: calc(25% - 12px);
+    }
+    .card3 {
+      min-width: calc(20% - 12px);
+    }
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .card2 {
+      min-width: calc(33.33% - 10.67px);
+    }
+    .card3 {
+      min-width: calc(25% - 10px);
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .card2 {
+      min-width: calc(50% - 8px);
+    }
+    .card3 {
+      min-width: calc(33.33% - 8px); 
+    }
+  }
+  @media (min-width: 576px) and (max-width: 767px) {
+    .card3 {
+      min-width: calc(50% - 6px); 
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .card2 {
+      min-width: calc(100% - 0px);
+    }
+  }
+  @media (max-width: 575px) {
+    .card3 {
+      min-width: calc(100% - 4px);
+    }
+  }

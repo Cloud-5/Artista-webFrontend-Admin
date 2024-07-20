@@ -82,6 +82,7 @@ export class DefaultLayoutComponent implements OnInit{
   loadAdminDetails(adminId: string): void {
     this.layoutService.getAdminDetails(adminId).subscribe(
       (data:any) => {
+        console.log('Admin details', data);
         this.adminDetails = data.admin;
         this.profilePictureUrl = data.admin.profile_photo || ''; 
         this.passwordDetails.currentPassword = data.admin.password;
@@ -153,10 +154,11 @@ export class DefaultLayoutComponent implements OnInit{
     const FILE = (event.target as HTMLInputElement).files?.[0];
     this.imageObj = FILE;
   }
-  newImageUpload() {
+  newImageUpload(folder:string, uploadType:string) {
     const imageForm = new FormData();
     imageForm.append('image', this.imageObj as Blob);
-    this.imageUploadService.imageUpload(imageForm).subscribe((res: any) => {
+    
+    this.imageUploadService.imageUpload(imageForm, folder, uploadType).subscribe((res: any) => {
       this.adminDetails.profile_photo = res.image.location;
       this.alertService.showMessage('Image uploaded successfully', true);
     });

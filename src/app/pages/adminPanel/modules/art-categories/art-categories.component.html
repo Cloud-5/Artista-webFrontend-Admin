@@ -8,20 +8,21 @@
       <div class="card-body">
         <div class="row">
           <div class="col-6">
-            <div
-              class="avatar-lg rounded-circle d-flex justify-content-center align-items-center"
-            >
-              <img
-                src="../../../../../assets/icons/category-2-svgrepo-com.svg"
-                alt="Category"
-                class="top-logo"
-              />
+            <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
+              <img src="../../../../../assets/icons/category-2-svgrepo-com.svg" alt="Category" class="top-logo" />
             </div>
           </div>
           <div class="col-6">
             <div class="text-end">
               <h3 class="text-dark mt-1">
-                <span data-plugin="counterup">{{ categoryData.length }}</span>
+                <ng-container *ngIf="!isLoading; else loadingSpinner">
+                  <span data-plugin="counterup">{{ categoryData.length }}</span>
+                </ng-container>
+                <ng-template #loadingSpinner>
+                  <div class="custom-spinner" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </ng-template>
               </h3>
               <p class="text-muted mb-1 text-truncate">Total Categories</p>
             </div>
@@ -32,72 +33,81 @@
   </div>
 </div>
 
+
+
 <div class="details">
   <h4 style="margin: 30px 0 10px 0">Edit / Add Category</h4>
-  <form class="row g-3 align-items-center">
-    <div class="col-12 col-md-9 col-lg-10">
+  <form class="row g-2 align-items-center">
+    <div class="col-12 col-md-7 col-lg-6">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text border-0">
-            <img
-              src="../../../../../assets/icons/search-alt-2-svgrepo-com.svg"
-              alt="Search Icon"
-              style="width: 30px;"
-            />
+            <img src="../../../../../assets/icons/search-alt-2-svgrepo-com.svg" alt="Search Icon" style="width: 30px;" />
           </span>
         </div>
-        <input
-          #searchKeyword
-          (keyup)="searchCategoryByName(searchKeyword.value)"
-          class="form-control border-2 border-primary"
-          type="search"
-          placeholder="Search Category"
-        />
+        <input #searchKeyword (keyup)="searchCategoryByName(searchKeyword.value)" class="form-control border-2 border-primary" type="search" placeholder="Search Category" />
       </div>
     </div>
-    <div class="col-12 col-md-3 col-lg-2 text-center">
-      <button
-        class="btn1 w-100"
-        (click)="modalService.open('modal-addCategory')"
-      >
+    <div class="col-6 col-md-3 col-lg-3 text-center bg-light btn">
+      <div class="form-check form-check-inline custom-checkbox">
+        <input class="form-check-input" type="checkbox" id="filter3D" (change)="toggle3DFilter($event)">
+        <label class="form-check-label" for="filter3D">3D Categories</label>
+      </div>
+    </div>
+    <div class="col-6 col-md-2 col-lg-3 text-center">
+      <button class="btn btn-dark w-100" (click)="modalService.open('modal-addCategory')">
         New Category
       </button>
     </div>
   </form>
   
-    <div class="container mt-2 mb-2">
-        <div class="row">
-          <div class="col-md-6 col-lg-4 mb-4" *ngFor="let card of searchedCategory">
-            <div class="card border-0 rounded" style="height: 500px;">
-              <img src="{{card.banner}}" class="card-img-top rounded-bottom" alt="Banner" style="object-fit: cover; height: 200px;">
-              <div class="card-body d-flex flex-column">
-                <h6 class="card-title text-center border-bottom border-dark pb-2">{{card.name}}</h6>
-                <p class="card-text flex-grow-1 overflow-auto" style="font-size: smaller; color: rgb(96, 96, 96); max-height: 100px;">
-                  {{card.description}}
-                </p>
-              </div>
-              <div class="p-3 mb-2" style="background: #C3E4FF;">
-                <div>Total Creations: {{card.totalArtworks}}</div>
-                <div>Margin: {{card.margin}}</div>
-                  File Types:
-                  <span *ngFor="let format of card.formats; let last = last">
-                    {{ format.format_name }}{{ !last ? ', ' : '' }}
-                  </span>
-                </div>
-              </div>
-              <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center p-3">
-                <button class="btn btn-danger btn-sm" (click)="openDeleteConfirm(card)">
-                  <i class="bi bi-trash3-fill"></i>
-                </button>
-                <button class="btn btn-primary btn-sm" (click)="openEditModal(card)">
-                  <i class="bi bi-pencil-fill"></i>
-                </button>
-              </div>
-            </div>
+  <div *ngIf="isLoading" class="loading-screen">
+    <div class="spinner"></div>
+    <p>Loading categories...</p>
+  </div>
+  
+
+  <div *ngIf="!isLoading" class="mt-2 mb-2" style="margin-right: 0; margin-left: 0;">
+    <div class="row">
+      <div *ngIf="searchedCategory.length === 0" class="col-12 text-center" style="height: 100vh;margin-top: 50px;">
+        <p class="nothing">No categories found</p>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-4" *ngFor="let card of searchedCategory">
+        <div class="card border-0 rounded" style="height: 500px;">
+          <div *ngIf="card.is3D" class="position-absolute top-0 bg-primary text-white p-2 rounded-bottom" style="right: 2%;">
+            3D
           </div>
+          <img src="{{card.banner}}" class="card-img-top rounded-bottom" alt="Banner"
+            style="object-fit: cover; height: 200px;">
+          <div class="card-body d-flex flex-column">
+            <h6 class="card-title text-center border-bottom border-dark pb-2">{{card.name}}</h6>
+            <p class="card-text flex-grow-1 overflow-auto"
+              style="font-size: smaller; color: rgb(96, 96, 96); max-height: 100px;">
+              {{card.description}}
+            </p>
+          </div>
+          <div class="p-3 mb-2" style="background: #C3E4FF;">
+            <div>Total Creations: {{card.totalArtworks}}</div>
+            <div>Margin: {{card.margin}}</div>
+            File Types:
+            <span *ngFor="let format of card.formats; let last = last">
+              {{ format.format_name }}{{ !last ? ', ' : '' }}
+            </span>
+          </div>
+        </div>
+        <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center p-3">
+          <button class="btn btn-danger btn-sm" (click)="openDeleteConfirm(card)">
+            <i class="bi bi-trash3-fill"></i>
+          </button>
+          <button class="btn btn-primary btn-sm" (click)="openEditModal(card)">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-      
+
 <app-modal id="modal-addCategory">
   <div class="new-modal">
     <div class="new-modal-body">
@@ -110,202 +120,107 @@
         <div class="modal-body">
           <form #categoryForm="ngForm" (ngSubmit)="addCategory()">
             <div class="mb-3">
-              <label for="categoryImage" class="form-label mt-4"
-                >Category Image</label
-              >
-              <input
-                type="file"
-                class="form-control"
-                id="categoryImage"
-                placeholder="Category Image"
-                name="image"
-                (change)="onFileSelected($event)"
-              />
-              <button
-                (click)="onImageUpload()"
-                class="btn btn-primary"
-                style="margin-top: 10px; margin-right: 10px"
-                type="button"
-              >
+              <label for="categoryImage" class="form-label mt-4">Category Image</label>
+              <input type="file" class="form-control" id="categoryImage" placeholder="Category Image" name="image"
+                (change)="onFileSelected($event)" />
+              <button (click)="onImageUpload('categoryBanners', 'categoryBanner')" class="btn btn-primary" style="margin-top: 10px; margin-right: 10px"
+                type="button">
                 Upload Image
               </button>
-              <button
-                *ngIf="imageUrl"
-                (click)="removeImage()"
-                class="btn btn-danger"
-                style="margin-top: 10px; margin-right: 10px"
-                type="button"
-              >
+              <button *ngIf="imageUrl" (click)="removeImage()" class="btn btn-danger"
+                style="margin-top: 10px; margin-right: 10px" type="button">
                 Remove
               </button>
             </div>
             <div class="mb-2">
               <label for="categoryName" class="form-label">Category Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="categoryName"
-                placeholder="Category Name"
-                [(ngModel)]="newCategory.name"
-                name="name"
-                required
-                #name="ngModel"
-                [ngClass]="{
+              <input type="text" class="form-control" id="categoryName" placeholder="Category Name"
+                [(ngModel)]="newCategory.name" name="name" required #name="ngModel" [ngClass]="{
                   'border-danger': name.invalid && (name.dirty || name.touched)
-                }"
-              />
-              <div
-                *ngIf="name.invalid && (name.dirty || name.touched)"
-                class="alert"
-              >
-                <div
-                  *ngIf="name.errors?.['required']"
-                  class="text-danger lead fs-6"
-                >
+                }" />
+              <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert">
+                <div *ngIf="name.errors?.['required']" class="text-danger lead fs-6">
                   Category Name is required
                 </div>
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="categoryDescription" class="form-label"
-                >Category Description</label
-              >
-              <textarea
-                class="form-control"
-                id="categoryDescription"
-                rows="3"
-                placeholder="Category Description"
-                [(ngModel)]="newCategory.description"
-                name="description"
-                required
-                #description="ngModel"
-                [ngClass]="{
+              <label for="categoryDescription" class="form-label">Category Description</label>
+              <textarea class="form-control" id="categoryDescription" rows="3" placeholder="Category Description"
+                [(ngModel)]="newCategory.description" name="description" required #description="ngModel" [ngClass]="{
                   'border-danger':
                     description.invalid &&
                     (description.dirty || description.touched)
-                }"
-              ></textarea>
-              <div
-                *ngIf="
+                }"></textarea>
+              <div *ngIf="
                   description.invalid &&
                   (description.touched || description.dirty)
-                "
-                class="alert"
-              >
-                <div
-                  *ngIf="description.errors?.['required']"
-                  class="text-danger lead fs-6"
-                >
+                " class="alert">
+                <div *ngIf="description.errors?.['required']" class="text-danger lead fs-6">
                   Category Description is required
                 </div>
               </div>
             </div>
             <div class="mb-3">
               <label for="categoryMargin" class="form-label">Margin</label>
-              <input
-                type="text"
-                class="form-control"
-                id="categoryMargin"
-                placeholder="Margin"
-                [(ngModel)]="newCategory.margin"
-                name="margin"
-                required
-                pattern="^\d+(\.\d{1,2})?$"
-                #margin="ngModel"
+              <input type="text" class="form-control" id="categoryMargin" placeholder="Margin"
+                [(ngModel)]="newCategory.margin" name="margin" required pattern="^\d+(\.\d{1,2})?$" #margin="ngModel"
                 [ngClass]="{
                   'border-danger':
                     margin.invalid && (margin.dirty || margin.touched)
-                }"
-              />
-              <div
-                *ngIf="margin.invalid && (margin.touched || margin.dirty)"
-                class="alert"
-              >
-                <div
-                  *ngIf="margin.errors?.['required']"
-                  class="text-danger lead fs-6"
-                >
+                }" />
+              <div *ngIf="margin.invalid && (margin.touched || margin.dirty)" class="alert">
+                <div *ngIf="margin.errors?.['required']" class="text-danger lead fs-6">
                   Margin is required
                 </div>
-                <div
-                  *ngIf="margin.errors?.['pattern']"
-                  class="text-danger lead fs-6"
-                >
+                <div *ngIf="margin.errors?.['pattern']" class="text-danger lead fs-6">
                   Invalid format
                 </div>
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="categoryFileTypes" class="form-label"
-                >File Types</label
-              >
+              <label for="categoryFileTypes" class="form-label">File Types</label>
               <div class="d-flex flex-wrap">
-                <span
-                  *ngFor="let format of newCategory.formats; let i = index"
-                  class="badge bg-primary"
-                  style="margin-bottom: 5px; margin-right: 5px"
-                >
+                <span *ngFor="let format of newCategory.formats; let i = index" class="badge bg-primary"
+                  style="margin-bottom: 5px; margin-right: 5px">
                   {{ format.format_name }}
-                  <button
-                    type="button"
-                    class="btn-close"
-                    aria-label="Close"
-                    (click)="removeFormat(i)"
-                  ></button>
+                  <button type="button" class="btn-close" aria-label="Close" (click)="removeFormat(i)"></button>
                 </span>
               </div>
               <div class="input-group mt-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Add Format"
-                  [(ngModel)]="newFormat"
-                  name="newFormat"
-                  required
-                  #formatInput="ngModel"
-                />
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  (click)="addNewFormat()"
-                  [disabled]="formatInput.invalid"
-                >
+                <input type="text" class="form-control" placeholder="Add Format" [(ngModel)]="newFormat"
+                  name="newFormat" required #formatInput="ngModel" />
+                <button class="btn btn-primary" type="button" (click)="addNewFormat()" [disabled]="formatInput.invalid">
                   Add
                 </button>
               </div>
-              <div
-                *ngIf="
+              <div *ngIf="
                   newCategory.formats.length === 0 &&
                   (formatInput.touched || formatInput.dirty) &&
                   formatInput.invalid
-                "
-                class="alert alert-danger mt-2 p-2"
-              >
+                " class="alert alert-danger mt-2 p-2">
                 At least one format is required.
               </div>
             </div>
 
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="category3D" [(ngModel)]="newCategory.is3D" name="is3D" (change)="on3DChange($event)">
+              <label class="form-check-label" for="category3D">3D</label>
+            </div>
+
             <div class="modal-footer d-flex justify-content-between">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-                (click)="this.modalService.close('modal-addCategory')"
-              >
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                (click)="this.modalService.close('modal-addCategory')">
                 Close
               </button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="
+              <button type="submit" class="btn btn-primary" [disabled]="
                   name.invalid ||
                   description.invalid ||
                   margin.invalid ||
                   newCategory.formats.length === 0
-                "
-              >
+                ">
                 Save changes
               </button>
             </div>
@@ -328,217 +243,117 @@
         <div class="modal-body">
           <form #editCategoryForm="ngForm" (ngSubmit)="updateCategory()">
             <div class="mb-3">
-              <label for="editCategoryBanner" class="form-label mt-4 w-100"
-                >Category Banner</label
-              >
-              <button
-                *ngIf="selectedCategory.banner"
-                (click)="removeExistingImage()"
-                class="btn btn-danger"
-                style="margin-top: 5px; margin-right: 10px"
-                type="button"
-              >
+              <label for="editCategoryBanner" class="form-label mt-4 w-100">Category Banner</label>
+              <button *ngIf="selectedCategory.banner" (click)="removeExistingImage()" class="btn btn-danger"
+                style="margin-top: 5px; margin-right: 10px" type="button">
                 Remove
               </button>
             </div>
             <div *ngIf="!selectedCategory.banner">
-              <input
-                type="file"
-                class="form-control"
-                id="categoryImage"
-                placeholder="Category Image"
-                name="image"
-                (change)="onFileSelected($event)"
-              />
-              <button
-                (click)="newImageUpload()"
-                class="btn btn-primary"
-                style="margin-top: 10px; margin-right: 10px"
-                type="button"
-              >
+              <input type="file" class="form-control" id="categoryImage" placeholder="Category Image" name="image"
+                (change)="onFileSelected($event)" />
+              <button (click)="newImageUpload('categoryBanners', 'categoryBanner')" class="btn btn-primary" style="margin-top: 10px; margin-right: 10px"
+                type="button">
                 Upload Image
               </button>
-              <button
-                *ngIf="imageUrl"
-                (click)="removeImage()"
-                class="btn btn-danger"
-                style="margin-top: 10px; margin-right: 10px"
-                type="button"
-              >
+              <button *ngIf="imageUrl" (click)="removeImage()" class="btn btn-danger"
+                style="margin-top: 10px; margin-right: 10px" type="button">
                 Remove
               </button>
             </div>
 
             <div class="mb-3">
-              <label for="editCategoryName" class="form-label"
-                >Category Name</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="editCategoryName"
-                placeholder="Category Name"
-                [(ngModel)]="selectedCategory.name"
-                name="name"
-                required
-                #newname="ngModel"
-                [ngClass]="{
+              <label for="editCategoryName" class="form-label">Category Name</label>
+              <input type="text" class="form-control" id="editCategoryName" placeholder="Category Name"
+                [(ngModel)]="selectedCategory.name" name="name" required #newname="ngModel" [ngClass]="{
                   'border-danger':
                     newname.invalid && (newname.dirty || newname.touched)
-                }"
-              />
-              <div
-                *ngIf="newname.invalid && (newname.dirty || newname.touched)"
-                class="alert"
-              >
-                <div
-                  *ngIf="newname.errors?.['required']"
-                  class="text-danger lead fs-6"
-                >
+                }" />
+              <div *ngIf="newname.invalid && (newname.dirty || newname.touched)" class="alert">
+                <div *ngIf="newname.errors?.['required']" class="text-danger lead fs-6">
                   Category Name is required
                 </div>
               </div>
             </div>
             <div class="mb-3">
-              <label for="editCategoryDescription" class="form-label"
-                >Category Description</label
-              >
-              <textarea
-                class="form-control"
-                id="editCategoryDescription"
-                rows="3"
-                placeholder="Category Description"
-                [(ngModel)]="selectedCategory.description"
-                name="description"
-                required
-                #newdescription="ngModel"
+              <label for="editCategoryDescription" class="form-label">Category Description</label>
+              <textarea class="form-control" id="editCategoryDescription" rows="3" placeholder="Category Description"
+                [(ngModel)]="selectedCategory.description" name="description" required #newdescription="ngModel"
                 [ngClass]="{
                   'border-danger':
                     newdescription.invalid &&
                     (newdescription.dirty || newdescription.touched)
-                }"
-              ></textarea>
-              <div
-                *ngIf="
+                }"></textarea>
+              <div *ngIf="
                   newdescription.invalid &&
                   (newdescription.touched || newdescription.dirty)
-                "
-                class="alert"
-              >
-                <div
-                  *ngIf="newdescription.errors?.['required']"
-                  class="text-danger lead fs-6"
-                >
+                " class="alert">
+                <div *ngIf="newdescription.errors?.['required']" class="text-danger lead fs-6">
                   Category Description is required
                 </div>
               </div>
             </div>
             <div class="mb-3">
               <label for="editCategoryMargin" class="form-label">Margin</label>
-              <input
-                type="text"
-                class="form-control"
-                id="editCategoryMargin"
-                placeholder="Margin"
-                [(ngModel)]="selectedCategory.margin"
-                name="margin"
-                required
-                #newmargin="ngModel"
-                pattern="^\d+(\.\d{1,2})?$"
-                [ngClass]="{
+              <input type="text" class="form-control" id="editCategoryMargin" placeholder="Margin"
+                [(ngModel)]="selectedCategory.margin" name="margin" required #newmargin="ngModel"
+                pattern="^\d+(\.\d{1,2})?$" [ngClass]="{
                   'border-danger':
                     newmargin.invalid && (newmargin.dirty || newmargin.touched)
-                }"
-              />
-              <div
-                *ngIf="
+                }" />
+              <div *ngIf="
                   newmargin.invalid && (newmargin.touched || newmargin.dirty)
-                "
-                class="alert"
-              >
-                <div
-                  *ngIf="newmargin.errors?.['required']"
-                  class="text-danger lead fs-6"
-                >
+                " class="alert">
+                <div *ngIf="newmargin.errors?.['required']" class="text-danger lead fs-6">
                   Margin is required
                 </div>
-                <div
-                  *ngIf="newmargin.errors?.['pattern']"
-                  class="text-danger lead fs-6"
-                >
+                <div *ngIf="newmargin.errors?.['pattern']" class="text-danger lead fs-6">
                   Invalid format
                 </div>
               </div>
             </div>
             <div class="mb-3">
-              <label for="editCategoryFileTypes" class="form-label"
-                >File Types</label
-              >
+              <label for="editCategoryFileTypes" class="form-label">File Types</label>
               <div class="d-flex flex-wrap">
-                <span
-                  *ngFor="let format of selectedCategory.formats; let i = index"
-                  class="badge bg-primary"
-                  style="margin-bottom: 5px; margin-right: 5px"
-                >
+                <span *ngFor="let format of selectedCategory.formats; let i = index" class="badge bg-primary"
+                  style="margin-bottom: 5px; margin-right: 5px">
                   {{ format.format_name }}
-                  <button
-                    type="button"
-                    class="btn-close"
-                    aria-label="Close"
-                    (click)="removeOldFormat(i)"
-                  ></button>
+                  <button type="button" class="btn-close" aria-label="Close" (click)="removeOldFormat(i)"></button>
                 </span>
               </div>
               <div class="input-group mt-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Add Format"
-                  [(ngModel)]="newFormat"
-                  name="newFormat"
-                  required
-                  #newformatInput="ngModel"
-                />
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  (click)="updateNewFormat()"
-                  [disabled]="newformatInput.invalid"
-                >
+                <input type="text" class="form-control" placeholder="Add Format" [(ngModel)]="newFormat"
+                  name="newFormat" required #newformatInput="ngModel" />
+                <button class="btn btn-primary" type="button" (click)="updateNewFormat()"
+                  [disabled]="newformatInput.invalid">
                   Add
                 </button>
               </div>
-              <div
-                *ngIf="
+              <div *ngIf="
                   selectedCategory.formats.length === 0 &&
                   (newformatInput.touched || newformatInput.dirty) &&
                   newformatInput.invalid
-                "
-                class="alert alert-danger mt-2 p-2"
-              >
+                " class="alert alert-danger mt-2 p-2">
                 At least one format is required.
               </div>
             </div>
 
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="category3D" [(ngModel)]="selectedCategory.is3D" name="is3D" (change)="on3DChange($event)">
+              <label class="form-check-label" for="category3D">3D</label>
+            </div>
+
             <div class="modal-footer d-flex justify-content-between">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-                (click)="this.modalService.close('modal-editCategory')"
-              >
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                (click)="this.modalService.close('modal-editCategory')">
                 Close
               </button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="
+              <button type="submit" class="btn btn-primary" [disabled]="
                   newname.invalid ||
                   newdescription.invalid ||
                   newmargin.invalid ||
                   selectedCategory.formats.length === 0
-                "
-              >
+                ">
                 Save changes
               </button>
             </div>
@@ -558,29 +373,17 @@
         </h5>
       </div>
       <div class="d-flex justify-content-center">
-        <img
-          src="../../../../../assets/icons/warning-error-svgrepo-com.svg"
-          alt="warning"
-          style="width: 100px"
-        />
+        <img src="../../../../../assets/icons/warning-error-svgrepo-com.svg" alt="warning" style="width: 100px" />
       </div>
       <div class="modal-body m-2">
         Are you sure you want to delete this category?
       </div>
       <div class="modal-footer d-flex justify-content-between">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-          (click)="this.modalService.close('modal-deleteConfirm')"
-        >
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          (click)="this.modalService.close('modal-deleteConfirm')">
           Cancel
         </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          (click)="deleteCategory(selectedCategory.category_id)"
-        >
+        <button type="button" class="btn btn-danger" (click)="deleteCategory(selectedCategory.category_id)">
           Delete
         </button>
       </div>

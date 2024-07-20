@@ -12,7 +12,16 @@
                     </div>
                     <div class="col-6">
                         <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totalUsers}}</span></h3>
+                            <h3 class="text-dark mt-1">
+                                <ng-container *ngIf="!isLoading; else loadingSpinner">
+                                    <span data-plugin="counterup">{{totalUsers}}</span>
+                                  </ng-container>
+                                  <ng-template #loadingSpinner>
+                                    <div class="custom-spinner" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                  </ng-template>
+                            </h3>
                             <p class="text-muted mb-1 text-truncate">Total Users</p>
                         </div>
                     </div>
@@ -31,7 +40,16 @@
                     </div>
                     <div class="col-6">
                         <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totalcreations}}</span></h3>
+                            <h3 class="text-dark mt-1">
+                                <ng-container *ngIf="!isLoading; else loadingSpinner">
+                                    <span data-plugin="counterup">{{totalcreations}}</span>
+                                  </ng-container>
+                                  <ng-template #loadingSpinner>
+                                    <div class="custom-spinner" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                  </ng-template>
+                            </h3>
                             <p class="text-muted mb-1 text-truncate">Total Creations</p>
                         </div>
                     </div>
@@ -50,7 +68,16 @@
                     </div>
                     <div class="col-6">
                         <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{regCustomers}}</span></h3>
+                            <h3 class="text-dark mt-1">
+                                <ng-container *ngIf="!isLoading; else loadingSpinner">
+                                    <span data-plugin="counterup">{{regCustomers}}</span>
+                                  </ng-container>
+                                  <ng-template #loadingSpinner>
+                                    <div class="custom-spinner" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                  </ng-template>
+                            </h3>
                             <p class="text-muted mb-1 text-truncate">Total Customers</p>
                         </div>
                     </div>
@@ -69,7 +96,16 @@
                     </div>
                     <div class="col-6">
                         <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{appArtist}}</span></h3>
+                            <h3 class="text-dark mt-1">
+                                <ng-container *ngIf="!isLoading; else loadingSpinner">
+                                    <span data-plugin="counterup">{{appArtist}}</span>
+                                  </ng-container>
+                                  <ng-template #loadingSpinner>
+                                    <div class="custom-spinner" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                  </ng-template>
+                            </h3>
                             <p class="text-muted mb-1 text-truncate">Total Artists</p>
                         </div>
                     </div>
@@ -98,17 +134,75 @@
         </div>
     </div>
 </div>
-
-<!-- <div class="row">
+<div class="row mt-2 mb-2">
     <div>
         <div class="card" style="padding: 10px; background-color: rgb(205, 230, 236);">
-            <p class="fw-medium">Trending Categories</p>
+            <h5>Trending Categories</h5>
             <ul class="trending">
                 <li *ngFor="let category of topCategories">{{ category }}</li>
             </ul>
         </div>
     </div> 
-</div> -->
+</div>
+
+<div class="row p-2">
+    <h5 class="mt-2">Trending Artists</h5>
+    <div *ngIf="trendingArtists.length > 0" class="carousel-container">
+        <div class="carousel">
+          <div class="card2" *ngFor="let artist of trendingArtists">
+          <div class="banner" *ngIf="artist.banner_img_url">
+            <img [src]="artist.banner_img_url" alt="Banner Image" class="banner-img">
+          </div>
+          <div class="badge1 editor-choice" *ngIf="artist.featured">Featured</div>
+          <div class="profile-photo" *ngIf="artist.profile_photo_url">
+            <img [src]="artist.profile_photo_url" alt="Profile Photo" class="profile-img">
+          </div>
+          <div class="artist-info">
+            <h3>{{ artist.fName }} {{ artist.LName }}</h3>
+            <p class="profession">{{ artist.profession }}</p>
+            <p class="location">{{ artist.location }}</p>
+            <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(artist.user_id,artist.role)" style="cursor:pointer;">More Details</p>
+          </div>
+          <div class="artist-stats">
+            <div class="stat-block">
+              <p>Rating</p>
+              <p>{{ artist.rating | number: '1.1-1' }}</p>
+            </div>
+            <div class="stat-block">
+              <p>Followers</p>
+              <p>{{ artist.total_followers }}</p>
+            </div>
+            <div class="stat-block">
+              <p>Creations</p>
+              <p>{{ artist.total_artworks }}</p>
+            </div>
+          </div>
+          </div>
+        </div>
+        <button class="carousel-control prev" (click)="prev()">&#10094;</button>
+        <button class="carousel-control next" (click)="next()">&#10095;</button>
+    </div>
+    <div *ngIf="trendingArtists.length === 0" class="no-data">No Trending Artists</div>
+</div>
+
+<div class="row p-2">
+  <h5 class="mt-2">Top Customers</h5>
+  <div class="carousel-container1">
+    <div class="carousel1">
+      <div class="card3" *ngFor="let customer of topCustomers" (click)="openUserDetailsModal(customer.user_id,customer.role)" style="cursor: pointer;">
+        <div class="profile-photo1">
+          <img [src]="customer.profile_photo_url" alt="Profile Photo" class="profile-img1">
+        </div>
+        <div class="customer-info1 mt-1">
+          <p class="fw-medium mb-0">{{ customer.username }}</p>
+          <p>{{customer.location}}</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control prev" (click)="prev1()">&#10094;</button>
+    <button class="carousel-control next" (click)="next1()">&#10095;</button>
+  </div>
+</div>
 
 <!-- 
 <div class="revenue-chart card p-3" style="width: 100%;" *ngFor="let lineChart of revenueDistribution">
@@ -118,3 +212,112 @@
         </div>
     </div>
 </div> -->
+
+<app-modal id="modal-userDetails">
+    <div class="new-modal">
+      <div class="new-modal-body">
+        <div class="modal-content" style="width: 50rem;">
+          <div class="modal-header mb-4">
+            <h5 class="modal-title border-bottom border-primary border-2">User Details</h5>
+            <button type="button" class="btn-close" aria-label="Close" (click)="this.modalService.close('modal-userDetails')"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="border border-dark-subtle p-3">
+                  <h5 class="text-body-secondary">Profile Photo</h5>
+                  <img [src]="selectedUser.ProfilePhoto" alt="Profile Photo" class="img-fluid mb-3" style="width: 250px; height: 100%">
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="border border-dark-subtle p-3">
+                  <h5 class="text-body-secondary">Basic Information</h5>
+                  <ul class="list-group">
+                    <li class="list-group-item"><strong>First Name:</strong> {{ selectedUser.FName }}</li>
+                    <li class="list-group-item"><strong>Last Name:</strong> {{ selectedUser.LName }}</li>
+                    <li class="list-group-item"><strong>Email:</strong> {{ selectedUser.Email }}</li>
+                    <li class="list-group-item"><strong>User Name:</strong> {{ selectedUser.Username }}</li>
+                    <li class="list-group-item" *ngIf="selectedUser.role === 'artist'"><strong>Profession:</strong> {{ selectedUser.profession }}</li>
+                    <li class="list-group-item"><strong>Location:</strong> {{ selectedUser.location }}</li>
+                    <li class="list-group-item"><strong>Applied Date:</strong> {{ selectedUser.RegistrationDate | date: 'short' }}</li>
+                  </ul>
+                </div>
+                <div *ngIf="selectedUser.Role === 'artist'">
+                    <p *ngIf="rank===0" class="fw-light mb-0 mt-2">This artist is currently not featured in Artista</p>
+                    <p *ngIf="rank===1" class="fw-light mb-0 mt-2">This artist is currently featured in Artista</p>
+                </div>
+                <button *ngIf="selectedUser.Role === 'artist'"
+                    class="btn mt-3" 
+                    [ngClass]="{'btn-primary': rank===0, 'btn-success': rank===1}" 
+                    (click)="updateFeaturedStatus(selectedUser.UserID)">
+                    {{ rank===1 ? 'Featured' : 'Feature' }}
+                </button>
+              </div>
+            </div>
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role === 'artist'">
+              <h5 class="text-body-secondary">User Metrics</h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul class="list-group">
+                    <li class="list-group-item"><strong>Average Rating:</strong> {{ selectedUser.AverageRating | number:'1.1-1'}}</li>
+                    <li class="list-group-item"><strong>Number of Artworks:</strong> {{ selectedUser.NumberOfArtworks }}</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-group">
+                    <li class="list-group-item"><strong>Number of Followers:</strong> {{ selectedUser.NumberOfFollowers }}</li>
+                    <li class="list-group-item"><strong>Number of Sales:</strong> {{ selectedUser.NumberOfSales }}</li>
+                  </ul>
+                </div>
+                <div class="col-md-12 mt-3">
+                  <ul class="list-group">
+                    <li class="list-group-item"><strong>Status:</strong> {{ selectedUser.Status }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role != 'artist' ">
+                <h5 class="text-body-secondary">User Metrics</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                      <ul class="list-group">
+                        <li class="list-group-item"><strong>Number Of Purchases:</strong> {{ selectedUser.NumberOfPurchases }}</li>
+                        <li class="list-group-item"><strong>Total Amount Spent:</strong> {{ selectedUser.TotalAmountSpent }}</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <ul class="list-group">
+                        <li class="list-group-item"><strong>Number Of Followings:</strong> {{ selectedUser.NumberOfFollowings }}</li>
+                        <li class="list-group-item"><strong>Number Of Feedbacks Written:</strong> {{ selectedUser.NumberOfFeedbacks }}</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                      <ul class="list-group">
+                        <li class="list-group-item"><strong>Status:</strong> {{ selectedUser.Status }}</li>
+                      </ul>
+                    </div>
+                  </div>
+            </div>
+            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role === 'artist'">
+              <h5 class="text-body-secondary">On the Web</h5>
+              <div class="row">
+                <div class="col-md-12">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let socialLink of socialLinks">
+                      <img [src]="socialLink.logo_url" alt="{{ socialLink.platform_name }}" class="img-fluid me-2" style="width: 20px;">
+                      <a [href]="socialLink.account_url" target="_blank">{{ socialLink.account_url }}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="border border-dark-subtle p-3 mt-4">
+              <h5 class="text-body-secondary">Description</h5>
+              <p style="max-height: 8rem; overflow-y: auto;">{{ selectedUser.Description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</app-modal>
+

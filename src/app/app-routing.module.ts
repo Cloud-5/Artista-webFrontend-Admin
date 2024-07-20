@@ -20,14 +20,14 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'art-categories', component: ArtCategoriesComponent, canActivate: [AuthGuard] },
       { path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard] },
-      { path: 'artist-requests', component: ArtistRequestsComponent, canActivate: [AuthGuard] },
+      { path: 'artist-requests', component: ArtistRequestsComponent, canActivate: [AuthGuard] }
     ],
   },
   { path: '**', redirectTo: '/admin/dashboard' }, 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{ scrollPositionRestoration: 'top' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
