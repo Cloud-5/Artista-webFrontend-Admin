@@ -181,18 +181,7 @@
 }
 
 .top-nav .sidenav-toggle {
-  display: none;
-  justify-content: center;
-  background: #fff;
-  text-align: center;
-  width: 3rem;
-  min-width: 3rem;
-  border-radius: 0.313rem;
-  padding: 0.313rem;
-  font-size: 24px;
-  font-weight: 900;
-  cursor: pointer;
-  border: none;
+  display: none !important;
 }
 
 @media (max-width: 768px) {
@@ -221,7 +210,18 @@
   }
 
   .top-nav .sidenav-toggle {
-    display: inline-block;
+    display: inline-block !important;
+    justify-content: center;
+    background: #fff;
+    text-align: center;
+    width: 3rem;
+    min-width: 3rem;
+    border-radius: 0.313rem;
+    padding: 0.313rem;
+    font-size: 24px;
+    font-weight: 900;
+    cursor: pointer;
+    border: none;
   }
 
   .top-nav .admin-details {
