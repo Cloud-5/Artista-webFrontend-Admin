@@ -107,6 +107,9 @@ export class DefaultLayoutComponent implements OnInit{
     this.collapsed = false;
     this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth})
   }
+  toggleSidenav(): void {
+    this.collapsed = !this.collapsed;
+  }
 
   getBodyClass(): string{
     let styleClass = '';

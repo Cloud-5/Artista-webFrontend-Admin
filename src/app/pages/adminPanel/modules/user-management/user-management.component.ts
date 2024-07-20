@@ -32,6 +32,12 @@ export class UserManagementComponent implements OnInit {
   currentPage = 0;
   allDataLoaded: boolean = false;
 
+  uniqueCountries: string[] = [];
+  currentSearchTerm: string = '';
+  customersearchTerm:string = '';
+  currentDeletedAccountSearchTerm: string = '';
+  currentBannedAccountSearchTerm: string = '';
+
   constructor(
     public modalService: ModalService,
     private userManagementService: UserManagementService
@@ -57,6 +63,7 @@ export class UserManagementComponent implements OnInit {
       this.searchedRegcustomers = this.registeredCustomers;
       this.searchedDelAccounts = this.deletedAccounts;
       this.searchedBanAccounts = this.bannedAccounts;
+      this.uniqueCountries = [...new Set(this.approvedArtists.map(artist => artist.location))];
     });
   }
 
@@ -122,62 +129,136 @@ export class UserManagementComponent implements OnInit {
     this.modalService.open('modal-userDetails');
   }
 
-  searchApprovedArtists(searchTerm: string): void {
-    console.log('Search term:', searchTerm);
-      searchTerm = searchTerm.toLowerCase().trim();
-      if(searchTerm == ''){
-        this.searchedAppArtists = this.approvedArtists; 
-      } else {
-        this.searchedAppArtists = this.approvedArtists.filter(
-          artist =>
-            artist.fName.toLowerCase().includes(searchTerm)
-            || artist.LName.toLowerCase().includes(searchTerm)  
-            || artist.username.toLowerCase().includes(searchTerm)
-            || artist.location.toLowerCase().includes(searchTerm)
-            
-        );
-      }
-
-  }
-
   searchRegisteredCustomers(searchTerm: string): void {
-    searchTerm = searchTerm.toLowerCase().trim();
-    if (searchTerm === '') {
+    this.customersearchTerm = searchTerm.toLowerCase().trim(); 
+    if (this.customersearchTerm === '') {
       this.searchedRegcustomers = this.registeredCustomers;
     } else {
       this.searchedRegcustomers = this.registeredCustomers.filter(
         customer =>
-          customer.fName.toLowerCase().includes(searchTerm)
-          || customer.LName.toLowerCase().includes(searchTerm)
-          || customer.location.toLowerCase().includes(searchTerm)
+          customer.fName.toLowerCase().includes(this.customersearchTerm)
+          || customer.LName.toLowerCase().includes(this.customersearchTerm)
+          || customer.username.toLowerCase().includes(this.customersearchTerm)
+          || customer.location.toLowerCase().includes(this.customersearchTerm)
+      );
+    }
+  }
+  sortCustomers(event: Event): void {
+    const sortBy = (event.target as HTMLSelectElement).value
+    if (sortBy === 'name') {
+      this.searchedRegcustomers = this.searchedRegcustomers.sort((a, b) => a.fName.localeCompare(b.fName));
+    } else if (sortBy === 'newest') {
+      this.searchedRegcustomers = this.searchedRegcustomers.sort((a, b) => new Date(b.registered_at).getTime() - new Date(a.registered_at).getTime());
+    } else if (sortBy === 'oldest') {
+      this.searchedRegcustomers = this.searchedRegcustomers.sort((a, b) => new Date(a.registered_at).getTime() - new Date(b.registered_at).getTime());
+    }
+  }
+
+  filterCustomersByCountry(event: Event): void {
+    const country = (event.target as HTMLSelectElement).value;
+    if (country === '') {
+      this.searchedRegcustomers = this.registeredCustomers.filter(customer =>
+        customer.fName.toLowerCase().includes(this.customersearchTerm)
+        || customer.LName.toLowerCase().includes(this.customersearchTerm)
+        || customer.username.toLowerCase().includes(this.customersearchTerm)
+        || customer.location.toLowerCase().includes(this.customersearchTerm)
+      );
+    } else {
+      this.searchedRegcustomers = this.registeredCustomers.filter(customer =>
+        (customer.fName.toLowerCase().includes(this.customersearchTerm)
+        || customer.LName.toLowerCase().includes(this.customersearchTerm)
+        || customer.username.toLowerCase().includes(this.customersearchTerm)
+        || customer.location.toLowerCase().includes(this.customersearchTerm)) && customer.location === country
       );
     }
   }
 
   searchDeletedAccounts(searchTerm: string): void {
-    searchTerm = searchTerm.toLowerCase().trim();
-    if (searchTerm === '') {
+    this.currentDeletedAccountSearchTerm = searchTerm.toLowerCase().trim(); 
+    if (this.currentDeletedAccountSearchTerm === '') {
       this.searchedDelAccounts = this.deletedAccounts;
     } else {
       this.searchedDelAccounts = this.deletedAccounts.filter(
         account =>
-          account.fName.toLowerCase().includes(searchTerm)
-          || account.LName.toLowerCase().includes(searchTerm)
-          || account.location.toLowerCase().includes(searchTerm)
+          account.fName.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+          || account.LName.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+          || account.username.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+          || account.location.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+      );
+    }
+  }
+
+  sortDeletedAccounts(event:any): void {
+    const sortBy = (event.target as HTMLSelectElement).value
+    if (sortBy === 'name') {
+      this.searchedDelAccounts = this.searchedDelAccounts.sort((a, b) => a.fName.localeCompare(b.fName));
+    } else if (sortBy === 'newest') {
+      this.searchedDelAccounts = this.searchedDelAccounts.sort((a, b) => new Date(b.registered_at).getTime() - new Date(a.registered_at).getTime());
+    } else if (sortBy === 'oldest') {
+      this.searchedDelAccounts = this.searchedDelAccounts.sort((a, b) => new Date(a.registered_at).getTime() - new Date(b.registered_at).getTime());
+    }
+  }
+
+  filterDeletedAccountsByRole(event:any): void {
+    const role = (event.target as HTMLSelectElement).value;
+    if (role === '') {
+      this.searchedDelAccounts = this.deletedAccounts.filter(account =>
+        account.fName.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+        || account.LName.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+        || account.username.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+        || account.location.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+      );
+    } else {
+      this.searchedDelAccounts = this.deletedAccounts.filter(account =>
+        (account.fName.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+        || account.LName.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+        || account.username.toLowerCase().includes(this.currentDeletedAccountSearchTerm)
+        || account.location.toLowerCase().includes(this.currentDeletedAccountSearchTerm)) && account.role === role
       );
     }
   }
 
   searchBannedAccounts(searchTerm: string): void {
-    searchTerm = searchTerm.toLowerCase().trim();
-    if (searchTerm === '') {
+    this.currentBannedAccountSearchTerm = searchTerm.toLowerCase().trim(); // Store the search term for banned accounts
+    if (this.currentBannedAccountSearchTerm === '') {
       this.searchedBanAccounts = this.bannedAccounts;
     } else {
       this.searchedBanAccounts = this.bannedAccounts.filter(
         account =>
-          account.fName.toLowerCase().includes(searchTerm)
-          || account.LName.toLowerCase().includes(searchTerm)
-          || account.location.toLowerCase().includes(searchTerm)
+          account.fName.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+          || account.LName.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+          || account.username.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+          || account.location.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+      );
+    }
+  }
+
+  sortBannedAccounts(event:any): void {
+    const sortBy = (event.target as HTMLSelectElement).value
+    if (sortBy === 'name') {
+      this.searchedBanAccounts = this.searchedBanAccounts.sort((a, b) => a.fName.localeCompare(b.fName));
+    } else if (sortBy === 'newest') {
+      this.searchedBanAccounts = this.searchedBanAccounts.sort((a, b) => new Date(b.registered_at).getTime() - new Date(a.registered_at).getTime());
+    } else if (sortBy === 'oldest') {
+      this.searchedBanAccounts = this.searchedBanAccounts.sort((a, b) => new Date(a.registered_at).getTime() - new Date(b.registered_at).getTime());
+    }
+  }
+
+  filterBannedAccountsByRole(event:any): void {
+    const role = (event.target as HTMLSelectElement).value
+    if (role === '') {
+      this.searchedBanAccounts = this.bannedAccounts.filter(account =>
+        account.fName.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+        || account.LName.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+        || account.username.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+        || account.location.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+      );
+    } else {
+      this.searchedBanAccounts = this.bannedAccounts.filter(account =>
+        (account.fName.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+        || account.LName.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+        || account.username.toLowerCase().includes(this.currentBannedAccountSearchTerm)
+        || account.location.toLowerCase().includes(this.currentBannedAccountSearchTerm)) && account.role === role
       );
     }
   }
@@ -206,6 +287,77 @@ export class UserManagementComponent implements OnInit {
         }
       );
       this.rank = 0;
+    }
+  }
+
+  filterArtistsByFeature(event: Event): void {
+    const filter = (event.target as HTMLSelectElement).value;
+    if (filter === '') {
+      this.searchedAppArtists = this.approvedArtists.filter(artist =>
+        artist.fName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.LName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.username.toLowerCase().includes(this.currentSearchTerm)
+        || artist.location.toLowerCase().includes(this.currentSearchTerm)
+      );
+    } else if (filter === 'featured') {
+      this.searchedAppArtists = this.approvedArtists.filter(artist =>
+        (artist.fName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.LName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.username.toLowerCase().includes(this.currentSearchTerm)
+        || artist.location.toLowerCase().includes(this.currentSearchTerm)) && artist.featured === 1
+      );
+    } else {
+      this.searchedAppArtists = this.approvedArtists.filter(artist =>
+        (artist.fName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.LName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.username.toLowerCase().includes(this.currentSearchTerm)
+        || artist.location.toLowerCase().includes(this.currentSearchTerm)) && artist.featured === 0
+      );
+    }
+  }
+  
+  sortArtists(event: Event): void {
+    const sortBy = (event.target as HTMLSelectElement).value;
+    if (sortBy === 'name') {
+      this.searchedAppArtists = this.searchedAppArtists.sort((a, b) => a.fName.localeCompare(b.fName));
+    } else if (sortBy === 'newest') {
+      this.searchedAppArtists = this.searchedAppArtists.sort((a, b) => new Date(b.registered_at).getTime() - new Date(a.registered_at).getTime());
+    } else if (sortBy === 'oldest') {
+      this.searchedAppArtists = this.searchedAppArtists.sort((a, b) => new Date(a.registered_at).getTime() - new Date(b.registered_at).getTime());
+    }
+  }
+  
+  filterArtistsByCountry(event: Event): void {
+    const country = (event.target as HTMLSelectElement).value;
+    if (country === '') {
+      this.searchedAppArtists = this.approvedArtists.filter(artist =>
+        artist.fName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.LName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.username.toLowerCase().includes(this.currentSearchTerm)
+        || artist.location.toLowerCase().includes(this.currentSearchTerm)
+      );
+    } else {
+      this.searchedAppArtists = this.approvedArtists.filter(artist =>
+        (artist.fName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.LName.toLowerCase().includes(this.currentSearchTerm)
+        || artist.username.toLowerCase().includes(this.currentSearchTerm)
+        || artist.location.toLowerCase().includes(this.currentSearchTerm)) && artist.location === country
+      );
+    }
+  }
+  
+  searchApprovedArtists(searchTerm: string): void {
+    this.currentSearchTerm = searchTerm.toLowerCase().trim();
+    if (this.currentSearchTerm === '') {
+      this.searchedAppArtists = this.approvedArtists;
+    } else {
+      this.searchedAppArtists = this.approvedArtists.filter(
+        artist =>
+          artist.fName.toLowerCase().includes(this.currentSearchTerm)
+          || artist.LName.toLowerCase().includes(this.currentSearchTerm)
+          || artist.username.toLowerCase().includes(this.currentSearchTerm)
+          || artist.location.toLowerCase().includes(this.currentSearchTerm)
+      );
     }
   }
 }

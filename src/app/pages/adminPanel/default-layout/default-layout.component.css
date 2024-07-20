@@ -179,3 +179,52 @@
 .new-modal{
     width: 60vw;
 }
+
+.top-nav .sidenav-toggle {
+  display: none;
+  justify-content: center;
+  background: #fff;
+  text-align: center;
+  width: 3rem;
+  min-width: 3rem;
+  border-radius: 0.313rem;
+  padding: 0.313rem;
+  font-size: 24px;
+  font-weight: 900;
+  cursor: pointer;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .sidenav {
+    width: 0;
+    overflow: hidden;
+  }
+  
+  .sidenav-collapsed {
+    width: 16.5625rem; 
+  }
+
+  .body {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .body-trimmed {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .body-md-screen {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .top-nav .sidenav-toggle {
+    display: inline-block;
+  }
+
+  .top-nav .admin-details {
+    margin-left: auto;
+  }
+}

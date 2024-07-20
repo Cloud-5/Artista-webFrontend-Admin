@@ -1,4 +1,7 @@
 <div class="top-nav">
+  <button class="sidenav-toggle d-flex" (click)="toggleSidenav()">
+    <i class="bi bi-list"></i>
+  </button>
   <div class="admin-details gap-3">
     <img
       [src]="adminDetails.profile_photo"
@@ -37,9 +40,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
       >
         <i class="sidenav-link-icon" [class]="data.icon"></i>
-        <span class="sidenav-link-text" *ngIf="collapsed">{{
-          data.label
-        }}</span>
+        <span class="sidenav-link-text" *ngIf="collapsed">{{ data.label }}</span>
         <span
           class="badge bg-danger rounded-pill"
           style="font-size: 10px"
@@ -53,6 +54,7 @@
 <div class="body" [ngClass]="getBodyClass()">
   <router-outlet></router-outlet>
 </div>
+
 
 <app-modal id="modal-editAdminDetails">
   <div class="new-modal">
