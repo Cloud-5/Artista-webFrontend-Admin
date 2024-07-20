@@ -146,7 +146,7 @@
 </div>
 
 <div class="row p-2">
-    <h5 class="mt-2">Trending Artists</h5>
+    <h4 class="mt-2">Trending Artists</h4>
     <div *ngIf="trendingArtists.length > 0" class="carousel-container">
         <div class="carousel">
           <div class="card2" *ngFor="let artist of trendingArtists">
@@ -186,7 +186,7 @@
 </div>
 
 <div class="row p-2">
-  <h5 class="mt-2">Top Customers</h5>
+  <h4 class="mt-2">Top Customers</h4>
   <div class="carousel-container1">
     <div class="carousel1">
       <div class="card3" *ngFor="let customer of topCustomers" (click)="openUserDetailsModal(customer.user_id,customer.role)" style="cursor: pointer;">
@@ -202,6 +202,7 @@
     <button class="carousel-control prev" (click)="prev1()">&#10094;</button>
     <button class="carousel-control next" (click)="next1()">&#10095;</button>
   </div>
+  <div *ngIf="topCustomers.length === 0" class="no-data">No Top Customers</div>
 </div>
 
 <!-- 

@@ -115,11 +115,11 @@
             Accounts</a>
     </li>
  
-    <div id="myTabContent" class="tab-content" style="width: 100%;">
-        <div class="tab-pane fade show active" id="artist" role="tabpanel">
+    <div id="myTabContent" class="tab-content w-100">
+        <div class="tab-pane fade show active" id="artist" role="tabpanel" aria-labelledby="artist-tab"> 
             <form class="d-flex">
-                <input id="search-input" (keyup.enter)="searchApprovedArtists()" class="form-control me-sm-2 border border-primary" type="search"
-                    placeholder="Search Artist" aria-label="Search Artists" aria-describedby="search-button" [(ngModel)]="searchKeyword">
+                <input #searchTerm1 (keyup)="searchApprovedArtists(searchTerm1.value)" class="form-control me-sm-2 border border-primary" type="search"
+                    placeholder="Search Artist">
             </form>
             <div class="container mt-4">
                 <div class="row">
@@ -147,7 +147,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="customer" role="tabpanel">
+        <div class="tab-pane fade" id="customer" role="tabpanel" aria-labelledby="customer-tab">
             <form class="d-flex">
                 <input #searchTerm2 (keyup)="searchRegisteredCustomers(searchTerm2.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search Customer">
@@ -178,7 +178,7 @@
                     </div>
                 </div>
         </div>
-        <div class="tab-pane fade" id="deleted" role="tabpanel">
+        <div class="tab-pane fade" id="deleted" role="tabpanel" aria-labelledby="deleted-tab">
             <form class="d-flex">
                 <input #searchTerm3 (keyup)="searchDeletedAccounts(searchTerm3.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search User">
@@ -205,7 +205,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="banned" role="tabpanel">
+        <div class="tab-pane fade" id="banned" role="tabpanel" aria-labelledby="banned-tab">
             <form class="d-flex">
                 <input #searchTerm4 (keyup)="searchBannedAccounts(searchTerm4.value)" class="form-control me-sm-2 rounded-pill border border-primary" type="search"
                     placeholder="Search User">

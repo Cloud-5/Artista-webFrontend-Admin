@@ -30,7 +30,6 @@ export class UserManagementComponent implements OnInit {
   rank:number = 0;
 
   currentPage = 0;
-  searchKeyword = '';
   allDataLoaded: boolean = false;
 
   constructor(
@@ -54,6 +53,7 @@ export class UserManagementComponent implements OnInit {
       this.deletedAccounts = data.deletedAccounts;
       this.bannedAccounts = data.bannedAccounts;
       this.searchedAppArtists = this.approvedArtists;
+      console.log('approvedArtists',this.approvedArtists);
       this.searchedRegcustomers = this.registeredCustomers;
       this.searchedDelAccounts = this.deletedAccounts;
       this.searchedBanAccounts = this.bannedAccounts;
@@ -122,8 +122,22 @@ export class UserManagementComponent implements OnInit {
     this.modalService.open('modal-userDetails');
   }
 
-  searchApprovedArtists(): void {
-      
+  searchApprovedArtists(searchTerm: string): void {
+    console.log('Search term:', searchTerm);
+      searchTerm = searchTerm.toLowerCase().trim();
+      if(searchTerm == ''){
+        this.searchedAppArtists = this.approvedArtists; 
+      } else {
+        this.searchedAppArtists = this.approvedArtists.filter(
+          artist =>
+            artist.fName.toLowerCase().includes(searchTerm)
+            || artist.LName.toLowerCase().includes(searchTerm)  
+            || artist.username.toLowerCase().includes(searchTerm)
+            || artist.location.toLowerCase().includes(searchTerm)
+            
+        );
+      }
+
   }
 
   searchRegisteredCustomers(searchTerm: string): void {
