@@ -191,7 +191,10 @@
     <div class="carousel1">
       <div class="card3" *ngFor="let customer of topCustomers" (click)="openUserDetailsModal(customer.user_id,customer.role)" style="cursor: pointer;">
         <div class="profile-photo1">
-          <img [src]="customer.profile_photo_url" alt="Profile Photo" class="profile-img1">
+          <img *ngIf="customer.profile_photo_url; else defaultImage" [src]="customer.profile_photo_url" alt="Profile Photo" class="profile-img1">
+            <ng-template #defaultImage>
+              <img src="../../../../../assets/default.png" alt="Default Profile Photo" class="profile-img1">
+            </ng-template>
         </div>
         <div class="customer-info1 mt-1">
           <p class="fw-medium mb-0">{{ customer.username }}</p>
@@ -217,7 +220,7 @@
 <app-modal id="modal-userDetails">
     <div class="new-modal">
       <div class="new-modal-body">
-        <div class="modal-content" style="width: 50rem;">
+        <div class="modal-content" style="width: 50vw;">
           <div class="modal-header mb-4">
             <h5 class="modal-title border-bottom border-primary border-2">User Details</h5>
             <button type="button" class="btn-close" aria-label="Close" (click)="this.modalService.close('modal-userDetails')"></button>

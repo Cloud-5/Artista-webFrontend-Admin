@@ -56,7 +56,7 @@ export class DashboardComponent implements AfterViewInit {
 
   private getDashboardData(): void {
     this.isLoading = true;
-    this.dashboardService.getDashboardData().subscribe((data) => {
+    this.dashboardService.getDashboardData(2024).subscribe((data) => {
       this.chartData = data;
       this.totalUsers = data.numRegisteredUsers;
       this.totalcreations = this.chartData.numUploadedCreations;
@@ -65,7 +65,6 @@ export class DashboardComponent implements AfterViewInit {
       this.trendingArtists = this.chartData.trendingArtists[0];
       this.trendingArtworks = this.chartData.trendingArts[0];
       this.topCustomers = this.chartData.topCustomers[0];
-      console.log('topCustomers',this.topCustomers);
       this.createChartLine(data);
       this.isLoading = false;
     }, (error) => {
@@ -77,7 +76,7 @@ export class DashboardComponent implements AfterViewInit {
 
   private getCategorydist(): void {
     this.isLoading = true;
-    this.dashboardService.getDashboardData().subscribe((data) => {
+    this.dashboardService.getDashboardData(2024).subscribe((data) => {
       this.createChartColumn(data);
       this.isLoading = false;
     });
@@ -85,24 +84,26 @@ export class DashboardComponent implements AfterViewInit {
 
   private getCategoryPref(): void {
     this.isLoading = true;
-    this.dashboardService.getDashboardData().subscribe((data) => {
+    this.dashboardService.getDashboardData(2024).subscribe((data) => {
       this.createChartStack(data);
       this.isLoading = false;
     });
   }
 
   private createChartLine(data: any) {
+    const monthlyApprovalsData = data.monthlyApprovals.map((item: { registrationsCount: any; }) => item.registrationsCount);
+    const monthlyRegistrationsData = data.monthlyRegistrations.map((item: { registrationsCount: any; }) => item.registrationsCount);
     const chart1 = Highcharts.chart('userRegistrations', {
       chart: { type: 'area'},
-      title:{ text: 'User Registrations'},
+      title:{ text: 'User Registrations 2024'},
       xAxis: { type: 'category', title:{ text:'Month'}, categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']},
       yAxis: { title: { text: 'Total' },  },
       tooltip: {
-        pointFormat: '<b>{point.y:,.0f}</b> {series.name} have registered <br/>' +
-        'in {point.x}'},
+        pointFormat: '<b>{point.y:,.0f}</b> {series.name} have registered <br/> in {point.x}'
+      },
       series: [
-        { name: 'Artists', data: data.monthlyApprovals },
-        { name: 'Customers', data: data.monthlyRegistrations }
+        { name: 'Artists', data: monthlyApprovalsData  },
+        { name: 'Customers', data: monthlyRegistrationsData  }
       ],
       legend: { enabled: true },
       credits: { enabled: false },
@@ -120,13 +121,15 @@ export class DashboardComponent implements AfterViewInit {
         }
       }
     } as any);
+
+    const monthlyCreationsData = data.monthlyCreations.map((item: { creationsCount: any; }) => item.creationsCount);
     const chart2 = Highcharts.chart('uploadedCreations',{
       chart: {
         type: 'line',
         backgroundColor: 'white',
       },
-      title: { text: 'Uploaded Artworks' },
-      series: [{ type: 'line', name: 'Month', data: data.monthlyCreations }],
+      title: { text: 'Uploaded Artworks 2024' },
+      series: [{ type: 'line', name: 'Month', data: monthlyCreationsData }],
       legend: { enabled: false },
       credits: { enabled: false },
       xAxis: { type: 'category', title:{ text:'Month'}, categories: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']},

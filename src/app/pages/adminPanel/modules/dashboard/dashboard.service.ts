@@ -12,8 +12,9 @@ export class DashboardService {
 
   constructor(private http: HttpClient) { }
 
-  getDashboardData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/`);
+  getDashboardData(year:number): Observable<any> {
+    console.log(year,'year');
+    return this.http.get<any>(`${this.apiUrl}/${year}`);
   }
 
 }

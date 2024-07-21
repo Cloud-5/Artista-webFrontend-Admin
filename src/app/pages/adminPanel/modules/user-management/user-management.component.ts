@@ -143,6 +143,7 @@ export class UserManagementComponent implements OnInit {
       );
     }
   }
+  
   sortCustomers(event: Event): void {
     const sortBy = (event.target as HTMLSelectElement).value
     if (sortBy === 'name') {
@@ -262,7 +263,6 @@ export class UserManagementComponent implements OnInit {
       );
     }
   }
-
 
   updateFeaturedStatus(user_id:string){
     console.log('User ID:', user_id,'rank',this.rank);

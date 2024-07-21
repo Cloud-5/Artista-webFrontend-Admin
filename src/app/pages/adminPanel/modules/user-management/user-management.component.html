@@ -1,474 +1,922 @@
 <h4>User Management</h4>
 
 <div class="row">
-    <div class="col-md-6 col-xl-3 mb-3">
-        <div class="widget-rounded-circle card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
-                            <img src="../../../../../assets/icons/user-svgrepo-com.svg" alt="User" class="top-logo">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totaluserRegistrations}}</span></h3>
-                            <p class="text-muted mb-1 text-truncate">User Registrations</p>
-                        </div>
-                    </div>
-                </div> 
+  <div class="col-md-6 col-xl-3 mb-3">
+    <div class="widget-rounded-circle card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <div
+              class="avatar-lg rounded-circle d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="../../../../../assets/icons/user-svgrepo-com.svg"
+                alt="User"
+                class="top-logo"
+              />
             </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-xl-3 mb-3">
-        <div class="widget-rounded-circle card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
-                            <img src="../../../../../assets/icons/artist-palette-art-artistic-svgrepo-com.svg" alt="User" class="top-logo">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totalapprovedArtists}}</span></h3>
-                            <p class="text-muted mb-1 text-truncate">Artists</p>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-xl-3 mb-3">
-        <div class="widget-rounded-circle card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
-                            <img src="../../../../../assets/icons/buyer-group-svgrepo-com.svg" alt="User" class="top-logo">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totalregisteredCustomers}}</span></h3>
-                            <p class="text-muted mb-1 text-truncate">Customers</p>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-xl-3 mb-3">
-        <div class="widget-rounded-circle card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
-                            <img src="../../../../../assets/icons/delete-user-svgrepo-com.svg" alt="User" class="top-logo">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totaldeletedAccounts}}</span></h3>
-                            <p class="text-muted mb-1 text-truncate">Deleted Accounts</p>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-xl-3 mb-3">
-        <div class="widget-rounded-circle card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-lg rounded-circle d-flex justify-content-center align-items-center">
-                            <img src="../../../../../assets/icons/user-ban-svgrepo-com.svg" alt="User" class="top-logo">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-end">
-                            <h3 class="text-dark mt-1"><span data-plugin="counterup">{{totalbannedAccounts}}</span></h3>
-                            <p class="text-muted mb-1 text-truncate">Banned Acounts</p>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-</div>
-
-<ul class="nav nav-tabs mt-4" role="tablist" style="width: 100%;">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active" data-bs-toggle="tab" href="#artist" aria-selected="true" role="tab">Artists</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-toggle="tab" href="#customer" aria-selected="false" tabindex="-1"
-            role="tab">Customers</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-toggle="tab" href="#deleted" aria-selected="false" tabindex="-1" role="tab">Deleted
-            Accounts</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-toggle="tab" href="#banned" aria-selected="false" tabindex="-1" role="tab">Banned
-            Accounts</a>
-    </li>
- 
-    <div id="myTabContent" class="tab-content w-100">
-          <div class="tab-pane fade show active" id="artist" role="tabpanel" aria-labelledby="artist-tab"> 
-            <form class="d-flex">
-              <input #searchTerm1 (keyup)="searchApprovedArtists(searchTerm1.value)" class="form-control me-sm-2 border border-primary" type="search" placeholder="Search Artist">
-            </form>
-            
-            <div class="filters mt-3">
-              <select (change)="filterArtistsByFeature($event)" class="form-select me-sm-2">
-                <option value="">Filter by Feature</option>
-                <option value="featured">Featured</option>
-                <option value="non-featured">Non-Featured</option>
-              </select>
-              <select (change)="sortArtists($event)" class="form-select me-sm-2">
-                <option value="">Sort by</option>
-                <option value="name">Name</option>
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-              </select>
-              <select (change)="filterArtistsByCountry($event)" class="form-select me-sm-2">
-                <option value="">Filter by Country</option>
-                <option *ngFor="let country of uniqueCountries" [value]="country">{{ country }}</option>
-              </select>
-            </div>
-          
-            <div class="container mt-4" *ngIf="searchedAppArtists.length > 0; else noResults">
-              <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4" *ngFor="let user of searchedAppArtists">
-                  <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
-                    <div class="profile-pic">
-                      <img [src]="user.profile_photo_url" alt="Profile Picture" class="avatar-lg">
-                    </div>
-                    <div class="card-body d-flex flex-column flex-grow-1">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="artist-info">
-                          <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }} <span *ngIf="user.featured === 1" class="badge bg-primary fw-light ms-2 mb-2" style="border-radius: 2px; font-size: 10px;">Featured</span> </h5>
-                          <p class="card-text mb-0 text-muted">{{ user.profession }}</p>
-                          <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }} | {{ user.location }}</p>
-                          <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id, user.role)" style="cursor:pointer;">More Details</p>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <button class="btn btn-success" (click)="openBanModal(user)">Ban</button>
-                          <button class="btn btn-danger" (click)="deleteUser(user.user_id)">Delete</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <ng-template #noResults>
-              <div class="alert alert-warning" role="alert">
-                No results found.
-              </div>
-            </ng-template>
           </div>
-          
-          <div class="tab-pane fade" id="customer" role="tabpanel" aria-labelledby="customer-tab">
-            <form class="d-flex">
-              <input #searchTerm2 (keyup)="searchRegisteredCustomers(searchTerm2.value)" class="form-control me-sm-2 border border-primary" type="search" placeholder="Search Customer">
-            </form>
-            
-            <div class="filters mt-3">
-              <select (change)="sortCustomers($event)" class="form-select me-sm-2">
-                <option value="">Sort by</option>
-                <option value="name">Name</option>
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-              </select>
-              <select (change)="filterCustomersByCountry($event)" class="form-select me-sm-2">
-                <option value="">Filter by Country</option>
-                <option *ngFor="let country of uniqueCountries" [value]="country">{{ country }}</option>
-              </select>
-            </div>
-          
-            <div class="container mt-4" *ngIf="searchedRegcustomers.length > 0; else noResults">
-              <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4" *ngFor="let user of searchedRegcustomers">
-                  <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
-                    <div class="profile-pic">
-                      <img [src]="user.profile_photo_url" alt="Profile Picture" class="avatar-lg">
-                    </div>
-                    <div class="card-body d-flex flex-column flex-grow-1">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="artist-info">
-                          <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }}</h5>
-                          <p class="card-text mb-0 text-muted">{{ user.profession }} | {{ user.location }}</p>
-                          <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }}</p>
-                          <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id, user.role)" style="cursor:pointer;">More Details</p>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <button class="btn btn-success" (click)="openBanModal(user)">Ban</button>
-                          <button class="btn btn-danger" (click)="deleteUser(user.user_id)">Delete</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <ng-template #noResults>
-              <p>No results found.</p>
-            </ng-template>
-          </div>
-          
-          <div class="tab-pane fade" id="deleted" role="tabpanel" aria-labelledby="deleted-tab">
-            <form class="d-flex">
-              <input #searchTerm3 (keyup)="searchDeletedAccounts(searchTerm3.value)" class="form-control me-sm-2 border border-primary" type="search" placeholder="Search User">
-            </form>
-          
-            <div class="filters mt-3">
-              <select (change)="sortDeletedAccounts($event)" class="form-select me-sm-2">
-                <option value="">Sort by</option>
-                <option value="name">Name</option>
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-              </select>
-              <select (change)="filterDeletedAccountsByRole($event)" class="form-select me-sm-2">
-                <option value="">Filter by Role</option>
-                <option value="artist">Artist</option>
-                <option value="customer">Customer</option>
-              </select>
-            </div>
-          
-            <div class="container mt-4" *ngIf="searchedDelAccounts.length > 0; else noResults">
-              <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4" *ngFor="let user of searchedDelAccounts">
-                  <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
-                    <div class="profile-pic">
-                      <img [src]="user.profile_photo_url" alt="Profile Picture" class="avatar-lg">
-                    </div>
-                    <div class="card-body d-flex flex-column flex-grow-1">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="artist-info">
-                          <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }}</h5>
-                          <p class="card-text mb-0 text-muted">{{ user.profession }} | {{ user.location }}</p>
-                          <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }}</p>
-                          <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id, user.role)" style="cursor:pointer;">More Details</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <ng-template #noResults>
-              <p>No results found.</p>
-            </ng-template>
-          </div>
-          
-          <div class="tab-pane fade" id="banned" role="tabpanel" aria-labelledby="banned-tab">
-            <form class="d-flex">
-              <input #searchTerm4 (keyup)="searchBannedAccounts(searchTerm4.value)" class="form-control me-sm-2 border border-primary" type="search" placeholder="Search User">
-            </form>
-          
-            <div class="filters mt-3">
-              <select (change)="sortBannedAccounts($event)" class="form-select me-sm-2">
-                <option value="">Sort by</option>
-                <option value="name">Name</option>
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-              </select>
-              <select (change)="filterBannedAccountsByRole($event)" class="form-select me-sm-2">
-                <option value="">Filter by Role</option>
-                <option value="artist">Artist</option>
-                <option value="customer">Customer</option>
-              </select>
-            </div>
-          
-            <div class="container mt-4" *ngIf="searchedBanAccounts.length > 0; else noResults">
-              <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4" *ngFor="let user of searchedBanAccounts">
-                  <div class="card request-card d-flex flex-row align-items-center" style="max-height: 115px;">
-                    <div class="profile-pic">
-                      <img [src]="user.profile_photo_url" alt="Profile Picture" class="avatar-lg">
-                    </div>
-                    <div class="card-body d-flex flex-column flex-grow-1">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="artist-info">
-                          <h5 class="card-title mb-0">{{ user.fName }} {{ user.LName }}</h5>
-                          <p class="card-text mb-0 text-muted">{{ user.profession }} | {{ user.location }}</p>
-                          <p class="card-text fw-medium mb-0">{{ user.registered_at | date: 'yyyy-MM-dd' }}</p>
-                          <p class="text-primary fst-italic mb-0" (click)="openUserDetailsModal(user.user_id, user.role)" style="cursor:pointer;">More Details</p>
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <button class="btn btn-success" (click)="removeBan(user.user_id)">Remove Ban</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <ng-template #noResults>
-              <p>No results found.</p>
-            </ng-template>
-          </div>
-          
-    </div>
-</ul>
-
-<app-modal id="modal-banUser">
-    <div class="new-modal">
-        <div class="new-modal-body">
-            <div class="modal-content" style="width: 50rem;">
-                <div class="modal-header">
-                    <h5 class="modal-title">Ban User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        (click)="modalService.close('modal-banUser')"></button>
-                </div>
-                <div class="modal-body">
-                    <form #banUserForm="ngForm" (ngSubmit)="banUser(banUserForm)" ngModelOptions="{standalone: true}">
-                        <div>
-                            <label for="userId" class="form-label">User ID</label>
-                            <input type="text" class="form-control" id="userId" [(ngModel)]="selectedUser.user_id" name="user_id"
-                                readonly>
-                        </div>
-                        <div class="mt-3">
-                            <label for="userName" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="userName"
-                                [ngModel]="selectedUser.fName + ' ' + selectedUser.LName" readonly name="fName">
-                        </div>
-                        <div class="mt-3">
-                            <label for="banStartDate" class="form-label">Ban Start Date</label>
-                            <input type="date" class="form-control" id="banStartDate"
-                                [(ngModel)]="selectedUser.banStartDate" name="banStartDate">
-                        </div>
-                        <div class="mt-3">
-                            <label for="banEndDate" class="form-label">Ban End Date</label>
-                            <input type="date" class="form-control" id="banEndDate"
-                                [(ngModel)]="selectedUser.banEndDate" name="banEndDate">
-                        </div>
-                        <div class="mt-3">
-                            <label for="banReason" class="form-label">Reason</label>
-                            <textarea class="form-control" id="banReason" rows="3"
-                                [(ngModel)]="selectedUser.banReason" name="banReason"></textarea>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                (click)="modalService.close('modal-banUser')">Discard</button>
-                            <button type="submit" class="btn btn-danger">Ban</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</app-modal>
-
-<app-modal id="modal-userDetails">
-    <div class="new-modal">
-      <div class="new-modal-body">
-        <div class="modal-content" style="width: 50rem;">
-          <div class="modal-header mb-4">
-            <h5 class="modal-title border-bottom border-primary border-2">User Details</h5>
-            <button type="button" class="btn-close" aria-label="Close" (click)="this.modalService.close('modal-userDetails')"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="border border-dark-subtle p-3">
-                  <h5 class="text-body-secondary">Profile Photo</h5>
-                  <img [src]="selectedUser.ProfilePhoto" alt="Profile Photo" class="img-fluid mb-3" style="width: 250px; height: 100%">
-                </div>
-              </div>
-              <div class="col-md-8">
-                <div class="border border-dark-subtle p-3">
-                  <h5 class="text-body-secondary">Basic Information</h5>
-                  <ul class="list-group">
-                    <li class="list-group-item"><strong>First Name:</strong> {{ selectedUser.FName }}</li>
-                    <li class="list-group-item"><strong>Last Name:</strong> {{ selectedUser.LName }}</li>
-                    <li class="list-group-item"><strong>Email:</strong> {{ selectedUser.Email }}</li>
-                    <li class="list-group-item"><strong>User Name:</strong> {{ selectedUser.Username }}</li>
-                    <li class="list-group-item" *ngIf="selectedUser.role === 'artist'"><strong>Profession:</strong> {{ selectedUser.profession }}</li>
-                    <li class="list-group-item"><strong>Location:</strong> {{ selectedUser.location }}</li>
-                    <li class="list-group-item"><strong>Applied Date:</strong> {{ selectedUser.RegistrationDate | date: 'short' }}</li>
-                  </ul>
-                </div>
-                <div *ngIf="selectedUser.Role === 'artist'">
-                    <p *ngIf="rank===0" class="fw-light mb-0 mt-2">This artist is currently not featured in Artista</p>
-                    <p *ngIf="rank===1" class="fw-light mb-0 mt-2">This artist is currently featured in Artista</p>
-                </div>
-                <button *ngIf="selectedUser.Role === 'artist'"
-                    class="btn mt-3" 
-                    [ngClass]="{'btn-primary': rank===0, 'btn-success': rank===1}" 
-                    (click)="updateFeaturedStatus(selectedUser.UserID)">
-                    {{ rank===1 ? 'Featured' : 'Feature' }}
-                </button>
-              </div>
-            </div>
-            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role === 'artist'">
-              <h5 class="text-body-secondary">User Metrics</h5>
-              <div class="row">
-                <div class="col-md-6">
-                  <ul class="list-group">
-                    <li class="list-group-item"><strong>Average Rating:</strong> {{ selectedUser.AverageRating | number:'1.1-1'}}</li>
-                    <li class="list-group-item"><strong>Number of Artworks:</strong> {{ selectedUser.NumberOfArtworks }}</li>
-                  </ul>
-                </div>
-                <div class="col-md-6">
-                  <ul class="list-group">
-                    <li class="list-group-item"><strong>Number of Followers:</strong> {{ selectedUser.NumberOfFollowers }}</li>
-                    <li class="list-group-item"><strong>Number of Sales:</strong> {{ selectedUser.NumberOfSales }}</li>
-                  </ul>
-                </div>
-                <div class="col-md-12 mt-3">
-                  <ul class="list-group">
-                    <li class="list-group-item"><strong>Status:</strong> {{ selectedUser.Status }}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role != 'artist' ">
-                <h5 class="text-body-secondary">User Metrics</h5>
-                <div class="row">
-                    <div class="col-md-6">
-                      <ul class="list-group">
-                        <li class="list-group-item"><strong>Number Of Purchases:</strong> {{ selectedUser.NumberOfPurchases }}</li>
-                        <li class="list-group-item"><strong>Total Amount Spent:</strong> {{ selectedUser.TotalAmountSpent }}</li>
-                      </ul>
-                    </div>
-                    <div class="col-md-6">
-                      <ul class="list-group">
-                        <li class="list-group-item"><strong>Number Of Followings:</strong> {{ selectedUser.NumberOfFollowings }}</li>
-                        <li class="list-group-item"><strong>Number Of Feedbacks Written:</strong> {{ selectedUser.NumberOfFeedbacks }}</li>
-                      </ul>
-                    </div>
-                    <div class="col-md-12 mt-3">
-                      <ul class="list-group">
-                        <li class="list-group-item"><strong>Status:</strong> {{ selectedUser.Status }}</li>
-                      </ul>
-                    </div>
-                  </div>
-            </div>
-            <div class="border border-dark-subtle p-3 mt-4" *ngIf="selectedUser.Role === 'artist'">
-              <h5 class="text-body-secondary">On the Web</h5>
-              <div class="row">
-                <div class="col-md-12">
-                  <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let socialLink of socialLinks">
-                      <img [src]="socialLink.logo_url" alt="{{ socialLink.platform_name }}" class="img-fluid me-2" style="width: 20px;">
-                      <a [href]="socialLink.account_url" target="_blank">{{ socialLink.account_url }}</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="border border-dark-subtle p-3 mt-4">
-              <h5 class="text-body-secondary">Description</h5>
-              <p style="max-height: 8rem; overflow-y: auto;">{{ selectedUser.Description }}</p>
+          <div class="col-6">
+            <div class="text-end">
+              <h3 class="text-dark mt-1">
+                <span data-plugin="counterup">{{
+                  totaluserRegistrations
+                }}</span>
+              </h3>
+              <p class="text-muted mb-1 text-truncate">User Registrations</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </app-modal>
-  
+  </div>
+  <div class="col-md-6 col-xl-3 mb-3">
+    <div class="widget-rounded-circle card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <div
+              class="avatar-lg rounded-circle d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="../../../../../assets/icons/artist-palette-art-artistic-svgrepo-com.svg"
+                alt="User"
+                class="top-logo"
+              />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-end">
+              <h3 class="text-dark mt-1">
+                <span data-plugin="counterup">{{ totalapprovedArtists }}</span>
+              </h3>
+              <p class="text-muted mb-1 text-truncate">Artists</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3 mb-3">
+    <div class="widget-rounded-circle card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <div
+              class="avatar-lg rounded-circle d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="../../../../../assets/icons/buyer-group-svgrepo-com.svg"
+                alt="User"
+                class="top-logo"
+              />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-end">
+              <h3 class="text-dark mt-1">
+                <span data-plugin="counterup">{{
+                  totalregisteredCustomers
+                }}</span>
+              </h3>
+              <p class="text-muted mb-1 text-truncate">Customers</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3 mb-3">
+    <div class="widget-rounded-circle card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <div
+              class="avatar-lg rounded-circle d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="../../../../../assets/icons/delete-user-svgrepo-com.svg"
+                alt="User"
+                class="top-logo"
+              />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-end">
+              <h3 class="text-dark mt-1">
+                <span data-plugin="counterup">{{ totaldeletedAccounts }}</span>
+              </h3>
+              <p class="text-muted mb-1 text-truncate">Deleted Accounts</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-xl-3 mb-3">
+    <div class="widget-rounded-circle card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <div
+              class="avatar-lg rounded-circle d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="../../../../../assets/icons/user-ban-svgrepo-com.svg"
+                alt="User"
+                class="top-logo"
+              />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="text-end">
+              <h3 class="text-dark mt-1">
+                <span data-plugin="counterup">{{ totalbannedAccounts }}</span>
+              </h3>
+              <p class="text-muted mb-1 text-truncate">Banned Acounts</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ul class="nav nav-tabs mt-4" role="tablist" style="width: 100%">
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link active"
+      data-bs-toggle="tab"
+      href="#artist"
+      aria-selected="true"
+      role="tab"
+      >Artists</a
+    >
+  </li>
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link"
+      data-bs-toggle="tab"
+      href="#customer"
+      aria-selected="false"
+      tabindex="-1"
+      role="tab"
+      >Customers</a
+    >
+  </li>
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link"
+      data-bs-toggle="tab"
+      href="#deleted"
+      aria-selected="false"
+      tabindex="-1"
+      role="tab"
+      >Deleted Accounts</a
+    >
+  </li>
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link"
+      data-bs-toggle="tab"
+      href="#banned"
+      aria-selected="false"
+      tabindex="-1"
+      role="tab"
+      >Banned Accounts</a
+    >
+  </li>
+
+  <div id="myTabContent" class="tab-content w-100">
+    <div
+      class="tab-pane fade show active"
+      id="artist"
+      role="tabpanel"
+      aria-labelledby="artist-tab"
+    >
+      <form class="d-flex">
+        <input
+          #searchTerm1
+          (keyup)="searchApprovedArtists(searchTerm1.value)"
+          class="form-control me-sm-2 border border-primary"
+          type="search"
+          placeholder="Search Artist"
+        />
+      </form>
+
+      <div class="filters mt-3">
+        <div class="row">
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <select
+              (change)="filterArtistsByFeature($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Filter by Feature</option>
+              <option value="featured">Featured</option>
+              <option value="non-featured">Non-Featured</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <select
+              (change)="sortArtists($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Sort by</option>
+              <option value="name">Name</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-auto">
+            <select
+              (change)="filterArtistsByCountry($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Filter by Country</option>
+              <option *ngFor="let country of uniqueCountries" [value]="country">
+                {{ country }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="container mt-4"
+        *ngIf="searchedAppArtists.length > 0; else noResults"
+      >
+        <div class="row">
+          <div
+            class="col-lg-6 col-md-12 mb-4"
+            *ngFor="let user of searchedAppArtists"
+          >
+            <div
+              class="card request-card d-flex flex-row align-items-center"
+              style="max-height: 115px"
+            >
+              <div class="profile-pic">
+                <img
+                  *ngIf="user.profile_photo_url; else defaultImage"
+                  [src]="user.profile_photo_url"
+                  alt="Profile Picture"
+                  class="avatar-lg"
+                />
+                <ng-template #defaultImage>
+                  <img
+                    src="../../../../../assets/default.png"
+                    alt="Profile Picture"
+                    class="avatar-lg"
+                  />
+                </ng-template>
+              </div>
+              <div class="card-body d-flex flex-column flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="artist-info">
+                    <h5 class="card-title mb-0">
+                      {{ user.fName }} {{ user.LName }}
+                      <span
+                        *ngIf="user.featured === 1"
+                        class="badge bg-primary fw-light ms-2 mb-2"
+                        style="border-radius: 2px; font-size: 10px"
+                        >Featured</span
+                      >
+                    </h5>
+                    <p class="card-text mb-0 text-muted">
+                      {{ user.profession }}
+                    </p>
+                    <p class="card-text fw-medium mb-0">
+                      {{ user.registered_at | date : "yyyy-MM-dd" }} |
+                      {{ user.location }}
+                    </p>
+                    <p
+                      class="text-primary fst-italic mb-0"
+                      (click)="openUserDetailsModal(user.user_id, user.role)"
+                      style="cursor: pointer"
+                    >
+                      More Details
+                    </p>
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <button
+                      class="btn btn-success"
+                      (click)="openBanModal(user)"
+                    >
+                      Ban
+                    </button>
+                    <button
+                      class="btn btn-danger"
+                      (click)="deleteUser(user.user_id)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noResults>
+        <div class="alert alert-warning" role="alert">No results found.</div>
+      </ng-template>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      id="customer"
+      role="tabpanel"
+      aria-labelledby="customer-tab"
+    >
+      <form class="d-flex">
+        <input
+          #searchTerm2
+          (keyup)="searchRegisteredCustomers(searchTerm2.value)"
+          class="form-control me-sm-2 border border-primary"
+          type="search"
+          placeholder="Search Customer"
+        />
+      </form>
+
+      <div class="filters mt-3">
+        <div class="row">
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <select
+              (change)="sortCustomers($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Sort by</option>
+              <option value="name">Name</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <select
+              (change)="filterCustomersByCountry($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Filter by Country</option>
+              <option *ngFor="let country of uniqueCountries" [value]="country">
+                {{ country }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="container mt-4"
+        *ngIf="searchedRegcustomers.length > 0; else noResults"
+      >
+        <div class="row">
+          <div
+            class="col-lg-6 col-md-12 mb-4"
+            *ngFor="let user of searchedRegcustomers"
+          >
+            <div
+              class="card request-card d-flex flex-row align-items-center"
+              style="max-height: 115px"
+            >
+              <div class="profile-pic">
+                <img
+                *ngIf="user.profile_photo_url; else defaultImage"
+                  [src]="user.profile_photo_url"
+                  alt="Profile Picture"
+                  class="avatar-lg"
+                />
+                <ng-template #defaultImage>
+                  <img
+                    src="../../../../../assets/default.png"
+                    alt="Profile Picture"
+                    class="avatar-lg"
+                  />
+                </ng-template>
+              </div>
+              <div class="card-body d-flex flex-column flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="artist-info">
+                    <h5 class="card-title mb-0">
+                      {{ user.fName }} {{ user.LName }}
+                    </h5>
+                    <p class="card-text mb-0 text-muted">
+                      {{ user.profession }} | {{ user.location }}
+                    </p>
+                    <p class="card-text fw-medium mb-0">
+                      {{ user.registered_at | date : "yyyy-MM-dd" }}
+                    </p>
+                    <p
+                      class="text-primary fst-italic mb-0"
+                      (click)="openUserDetailsModal(user.user_id, user.role)"
+                      style="cursor: pointer"
+                    >
+                      More Details
+                    </p>
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <button
+                      class="btn btn-success"
+                      (click)="openBanModal(user)"
+                    >
+                      Ban
+                    </button>
+                    <button
+                      class="btn btn-danger"
+                      (click)="deleteUser(user.user_id)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noResults>
+        <p>No results found.</p>
+      </ng-template>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      id="deleted"
+      role="tabpanel"
+      aria-labelledby="deleted-tab"
+    >
+      <form class="d-flex">
+        <input
+          #searchTerm3
+          (keyup)="searchDeletedAccounts(searchTerm3.value)"
+          class="form-control me-sm-2 border border-primary"
+          type="search"
+          placeholder="Search User"
+        />
+      </form>
+
+      <div class="filters mt-3">
+        <div class="row">
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <select
+              (change)="sortDeletedAccounts($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Sort by</option>
+              <option value="name">Name</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <select
+              (change)="filterDeletedAccountsByRole($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Filter by Role</option>
+              <option value="artist">Artist</option>
+              <option value="customer">Customer</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="container mt-4"
+        *ngIf="searchedDelAccounts.length > 0; else noResults"
+      >
+        <div class="row">
+          <div
+            class="col-lg-6 col-md-12 mb-4"
+            *ngFor="let user of searchedDelAccounts"
+          >
+            <div
+              class="card request-card d-flex flex-row align-items-center"
+              style="max-height: 115px"
+            >
+              <div class="profile-pic">
+                <img
+                  [src]="user.profile_photo_url"
+                  alt="Profile Picture"
+                  class="avatar-lg"
+                />
+              </div>
+              <div class="card-body d-flex flex-column flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="artist-info">
+                    <h5 class="card-title mb-0">
+                      {{ user.fName }} {{ user.LName }}
+                    </h5>
+                    <p class="card-text mb-0 text-muted">
+                      {{ user.profession }} | {{ user.location }}
+                    </p>
+                    <p class="card-text fw-medium mb-0">
+                      {{ user.registered_at | date : "yyyy-MM-dd" }}
+                    </p>
+                    <p
+                      class="text-primary fst-italic mb-0"
+                      (click)="openUserDetailsModal(user.user_id, user.role)"
+                      style="cursor: pointer"
+                    >
+                      More Details
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noResults>
+        <p>No results found.</p>
+      </ng-template>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      id="banned"
+      role="tabpanel"
+      aria-labelledby="banned-tab"
+    >
+      <form class="d-flex">
+        <input
+          #searchTerm4
+          (keyup)="searchBannedAccounts(searchTerm4.value)"
+          class="form-control me-sm-2 border border-primary"
+          type="search"
+          placeholder="Search User"
+        />
+      </form>
+      <div class="filters mt-3">
+        <div class="row">
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <select
+              (change)="sortBannedAccounts($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Sort by</option>
+              <option value="name">Name</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-auto mb-3 mb-md-0">
+            <select
+              (change)="filterBannedAccountsByRole($event)"
+              class="form-select me-sm-2 bg-light"
+            >
+              <option value="">Filter by Role</option>
+              <option value="artist">Artist</option>
+              <option value="customer">Customer</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="container mt-4"
+        *ngIf="searchedBanAccounts.length > 0; else noResults"
+      >
+        <div class="row">
+          <div
+            class="col-lg-6 col-md-12 mb-4"
+            *ngFor="let user of searchedBanAccounts"
+          >
+            <div
+              class="card request-card d-flex flex-row align-items-center"
+              style="max-height: 115px"
+            >
+              <div class="profile-pic">
+                <img
+                  [src]="user.profile_photo_url"
+                  alt="Profile Picture"
+                  class="avatar-lg"
+                />
+              </div>
+              <div class="card-body d-flex flex-column flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="artist-info">
+                    <h5 class="card-title mb-0">
+                      {{ user.fName }} {{ user.LName }}
+                    </h5>
+                    <p class="card-text mb-0 text-muted">
+                      {{ user.profession }} | {{ user.location }}
+                    </p>
+                    <p class="card-text fw-medium mb-0">
+                      {{ user.registered_at | date : "yyyy-MM-dd" }}
+                    </p>
+                    <p
+                      class="text-primary fst-italic mb-0"
+                      (click)="openUserDetailsModal(user.user_id, user.role)"
+                      style="cursor: pointer"
+                    >
+                      More Details
+                    </p>
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <button
+                      class="btn btn-success"
+                      (click)="removeBan(user.user_id)"
+                    >
+                      Remove Ban
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #noResults>
+        <p>No results found.</p>
+      </ng-template>
+    </div>
+  </div>
+</ul>
+
+<app-modal id="modal-banUser">
+  <div class="new-modal">
+    <div class="new-modal-body">
+      <div class="modal-content" style="width: 50rem">
+        <div class="modal-header">
+          <h5 class="modal-title">Ban User</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="modalService.close('modal-banUser')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form
+            #banUserForm="ngForm"
+            (ngSubmit)="banUser(banUserForm)"
+            ngModelOptions="{standalone: true}"
+          >
+            <div>
+              <label for="userId" class="form-label">User ID</label>
+              <input
+                type="text"
+                class="form-control"
+                id="userId"
+                [(ngModel)]="selectedUser.user_id"
+                name="user_id"
+                readonly
+              />
+            </div>
+            <div class="mt-3">
+              <label for="userName" class="form-label">User Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="userName"
+                [ngModel]="selectedUser.fName + ' ' + selectedUser.LName"
+                readonly
+                name="fName"
+              />
+            </div>
+            <div class="mt-3">
+              <label for="banStartDate" class="form-label"
+                >Ban Start Date</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="banStartDate"
+                [(ngModel)]="selectedUser.banStartDate"
+                name="banStartDate"
+              />
+            </div>
+            <div class="mt-3">
+              <label for="banEndDate" class="form-label">Ban End Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="banEndDate"
+                [(ngModel)]="selectedUser.banEndDate"
+                name="banEndDate"
+              />
+            </div>
+            <div class="mt-3">
+              <label for="banReason" class="form-label">Reason</label>
+              <textarea
+                class="form-control"
+                id="banReason"
+                rows="3"
+                [(ngModel)]="selectedUser.banReason"
+                name="banReason"
+              ></textarea>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                (click)="modalService.close('modal-banUser')"
+              >
+                Discard
+              </button>
+              <button type="submit" class="btn btn-danger">Ban</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal id="modal-userDetails">
+  <div class="new-modal">
+    <div class="new-modal-body">
+      <div class="modal-content" style="width: 50rem">
+        <div class="modal-header mb-4">
+          <h5 class="modal-title border-bottom border-primary border-2">
+            User Details
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="this.modalService.close('modal-userDetails')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="border border-dark-subtle p-3">
+                <h5 class="text-body-secondary">Profile Photo</h5>
+                <img
+                  [src]="selectedUser.ProfilePhoto"
+                  alt="Profile Photo"
+                  class="img-fluid mb-3"
+                  style="width: 250px; height: 100%"
+                />
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="border border-dark-subtle p-3">
+                <h5 class="text-body-secondary">Basic Information</h5>
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <strong>First Name:</strong> {{ selectedUser.FName }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Last Name:</strong> {{ selectedUser.LName }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Email:</strong> {{ selectedUser.Email }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>User Name:</strong> {{ selectedUser.Username }}
+                  </li>
+                  <li
+                    class="list-group-item"
+                    *ngIf="selectedUser.role === 'artist'"
+                  >
+                    <strong>Profession:</strong> {{ selectedUser.profession }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Location:</strong> {{ selectedUser.location }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Applied Date:</strong>
+                    {{ selectedUser.RegistrationDate | date : "short" }}
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="selectedUser.Role === 'artist'">
+                <p *ngIf="rank === 0" class="fw-light mb-0 mt-2">
+                  This artist is currently not featured in Artista
+                </p>
+                <p *ngIf="rank === 1" class="fw-light mb-0 mt-2">
+                  This artist is currently featured in Artista
+                </p>
+              </div>
+              <button
+                *ngIf="selectedUser.Role === 'artist'"
+                class="btn mt-3"
+                [ngClass]="{
+                  'btn-primary': rank === 0,
+                  'btn-success': rank === 1
+                }"
+                (click)="updateFeaturedStatus(selectedUser.UserID)"
+              >
+                {{ rank === 1 ? "Featured" : "Feature" }}
+              </button>
+            </div>
+          </div>
+          <div
+            class="border border-dark-subtle p-3 mt-4"
+            *ngIf="selectedUser.Role === 'artist'"
+          >
+            <h5 class="text-body-secondary">User Metrics</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <strong>Average Rating:</strong>
+                    {{ selectedUser.AverageRating | number : "1.1-1" }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Number of Artworks:</strong>
+                    {{ selectedUser.NumberOfArtworks }}
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <strong>Number of Followers:</strong>
+                    {{ selectedUser.NumberOfFollowers }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Number of Sales:</strong>
+                    {{ selectedUser.NumberOfSales }}
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-12 mt-3">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <strong>Status:</strong> {{ selectedUser.Status }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="border border-dark-subtle p-3 mt-4"
+            *ngIf="selectedUser.Role != 'artist'"
+          >
+            <h5 class="text-body-secondary">User Metrics</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <strong>Number Of Purchases:</strong>
+                    {{ selectedUser.NumberOfPurchases }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Total Amount Spent:</strong>
+                    {{ selectedUser.TotalAmountSpent }}
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <strong>Number Of Followings:</strong>
+                    {{ selectedUser.NumberOfFollowings }}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Number Of Feedbacks Written:</strong>
+                    {{ selectedUser.NumberOfFeedbacks }}
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-12 mt-3">
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <strong>Status:</strong> {{ selectedUser.Status }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="border border-dark-subtle p-3 mt-4"
+            *ngIf="selectedUser.Role === 'artist'"
+          >
+            <h5 class="text-body-secondary">On the Web</h5>
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="list-group">
+                  <li
+                    class="list-group-item"
+                    *ngFor="let socialLink of socialLinks"
+                  >
+                    <img
+                      [src]="socialLink.logo_url"
+                      alt="{{ socialLink.platform_name }}"
+                      class="img-fluid me-2"
+                      style="width: 20px"
+                    />
+                    <a [href]="socialLink.account_url" target="_blank">{{
+                      socialLink.account_url
+                    }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="border border-dark-subtle p-3 mt-4">
+            <h5 class="text-body-secondary">Description</h5>
+            <p style="max-height: 8rem; overflow-y: auto">
+              {{ selectedUser.Description }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>
